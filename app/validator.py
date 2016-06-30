@@ -18,3 +18,17 @@ class User:
     Optional(INTEREST):list,
     Optional(ROLE):basestring
     }))
+
+class Interest:
+    ID = '_id'
+    CATEGORY = 'category'
+    IMAGE = 'image'
+    SUB_CATEGORY = 'sub_category'
+    INTEREST='interest'
+    
+    VALIDATOR = Schema(And(Use(json.loads), {
+    Optional(ID):object,
+    CATEGORY:basestring,
+    SUB_CATEGORY:basestring,
+    IMAGE:basestring
+    }))

@@ -1,4 +1,4 @@
-from app.validator import User
+from app.validator import User, Interest
 from app.utils import encrypt_password
 from app import config
 from app.config import PAGE_SIZE
@@ -53,4 +53,20 @@ class UserService:
     
     def find_by_pagination(self, page=0, size=PAGE_SIZE):
         return self.db().find(skip=page * size, limit=size)
-        
+    
+class InterestService:
+    
+    def db(self):
+        return config.db['interests']
+    
+    def save_interest(self,interest):
+        interest_id = self.db().save(interest)
+        interest[Interest.ID]=interest_id
+        return interest
+    
+    def find_interests_by_category(self,category):
+        return self.db().find({Interest.CATEGORY:category})
+  
+    def find_interests_by_sub_category(self,sub_category):
+        return self.db().find({Interest.SUB_CATEGORY:sub_category})
+      

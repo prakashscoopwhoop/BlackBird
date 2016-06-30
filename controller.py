@@ -1,5 +1,5 @@
 from bottle import route, run, static_file
-from app.service import UserService
+from app.service import UserService,InterestService
 from app.utils import RestResponse
 from app.config import logging
 import httplib
@@ -30,9 +30,14 @@ def login(username,password):
                             messages="user_name or password is incorrect", success = False).to_json()
     return RestResponse(user).to_json()
 
+@route('/interest/<category>')
+def category_wise_interest(category):
+    interests = __interest_service.find_interests_by_category(category)
+    return RestResponse(interests).to_json()
 
 if __name__=="__main__":
     __user_service  = UserService()
+    __interest_service = InterestService()
     run(host='0.0.0.0', port=8889, server='waitress')
     logging.info("server running....")
 
