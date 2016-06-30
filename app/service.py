@@ -1,4 +1,4 @@
-from app.schema import User
+from app.validator import User
 from app.utils import encrypt_password
 from app import config
 from app.config import PAGE_SIZE
@@ -7,7 +7,7 @@ from app.config import PAGE_SIZE
 class UserService:
     
     def db(self):
-        config.db['users']
+        return config.db['users']
     
     def register(self,user):
         '''

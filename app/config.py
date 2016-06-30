@@ -1,4 +1,12 @@
 from pymongo import MongoClient
+import logging
+
+# logger
+logging.basicConfig(level=logging.DEBUG,
+            format='%(asctime)s %(name)-12s %(levelname)-8s %(message)s',
+            datefmt='%a, %d %b %Y %H:%M:%S',
+            filename='black_bird.log',
+            filemode='w')
 
 # connect to the running mongod instance
 client =  client = MongoClient()

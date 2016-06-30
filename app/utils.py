@@ -1,6 +1,6 @@
 import hashlib
 import httplib
-from bson.json_util import dumps
+import json
 
 salt = "swblackbird"
 
@@ -30,4 +30,4 @@ class RestResponse:
         '''
         :return json-encoded.
         '''
-        return dumps(self.__entity)
+        return json.dumps(self.__entity)
