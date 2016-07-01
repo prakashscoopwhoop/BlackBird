@@ -27,12 +27,12 @@ class UserService:
         else:
             return
     
-    def login(self,username,password):
+    def login(self,username, password):
         '''
         login via user name
         '''
         en_password = encrypt_password(password)
-        user = self.db().find_one({User.USER_NAME:username,User.PASSWORD:en_password})
+        user = self.db().find_one({User.USER_NAME:username, User.PASSWORD:en_password})
         if user is None:
             return
         user[User.ID]= str(user[User.ID])

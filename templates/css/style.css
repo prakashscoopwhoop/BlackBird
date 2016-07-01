@@ -1,0 +1,181 @@
+*{
+	margin : 0;
+	padding: 0;
+}
+body{
+	background: #fff;
+	color: #000;
+	/*font-family: "arial";*/
+}
+body a{
+	text-decoration: none;
+}
+
+.loginMainDiv {
+    width: 444px;
+    height: 100%;
+    margin: 120px auto auto;
+}
+
+.loginFormOuterDiv{
+	 width: 366px;
+    background-color: #f7c000;
+    float: left;
+    padding-bottom: 30px;
+    color: black;
+}
+
+
+.loginFormDiv{
+	margin: 30px 44px 0;
+}
+
+
+.loginFormDiv input {
+    width: 276px;
+}
+
+.loginFormDiv button {
+    width: 278px;
+    color: #fff;
+    font-family: ralewayReg;
+    text-align: left;
+    background-color: #040404;
+    cursor: pointer;
+}
+
+.loginFormDiv button, .loginFormDiv input {
+    margin-top: 17px;
+    height: 63px;
+    outline-style: none;
+    padding-left: 20px;
+    font-size: 17px;
+    border: none;
+    font-family: ralewayReg;
+}
+
+
+.loginWelcomeText {
+    text-align: left;
+    margin: 0 0 24px 188px;
+    font-size: 36px;
+    color: #040404;
+    font-family: ralewayLight;
+}
+
+.loginFormDiv label {
+    font-size: 24px;
+    color: #fff;
+    font-family: ralewayReg;
+}
+
+.loginMainDiv .logoDiv, .loginMainDiv .logoDiv a {
+    width: 75px;
+    height: 78px;
+    background-size: 44px;
+}
+
+.logoDiv, .logoDivCanv {
+    float: left;
+    background-color: #040404;
+}
+
+.logoDiv a {
+    display: block;
+    float: left;
+}
+
+.logoDiv a, .logoDivCanv a {
+    background-image: url(logo.png);
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
+.navlist{
+	width: 100%;
+	float: left;
+	overflow: hidden;
+}
+.navlist li
+{
+display: inline-block;
+list-style-type: none;
+padding-right: 20px;
+    padding-top: 16px;
+}
+
+
+.welcomeDiv {
+    background-color: #f7c000;
+    width: 100%;
+    height: 100px;
+    text-align: center;
+    padding-top: 3%;
+    color: #fff;
+}
+
+.wrapper {
+    background-color: #000000;
+    width: 100%;
+    float: left;
+    color: #f7c000;
+}
+
+.slick-prev:before, .slick-next:before{
+	    font-size: 39px !important;
+        opacity: 1 !important;
+}
+
+.slick-prev {
+    left: 3px !important;
+        height: 23px !important;
+}
+
+.slick-next {
+    right: 21px !important;
+        height: 23px !important;
+}
+.slick-slide{
+	    height: inherit !important;
+}
+
+.slick-list{
+	    margin: 0 80px !important;
+    overflow: hidden !important;
+}
+
+.slick-slider {
+    margin-bottom: 15px !important;
+}
+
+.interest_container_outerdiv {
+	margin-left: 8%;
+}
+
+.interest_container_div {
+     background: rgba(247, 192, 0, 0.44);
+    border-style: solid;
+    border-color: #e4e5e7;
+    border-width: 1px;
+    -webkit-border-radius: 4px;
+    border-radius: 4px;
+    display: inline-block;
+    margin: 18px 17px 0;
+    width: 24%;
+    height: 32px;
+    padding: 22px;
+  
+}
+
+
+.interest_container_div .name{
+	    margin-top: -56px;
+    margin-left: 73px;
+}
+
+
+.interest_container_div img{
+	    width: 55px;
+    height: 55px;
+    margin-top: -13px;
+}
