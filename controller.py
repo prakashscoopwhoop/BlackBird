@@ -1,4 +1,4 @@
-from bottle import route, run, static_file
+from bottle import route, run, static_file, template
 from app.service import UserService,InterestService
 from app.utils import RestResponse
 from app.config import logging
@@ -29,6 +29,10 @@ def login(username,password):
         return RestResponse(data={}, status = httplib.UNAUTHORIZED, 
                             messages="user_name or password is incorrect", success = False).to_json()
     return RestResponse(user).to_json()
+
+@route('/')
+def index():
+    return template('ui/templates/index.html')
 
 @route('/interest/<category>')
 def category_wise_interest(category):
