@@ -4,7 +4,7 @@ class User:
     ID = '_id'
     FIRST_NAME = 'first_name'
     LAST_NAME = 'last_name'
-    USER_NAME = 'user_nanme'
+    USER_NAME = 'user_name'
     PASSWORD = 'password'
     INTEREST = 'interest'
     ROLE = 'role'

@@ -33,7 +33,7 @@ def login(username,password):
 @route('/interest/<category>')
 def category_wise_interest(category):
     interests = __interest_service.find_interests_by_category(category)
-    return RestResponse(interests).to_json()
+    return RestResponse(interests).to_json() 
 
 if __name__=="__main__":
     __user_service  = UserService()
