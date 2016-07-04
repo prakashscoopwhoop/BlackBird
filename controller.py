@@ -4,7 +4,6 @@ from app.utils import RestResponse
 from app.config import logging
 import httplib
 
-
 # Static Routes
 @route('/<filename:re:.*\.js>')
 def javascripts(filename):
@@ -45,6 +44,8 @@ def interest_page():
 
 @route('/interest/<category>')
 def category_wise_interest(category):
+    if '-' in category:
+        category = category.replace('-','/')
     interests = __interest_service.find_interests_by_category(category)
     return RestResponse(interests).to_json()
 
@@ -63,7 +64,4 @@ if __name__ == "__main__":
     __interest_service = InterestService()
     run(host='0.0.0.0', port=8889, server='waitress')
     logging.info("server running....")
-
-
-
-
+    
