@@ -32,7 +32,7 @@ var Login = React.createClass({
 								<div className="loginFormDiv">
 									<label>Sign in<br/>to your account</label>
 									<input type="text" name="usr_name" id="usr_name" placeholder="Enter username..." /><br/>
-  									<input type="text" name="password" id="password" placeholder="Enter password..."/><br/>
+  									<input type="password" name="password" id="password" placeholder="Enter password..."/><br/>
   									<button onClick={this.getLogin}>Sign In</button>
   								</div>
 							</div>

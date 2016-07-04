@@ -23,8 +23,12 @@ getInitialState:function(){
 		return(
 				<div>
 
+                    <div className="toolbar">
+                    </div>
+
 					<div className="welcomeDiv">
 							<h1>Welcome to Blackbird!!</h1>
+							<p>&nbsp;</p>
 							<h3>Please select your interests..</h3>
 					</div>
 					

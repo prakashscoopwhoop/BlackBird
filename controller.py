@@ -36,6 +36,7 @@ def login(username,password):
 
 
 @route('/')
+@route('/<*>')
 def index():
     return template('templates/login.html')
 
