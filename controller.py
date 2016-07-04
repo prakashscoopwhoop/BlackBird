@@ -1,4 +1,4 @@
-from bottle import route, run, static_file, template,request
+from bottle import route, run, static_file, template
 from app.service import UserService,InterestService
 from app.utils import RestResponse
 from app.config import logging
@@ -36,21 +36,28 @@ def login(username,password):
 
 
 @route('/')
-@route('/<*>')
 def index():
     return template('templates/login.html')
-
 
 @route('/interest')
 def interest_page():
     return template('templates/interest.html')
-
 
 @route('/interest/<category>')
 def category_wise_interest(category):
     interests = __interest_service.find_interests_by_category(category)
     return RestResponse(interests).to_json()
 
+@route('/my_interest/<user_id>')
+def user_interest(user_id): 
+    interest = __user_service.find_user_interests(user_id)
+    return RestResponse(interest).to_json()
+
+@route('/all-category')
+def get_all_categories():
+    all_categories =__interest_service.find_all_categories()
+    return RestResponse(all_categories).to_json()
+    
 if __name__ == "__main__":
     __user_service = UserService()
     __interest_service = InterestService()
