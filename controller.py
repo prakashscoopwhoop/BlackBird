@@ -53,7 +53,7 @@ def user_interest(user_id):
     interest = __user_service.find_user_interests(user_id)
     return RestResponse(interest).to_json()
 
-@route('/all-category')
+@route('/all_category')
 def get_all_categories():
     all_categories =__interest_service.find_all_categories()
     return RestResponse(all_categories).to_json()

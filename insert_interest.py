@@ -30,7 +30,7 @@ def read_file(file_to_analyze):
 
 if __name__== "__main__":
     client =  client = MongoClient()
-    db = client.black_bird
+    db = client.blackbird
     col_name = db.interests
     to_insert = read_file("stumleupon.csv")
     for row in to_insert:

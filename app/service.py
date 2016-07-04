@@ -84,10 +84,21 @@ class InterestService:
         return interest
     
     def find_interests_by_category(self,category):
-        return self.db().find({Interest.CATEGORY:category})
+        catagory_data = []
+        interests = self.db().find({Interest.CATEGORY:category})
+        for interest in interests:
+            interest[Interest.ID]= str(interest[Interest.ID])
+            catagory_data.append(interest)
+        return catagory_data
+    
   
     def find_interests_by_sub_category(self,sub_category):
-        return self.db().find({Interest.SUB_CATEGORY:sub_category})
+        sub_catagory_data = []
+        interests = self.db().find({Interest.SUB_CATEGORY:sub_category})
+        for interest in interests:
+            interest[Interest.ID]= str(interest[Interest.ID])
+            sub_catagory_data.append(interest)
+        return sub_catagory_data
     
     def find_all_categories(self):
         all_categories = []
