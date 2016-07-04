@@ -18,27 +18,28 @@ getMenu:function(){
 		var settings = {
 	      infinite: false,
 	      speed: 500,
-	      slidesToShow: 8,
-	      slidesToScroll: 4,
+	      slidesToShow: 10,
+	      slidesToScroll: 5,
 	      arrows: true,
-	      initialSlide: 1
+	      initialSlide: 0
 	    };
 
 		return(
 				<div>
+            <div className="toolbar">
+              <div className="inner-container">
+                <div onClick={this.getMenu} className="menu">
+                  <img src="https://nb9-stumbleupon.netdna-ssl.com/WcjiEMsHQiBUV9Q-ZK4lDg" />
+                  <div className="name">mrigendra11</div>
+                  <div className="fa fa-angle-down"></div>
+                <div className="dropdown-menu">
+                    <a className="dropdown-item" href="/discover/interests"><span className="menu-text">Edit Interests</span></a>
+                    <a className="dropdown-item" href="/" ><span className="menu-text">Log Out</span></a>
+                </div>
+                </div>
 
-                    <div className="toolbar">
-                    <div className="inner-container">
-                    <div onClick={this.getMenu} className="menu">
-                    <img src="https://nb9-stumbleupon.netdna-ssl.com/WcjiEMsHQiBUV9Q-ZK4lDg"></img><div className="name">mrigendra</div>
-                    <div className="fa fa-angle-down"></div>
-                    </div>
-                    <div className="dropdown-menu">
-                    <a className="dropdown-item" href="/discover/interests" data-track="menu-addinterests"><span className="menu-text">Edit Interests</span></a>
-                    <a className="dropdown-item" href="/" data-track="menu-logout"><span className="menu-text">Log Out</span></a>
-                    </div>
-                    </div>
-                    </div>
+              </div>
+            </div>
 
 					<div className="welcomeDiv">
 							<h1>Welcome to Blackbird!!</h1>
