@@ -1,6 +1,7 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
 var Slider = require('react-slick');
+var $ = require("jquery");
 
 var Interest = React.createClass({
 getInitialState:function(){
@@ -9,6 +10,9 @@ getInitialState:function(){
 				}
 
 		},
+getMenu:function(){
+    $(".dropdown-menu").toggle();
+    },
 	render: function(){
 		
 		var settings = {
@@ -24,6 +28,16 @@ getInitialState:function(){
 				<div>
 
                     <div className="toolbar">
+                    <div className="inner-container">
+                    <div onClick={this.getMenu} className="menu">
+                    <img src="https://nb9-stumbleupon.netdna-ssl.com/WcjiEMsHQiBUV9Q-ZK4lDg"></img><div className="name">mrigendra</div>
+                    <div className="fa fa-angle-down"></div>
+                    </div>
+                    <div className="dropdown-menu">
+                    <a className="dropdown-item" href="/discover/interests" data-track="menu-addinterests"><span className="menu-text">Edit Interests</span></a>
+                    <a className="dropdown-item" href="/" data-track="menu-logout"><span className="menu-text">Log Out</span></a>
+                    </div>
+                    </div>
                     </div>
 
 					<div className="welcomeDiv">
