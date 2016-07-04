@@ -13,3 +13,4 @@ __pycache__/
 */__pycache__/
 templates/node_modules
 stumleupon.csv
+data/
