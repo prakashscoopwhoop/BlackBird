@@ -63,12 +63,15 @@ class UserService:
         return self.db().find(skip=page * size, limit=size)
     
     def find_user_interests(self,user_id):
+        user_interest = []
         if user_id is not isinstance(user_id, ObjectId):
             user_id = ObjectId(user_id)
         user = self.db().find_one(user_id)
         if user is not None:
-            return user[User.INTEREST]
-        return
+            for interest in user[User.INTEREST]:
+                for sub_category in InterestService().find_interests_by_sub_category(interest):
+                    user_interest.append(sub_category)
+        return user_interest
     
 class InterestService:
     
@@ -85,4 +88,12 @@ class InterestService:
   
     def find_interests_by_sub_category(self,sub_category):
         return self.db().find({Interest.SUB_CATEGORY:sub_category})
+    
+    def find_all_categories(self):
+        all_categories = []
+        categories = self.db().find()
+        for category in categories:
+            if category[Interest.CATEGORY] not in all_categories:
+                all_categories.append(category[Interest.CATEGORY])
+        return all_categories
     
