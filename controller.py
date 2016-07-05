@@ -78,12 +78,12 @@ def register_user(user):
         user = User.VALIDATOR.validate(user)
         saved_user = __user_service.register(user)
         if saved_user is None:
-            return RestResponse(data={}, status = httplib.UNAUTHORIZED,
+            return RestResponse(data={}, status = httplib.CONFLICT,
                             messages="Username already exists!!", success = False).to_json()
         return RestResponse(user).to_json()
     except Exception as e:
         logging.error(e)
-        return RestResponse(data={}, status = httplib.UNAUTHORIZED,
+        return RestResponse(data={}, status = httplib.BAD_REQUEST,
                             messages="Enter Invalid Inputs ", success = False).to_json()
     
 if __name__ == "__main__":
