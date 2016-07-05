@@ -327,6 +327,11 @@ font-weight: bold;
     text-align: center;
     margin-bottom: 25px;
 }
+.cUserText.errorMsg {
+    color: red;
+    font-weight: bold;
+    font-size: 30px;
+}
 .cUserForm label {
     width: 100px;
     float: left;
@@ -363,6 +368,21 @@ font-weight: bold;
     margin: 5px;
     padding: 0;
     height: auto;
+}
+/*Edit User*/
+.editUser {
+    background-color: #efefef;
+    padding: 50px;
+}
+.editUser table{
+    width: 100%
+}
+.editUser table, .editUser th, .editUser td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+.editUser th, .editUser td {
+    padding: 5px;
 }
 
 .side-menu { background-color: #f3f3f3; color: #787f87; font-family: RalewayReg; border: 0; padding: 0; margin: 0; position: fixed; top: 45px; left:0;  width: 280px; min-height: 100%; box-sizing: border-box; z-index: 2; text-align: left; display: none;

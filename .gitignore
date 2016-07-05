@@ -14,3 +14,4 @@ __pycache__/
 templates/node_modules
 stumleupon.csv
 data/
+templates/js/bundle.min.1.1.js

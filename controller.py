@@ -72,6 +72,10 @@ def get_all_categories():
 def create_user():
     return template('templates/createUser.html')
 
+@route('/editUser')
+def create_user():
+    return template('templates/editUser.html')    
+
 @route('/save_user/<user>', method='POST')
 def register_user(user):
     try:

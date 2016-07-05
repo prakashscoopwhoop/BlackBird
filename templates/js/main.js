@@ -5,7 +5,7 @@ var Header = require('./components/header');
 var Login = require('./components/login');
 var Interest = require('./components/interest');
 var CreateUser = require('./components/createUser');
-
+var EditUser = require('./components/editUser');
 
 
 
@@ -21,7 +21,9 @@ switch(state){
 	case "interest" 	  : loadInterestScreen();
 				  		  break;
 	case "createUser" 	  : loadCreateUserScreen();
-				  		  break;			  		  			  		  
+				  		  break;	
+	case "editUser" 	  : loadEditUserScreen();
+				  		  break;				  		  		  		  			  		  
 
 	default				  : break;
 				  
@@ -82,5 +84,18 @@ function loadCreateUserScreen(){
 
 
 	ReactDOM.render(<CreateUserScreen/>, document.getElementById("createUser"));
+
+}
+function loadEditUserScreen(){
+	var EditUserScreen= React.createClass({
+		render : function(){
+			return(
+				<EditUser/>
+			);
+		}
+	});
+
+
+	ReactDOM.render(<EditUserScreen/>, document.getElementById("createUser"));
 
 }

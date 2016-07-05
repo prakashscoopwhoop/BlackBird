@@ -3,7 +3,9 @@ var ReactDOM = require('react-dom');
 var $ = require("jquery");
 
 var Login = React.createClass({
+	
  	createUser : function(){
+ 		$('.errorMsg').text('');
  		function valPassword() {
         var password = document.getElementById("fPassword").value;
         var confirmPassword = document.getElementById("rPassword").value;
@@ -30,13 +32,14 @@ console.log(valPassword());
 		 	response =JSON.parse(response);
 		 	console.log(response);
 		 	console.log(response.messages);
-		 	if (response.messages == null){
+		 	if (response.success){
 		 		console.log('welcome');
 		 		// window.localStorage.setItem("userDetail",response.data);
                 window.location = "http://0.0.0.0:8889/interest";
 		 	}else
 		 	{
-		 	console.log('error');
+		 	$('.errorMsg').text(response.messages);
+
 		 	}
 
 		});
@@ -45,8 +48,8 @@ console.log(valPassword());
 	render: function(){
 
 		return(
-				<div>
 					<div className="cUser">
+						<div className="cUserText errorMsg"></div>
 						<div className="cUserText">Blackbird Create User</div>
 								<div className="cUserForm">
 
@@ -66,10 +69,9 @@ console.log(valPassword());
 									<input type="password" name="rPassword" id="rPassword" placeholder="Retype Password" /><br/>
 
 
-  									<button onClick={this.createUser}>Sign In</button>
+  									<button onClick={this.createUser}>Create User</button>
   								</div>
 					</div>
-				</div>
 			)
 	}
 })
