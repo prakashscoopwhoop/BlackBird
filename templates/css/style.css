@@ -240,6 +240,15 @@ font-weight: bold;
     height: 55px;
     margin-top: -13px;
 }
+.createUser {
+    width: 32px;
+    height: 32px;
+    float: left;
+    padding: 5px;
+}
+.createUser img{
+    width: 32px;
+}
 
 .toolbar {
     width: 100%;
@@ -261,7 +270,7 @@ font-weight: bold;
     transform: translate3d(0, 0, 0);
 }
 
-.inner-container{margin: 0 20px; }
+.inner-container{margin: 0 50px; }
 
 
 .inner-container .menu{
@@ -278,7 +287,6 @@ font-weight: bold;
     line-height: 31px;
     padding-right: 5px;
     position: relative;
-    cursor:pointer;
     }
 .menu img {width:28px; height:28px; float:left; border-radius:3px; padding: 2px;}
 .menu .name{
@@ -300,20 +308,61 @@ font-weight: bold;
     padding: 5px;
     margin: 0;
     width: 100%;
-    font-family: ralewayReg;
-    cursor: pointer;
-    right:0;
 }
 .dropdown-item {
     display: block;
-    margin: 3px 0; color:#787f87;
+    margin: 3px 0;
+}
+/*Create User*/
+.cUser {
+    width: 450px;
+    margin: 50px auto 0;
+    background-color: #efefef;
+    padding: 50px;
+}
+.cUserText {
+    font-size: 24px;
+    color: #333333;
+    font-family: ralewayReg;
+    text-align: center;
+    margin-bottom: 25px;
+}
+.cUserForm label {
+    width: 100px;
+    float: left;
+    margin: 10px;
+}
+.cUserForm input{
+    height: 40px;
+    outline-style: none;
+    padding-left: 20px;
+    font-size: 17px;
+    border: none;
+    font-family: ralewayReg;
+    width: 300px;
+    margin: 10px;
+}
+.cUserForm button {
+    margin-top: 17px;
+    height: 63px;
+    outline-style: none;
+    padding: 20px;
+    font-size: 24px;
+    border: none;
+    background-color: #0058bc;
+    cursor: pointer;
+    font-family: ralewayReg;
+    width: 300px;
+    margin-left: 130px;
+    color: #fff;
+    text-transform: uppercase;
+}
+.userRole input[type="radio"] {
+    width: auto;
+    display: inline-block;
+    margin: 5px;
+    padding: 0;
+    height: auto;
 }
 
-.menu_{float:left; font-size:30px; cursor:pointer;}
-.side-menu{height: 200px;
-    background-color: #f2f2f2;
-    display: none;
-    position: absolute;
-    width: 300px;
-    top: 45px;
-    left: 0;}
+

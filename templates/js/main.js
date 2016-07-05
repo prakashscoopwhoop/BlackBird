@@ -2,7 +2,9 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
 var Login = require('./components/login');
-var Interest = require('./components/interest')
+var Interest = require('./components/interest');
+var CreateUser = require('./components/createUser');
+
 
 
 
@@ -12,7 +14,9 @@ switch(state){
 				  		  break;
 
 	case "interest" 	  : loadInterestScreen();
-				  		  break;			  		  
+				  		  break;
+	case "createUser" 	  : loadCreateUserScreen();
+				  		  break;			  		  			  		  
 
 	default				  : break;
 				  
@@ -37,7 +41,7 @@ function loadLoginScreen(){
 
 
 function loadInterestScreen(){
-	var InterestScreen = React.createClass({
+	var InterestScreen  = React.createClass({
 		render : function(){
 			return(
 				<Interest/>
@@ -47,5 +51,18 @@ function loadInterestScreen(){
 
 
 	ReactDOM.render(<InterestScreen/>, document.getElementById("interestdiv"));
+
+}
+function loadCreateUserScreen(){
+	var CreateUserScreen= React.createClass({
+		render : function(){
+			return(
+				<CreateUser/>
+			);
+		}
+	});
+
+
+	ReactDOM.render(<CreateUserScreen/>, document.getElementById("createUser"));
 
 }

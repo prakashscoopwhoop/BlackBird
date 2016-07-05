@@ -64,6 +64,10 @@ def get_all_categories():
     all_categories =__interest_service.find_all_categories()
     return RestResponse(all_categories).to_json()
 
+@route('/createUser')
+def create_user():
+    return template('templates/createUser.html')
+
 @route('/save_user/<user>', method='POST')
 def register_user(user):
     try:
