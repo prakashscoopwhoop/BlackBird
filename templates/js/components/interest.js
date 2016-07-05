@@ -46,8 +46,10 @@ componentDidMount: function() {
             }
         }.bind(this)); 
      },
-    
-        
+
+getHMenu: function(){
+$(".side-menu").toggle();
+},
 getMenu:function(){
     $(".dropdown-menu").toggle();
     },
@@ -68,6 +70,9 @@ getMenu:function(){
 				<div>
             <div className="toolbar">
               <div className="inner-container">
+              <div onClick={this.getHMenu} className="menu_">&#9776;</div>
+              <div className="side-menu">
+              </div>
                 <div onClick={this.getMenu} className="menu">
                   <img src="https://nb9-stumbleupon.netdna-ssl.com/WcjiEMsHQiBUV9Q-ZK4lDg" />
                   <div className="name">mrigendra11</div>

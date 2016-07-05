@@ -12,6 +12,8 @@ var Login = React.createClass({
         $.get("http://0.0.0.0:8889/login/"+user['username']+"/"+user['password'] , function (response) {
 		 	response =JSON.parse(response);
 		 	if (response['success']=== true){
+		 	    window.localStorage.setItem("userDetail", JSON.stringify(response));
+//		 	    console.log(JSON.parse(window.localStorage.getItem("userDetail")));
                 window.location = "http://0.0.0.0:8889/interest";
 		 	}else
 		 	{

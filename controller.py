@@ -20,6 +20,10 @@ def images(filename):
     return static_file(filename, root='templates/images')
 
 
+@route('/<filename:re:.*\.(jpg|png|gif|ico)>')
+def data_images(filename):
+    return static_file(filename, root='data')
+
 @route('/<filename:re:.*\.(otf|eot|ttf|woff|svg)>')
 def fonts(filename):
     return static_file(filename, root='templates/fonts')

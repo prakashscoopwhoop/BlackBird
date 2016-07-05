@@ -37,7 +37,7 @@ def download_images_locally(url):
     image_path = os.getcwd()
     urllib.urlretrieve(url,filename)
     os.chdir(cwd)
-    return image_path + filename
+    return filename
 
 if __name__== "__main__":
     client =  client = MongoClient()
