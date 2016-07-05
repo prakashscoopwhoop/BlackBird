@@ -57,10 +57,26 @@ class UserService:
         return self.db().find_one(user_id)
     
     def find_all_users(self):
-        return self.db.find()
+        user_dto =[]
+        users =  self.db.find()
+        for user in users:
+            entity ={}
+            entity[User.ID]= str(user[User.ID])
+            entity[User.FIRST_NAME]= user[User.FIRST_NAME]
+            entity[User.LAST_NAME] = user[User.LAST_NAME]
+            user_dto.append(entity)
+        return user_dto
     
-    def find_by_pagination(self, page=0, size=PAGE_SIZE):
-        return self.db().find(skip=page * size, limit=size)
+    def find_users_by_pagination(self, page=0, size=PAGE_SIZE):
+        user_dto =[]
+        users =  self.db().find(skip=page * size, limit=size)
+        for user in users:
+            entity ={}
+            entity[User.ID]= str(user[User.ID])
+            entity[User.FIRST_NAME]= user[User.FIRST_NAME]
+            entity[User.LAST_NAME] = user[User.LAST_NAME]
+            user_dto.append(entity)
+        return user_dto
     
     def find_user_interests(self,user_id):
         user_interest = []
@@ -72,6 +88,16 @@ class UserService:
                 for sub_category in InterestService().find_interests_by_sub_category(interest):
                     user_interest.append(sub_category)
         return user_interest
+    
+    def update_user(self,user):
+        if User.ID not in user:
+            return
+        elif not isinstance(user[User.ID],ObjectId):
+            user[User.ID]= ObjectId(user[User.ID])
+        user_id = self.db().save(user)
+        user[User.ID]= str(user_id)
+        return user
+                
     
 class InterestService:
     
