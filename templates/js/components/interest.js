@@ -2,20 +2,31 @@ var React = require('react');
 var ReactDOM = require('react-dom');
 var Slider = require('react-slick');
 var $ = require("jquery");
+var Header = require('./header');
 
 
 
 
 var Interest = React.createClass({
+
 getInitialState:function(){
+            loggedIn = JSON.parse(window.localStorage.getItem("userDetail"));
+            if(loggedIn=== null || loggedIn=== undefined){
+            window.location = "/";
+            }else{
+            if (loggedIn.success === true){
 			return{
-					intrestData  : [],
-          intDataLoded : false,
-          catData      : [],
-          catDataLoded : false 
+				      intrestData  : [],
+                      intDataLoded : false,
+                      catData      : [],
+                      catDataLoded : false
 
 				}
-
+				}
+				else{
+				window.location = "/";
+				}
+            }
 		},
 componentDidMount: function() {
       // var url=rootApi+"all_category";
@@ -46,13 +57,6 @@ componentDidMount: function() {
             }
         }.bind(this)); 
      },
-
-getHMenu: function(){
-$(".side-menu").toggle();
-},
-getMenu:function(){
-    $(".dropdown-menu").toggle();
-    },
 	render: function(){
 		var that=this;
 		var settings = {
@@ -68,23 +72,7 @@ getMenu:function(){
 
 		return(
 				<div>
-            <div className="toolbar">
-              <div className="inner-container">
-              <div onClick={this.getHMenu} className="menu_">&#9776;</div>
-              <div className="side-menu">
-              </div>
-                <div onClick={this.getMenu} className="menu">
-                  <img src="https://nb9-stumbleupon.netdna-ssl.com/WcjiEMsHQiBUV9Q-ZK4lDg" />
-                  <div className="name">mrigendra11</div>
-                  <div className="fa fa-angle-down"></div>
-                <div className="dropdown-menu">
-                    <a className="dropdown-item" href="/discover/interests"><span className="menu-text">Edit Interests</span></a>
-                    <a className="dropdown-item" href="/" ><span className="menu-text">Log Out</span></a>
-                </div>
-                </div>
-
-              </div>
-            </div>
+                    <Header />
 
 					<div className="welcomeDiv">
 							<h1>Welcome to Blackbird!!</h1>

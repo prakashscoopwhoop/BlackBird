@@ -4,7 +4,20 @@ var $ = require("jquery");
 
 var Login = React.createClass({
 
-
+    getInitialState:function(){
+            loggedIn = JSON.parse(window.localStorage.getItem("userDetail"));
+            if(loggedIn=== null || loggedIn=== undefined){
+            return null;
+//            window.location = "/";
+            }else{
+            if (loggedIn.success === true){
+                window.location = "/interest";
+				}
+				else{
+//				window.location = "/";
+				}
+            }
+		},
 	getLogin : function(){
 
 

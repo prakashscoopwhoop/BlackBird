@@ -21,7 +21,7 @@ def images(filename):
     return static_file(filename, root='templates/images')
 
 
-@route('/<filename:re:.*\.(jpg|png|gif|ico)>')
+@route('/<filename:.*\.jpg>')
 def data_images(filename):
     return static_file(filename, root='data')
 
@@ -43,9 +43,11 @@ def login(username,password):
 def index():
     return template('templates/login.html')
 
+
 @route('/interest')
 def interest_page():
     return template('templates/interest.html')
+
 
 @route('/interest/<category>')
 def category_wise_interest(category):
@@ -54,10 +56,12 @@ def category_wise_interest(category):
     interests = __interest_service.find_interests_by_category(category)
     return RestResponse(interests).to_json()
 
+
 @route('/my_interest/<user_id>')
 def user_interest(user_id): 
     interest = __user_service.find_user_interests(user_id)
     return RestResponse(interest).to_json()
+
 
 @route('/all_category')
 def get_all_categories():

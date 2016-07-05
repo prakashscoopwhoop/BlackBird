@@ -311,7 +311,7 @@ font-weight: bold;
 }
 .dropdown-item {
     display: block;
-    margin: 3px 0;
+    margin: 3px 0; font-family: ralewayReg; color: #787f87;
 }
 /*Create User*/
 .cUser {
@@ -365,4 +365,9 @@ font-weight: bold;
     height: auto;
 }
 
+.side-menu { background-color: #f3f3f3; color: #787f87; font-family: RalewayReg; border: 0; padding: 0; margin: 0; position: fixed; top: 45px; left:0;  width: 280px; min-height: 100%; box-sizing: border-box; z-index: 2; text-align: left; display: none;
+overflow: scroll;  }
 
+.side-dropdown-item{display:block; padding:5px; color: #787f87;}
+
+.menu_{float:left; font-size:30px; cursor:pointer;}

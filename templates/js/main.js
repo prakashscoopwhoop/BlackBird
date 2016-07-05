@@ -1,6 +1,7 @@
 
 var React = require('react');
 var ReactDOM = require('react-dom');
+var Header = require('./components/header');
 var Login = require('./components/login');
 var Interest = require('./components/interest');
 var CreateUser = require('./components/createUser');
@@ -10,6 +11,10 @@ var CreateUser = require('./components/createUser');
 
 
 switch(state){
+
+	case "header" 		  : loadHeaderScreen();
+				  		  break;
+
 	case "login" 		  : loadLoginScreen();
 				  		  break;
 
@@ -22,6 +27,19 @@ switch(state){
 				  
 }
 
+
+function loadHeaderScreen(){
+	var HeaderScreen = React.createClass({
+		render : function(){
+			return(
+				<Header/>
+			);
+		}
+	});
+
+	ReactDOM.render(<LoginScreen/>, document.getElementById("logindiv"));
+
+}
 
 
 function loadLoginScreen(){
