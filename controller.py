@@ -3,6 +3,7 @@ from app.service import UserService,InterestService
 from app.utils import RestResponse
 from app.config import logging
 import httplib
+from app.validator import User
 
 # Static Routes
 @route('/<filename:re:.*\.js>')
@@ -62,6 +63,20 @@ def user_interest(user_id):
 def get_all_categories():
     all_categories =__interest_service.find_all_categories()
     return RestResponse(all_categories).to_json()
+
+@route('/save_user/<user>', method='POST')
+def register_user(user):
+    try:
+        user = User.VALIDATOR.validate(user)
+        saved_user = __user_service.register(user)
+        if saved_user is None:
+            return RestResponse(data={}, status = httplib.UNAUTHORIZED,
+                            messages="Username already exists!!", success = False).to_json()
+        return RestResponse(user).to_json()
+    except Exception as e:
+        logging.error(e)
+        return RestResponse(data={}, status = httplib.UNAUTHORIZED,
+                            messages="Enter Invalid Inputs ", success = False).to_json()
     
 if __name__ == "__main__":
     __user_service = UserService()
