@@ -115,7 +115,7 @@ def update_user(user):
 @route('/all_users')                            
 def get_all_users():
     users = __user_service.find_all_users()
-    return RestResponse(users)
+    return RestResponse(users).to_json()
 
 if __name__ == "__main__":
     __user_service = UserService()
