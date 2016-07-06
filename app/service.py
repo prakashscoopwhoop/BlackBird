@@ -106,7 +106,15 @@ class UserService:
             return user
         else:
             return
-                
+        
+    def remove_user(self,user_id):
+        user = self.find_user(user_id)
+        if user is None:
+            return False
+        if not isinstance(user_id, ObjectId):
+            user_id = ObjectId(user_id)
+        self.db().remove(user_id)
+        return True        
     
 class InterestService:
     
