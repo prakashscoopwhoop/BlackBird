@@ -3,6 +3,7 @@ from app.utils import encrypt_password
 from app import config
 from app.config import PAGE_SIZE
 from bson.objectid import ObjectId
+import json
 
 
 class UserService:
@@ -92,6 +93,7 @@ class UserService:
         return user_interest
     
     def update_user(self,user):
+        user = json.loads(user)
         if User.ID not in user:
             return
         elif not isinstance(user[User.ID],ObjectId):

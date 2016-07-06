@@ -98,10 +98,9 @@ def register_user(user):
                             messages="Enter Invalid Inputs ", success = False).to_json()
                             
 
-@route('/update_user/<user>', method='PUT')                            
+@route('/update_user/<user>', method='POST')                            
 def update_user(user):
     try:
-        user = User.VALIDATOR.validate(user)
         updated_user = __user_service.update_user(user)
         if updated_user is None:
             return RestResponse(data={}, status = httplib.NOT_FOUND,
