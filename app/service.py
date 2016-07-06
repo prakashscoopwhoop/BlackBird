@@ -64,6 +64,7 @@ class UserService:
             entity[User.ID]= str(user[User.ID])
             entity[User.FIRST_NAME]= user[User.FIRST_NAME]
             entity[User.LAST_NAME] = user[User.LAST_NAME]
+            entity[User.USER_NAME] = user[User.USER_NAME]
             user_dto.append(entity)
         return user_dto
     
@@ -75,6 +76,7 @@ class UserService:
             entity[User.ID]= str(user[User.ID])
             entity[User.FIRST_NAME]= user[User.FIRST_NAME]
             entity[User.LAST_NAME] = user[User.LAST_NAME]
+            entity[User.USER_NAME] = user[User.USER_NAME]
             user_dto.append(entity)
         return user_dto
     
