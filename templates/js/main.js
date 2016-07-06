@@ -81,7 +81,10 @@ function loadCreateUserScreen(){
 	var CreateUserScreen= React.createClass({
 		render : function(){
 			return(
-				<CreateUser/>
+				<div>
+				 <Header />
+				<CreateUser />
+				</div>
 			);
 		}
 	});
@@ -92,18 +95,24 @@ function loadEditUserScreen(){
 	var EditUserScreen= React.createClass({
 		render : function(){
 			return(
-				<EditUser/>
+				<div>
+				 <Header />
+				<EditUser />
+				</div>
 			);
 		}
 	});
-	ReactDOM.render(<EditUserScreen/>, document.getElementById("createUser"));
+	ReactDOM.render(<EditUserScreen/>, document.getElementById("editUser"));
 }
 
 function loadDashboardScreen(){
 	var DashboardScreen= React.createClass({
 		render : function(){
 			return(
+			<div>
+				 <Header />
 				<Dashboard />
+			</div>	
 			);
 		}
 	});

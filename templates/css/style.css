@@ -384,6 +384,74 @@ font-weight: bold;
 .editUser th, .editUser td {
     padding: 5px;
 }
+/*popup code*/
+#overlay {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background-color: #000;
+filter:alpha(opacity=70);
+-moz-opacity:0.7;
+-khtml-opacity: 0.7;
+opacity: 0.7;
+z-index: 100;
+display: none;
+}
+.content a{
+text-decoration: none;
+}
+.popup{
+    width: 100%;
+    margin: 0 auto;
+    display: none;
+    position: fixed;
+    z-index: 101;
+    top: 0;
+    left: 0;
+    border: 0;
+    right: 0;
+    background: 
+}
+.content{
+width: 500px;
+height: 380px;
+margin-top: -190px;
+margin-left: -250px;
+background: #f3f3f3;
+position: fixed;
+left: 50%;
+top: 50%;
+z-index: 103;
+padding: 10px;
+border-radius: 5px;
+box-shadow: 0 2px 5px #000;
+
+}
+.content p{
+clear: both;
+color: #555555;
+text-align: justify;
+}
+.content p a{
+color: #d91900;
+font-weight: bold;
+}
+.content .x {
+    float: right;
+    height: 25px;
+    position: absolute;
+    right: -12px;
+    top: -13px;
+    width: 27px;
+}
+
+.content .x:hover{
+cursor: pointer;
+}
+
+
 
 .side-menu { background-color: #f3f3f3; color: #787f87; font-family: RalewayReg; border: 0; padding: 0; margin: 0; position: fixed; top: 45px; left:0;  width: 280px; min-height: 100%; box-sizing: border-box; z-index: 2; text-align: left; display: none;
 overflow: scroll;  }
@@ -453,22 +521,4 @@ overflow: scroll;  }
   padding: 8px 6px;
   margin-bottom: 1px;
 }
-/*.menu .submenu > li.dropdown:hover > .submenu {
-  display: block;
-}
-
-.menu .submenu .submenu {
-  position: absolute;
-  left: 200px;
-  top: 0px;
-}
-
-.submenu li.dropdown > a:after {
-  content: "\e258";
-  font-family: 'Glyphicons Halflings';
-  font-style: normal;
-  font-weight: 400;
-  margin-left: 8px;
-  font-size: 10px;
-}*/
 

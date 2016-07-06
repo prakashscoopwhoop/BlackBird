@@ -8,6 +8,9 @@ var Dashboard = React.createClass({
 	render: function(){
 
 		return(
+			<div>
+			                    <Header />
+
 				<div className="dashboard">
 						<div className="cUserText">Blackbird dashboard</div>
 						<div>
@@ -27,6 +30,7 @@ var Dashboard = React.createClass({
 						  <li><a href="">Other</a></li>
 						</ul>
 						</div>
+				</div>
 				</div>
 			)
 	}

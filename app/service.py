@@ -99,10 +99,9 @@ class UserService:
         elif not isinstance(user[User.ID],ObjectId):
             user[User.ID]= ObjectId(user[User.ID])
         existing_user = self.db().find_one(user[User.ID])
-        print existing_user
         if existing_user is not None:
             existing_user.update(user)
-            user_id = self.db().save(user)
+            user_id = self.db().save(existing_user)
             user[User.ID]= str(user_id)
             return user
         else:
