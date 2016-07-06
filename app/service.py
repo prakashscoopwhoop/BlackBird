@@ -58,7 +58,7 @@ class UserService:
     
     def find_all_users(self):
         user_dto =[]
-        users =  self.db.find()
+        users =  self.db().find()
         for user in users:
             entity ={}
             entity[User.ID]= str(user[User.ID])
