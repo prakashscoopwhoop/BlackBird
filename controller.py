@@ -78,6 +78,10 @@ def create_user():
 def edit_user():
     return template('templates/editUser.html')    
 
+@route('/dashboard')
+def dashboard():
+    return template('templates/dashboard.html')
+
 
 @route('/save_user/<user>', method='POST')
 def register_user(user):

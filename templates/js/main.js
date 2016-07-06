@@ -6,6 +6,8 @@ var Login = require('./components/login');
 var Interest = require('./components/interest');
 var CreateUser = require('./components/createUser');
 var EditUser = require('./components/editUser');
+var Dashboard = require('./components/dashboard');
+
 
 
 
@@ -23,7 +25,9 @@ switch(state){
 	case "createUser" 	  : loadCreateUserScreen();
 				  		  break;	
 	case "editUser" 	  : loadEditUserScreen();
-				  		  break;				  		  		  		  			  		  
+				  		  break;
+	case "dashboard"	  : loadDashboardScreen();
+						  break;			  		  				  		  		  		  			  		  
 
 	default				  : break;
 				  
@@ -71,8 +75,8 @@ function loadInterestScreen(){
 
 
 	ReactDOM.render(<InterestScreen/>, document.getElementById("interestdiv"));
-
 }
+
 function loadCreateUserScreen(){
 	var CreateUserScreen= React.createClass({
 		render : function(){
@@ -81,11 +85,9 @@ function loadCreateUserScreen(){
 			);
 		}
 	});
-
-
 	ReactDOM.render(<CreateUserScreen/>, document.getElementById("createUser"));
-
 }
+
 function loadEditUserScreen(){
 	var EditUserScreen= React.createClass({
 		render : function(){
@@ -94,8 +96,16 @@ function loadEditUserScreen(){
 			);
 		}
 	});
-
-
 	ReactDOM.render(<EditUserScreen/>, document.getElementById("createUser"));
+}
 
+function loadDashboardScreen(){
+	var DashboardScreen= React.createClass({
+		render : function(){
+			return(
+				<Dashboard />
+			);
+		}
+	});
+	ReactDOM.render(<DashboardScreen />, document.getElementById("dashboard"));
 }
