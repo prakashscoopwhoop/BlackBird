@@ -98,9 +98,14 @@ class UserService:
             return
         elif not isinstance(user[User.ID],ObjectId):
             user[User.ID]= ObjectId(user[User.ID])
-        user_id = self.db().save(user)
-        user[User.ID]= str(user_id)
-        return user
+        existing_user = self.db().find(user[User.ID])
+        if existing_user is not None: 
+            user = existing_user.update(user)
+            user_id = self.db().save(user)
+            user[User.ID]= str(user_id)
+            return user
+        else:
+            return
                 
     
 class InterestService:
