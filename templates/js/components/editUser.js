@@ -52,7 +52,6 @@ var EditUser = React.createClass({
 	},	
 	updateUser : function(){
 		var that=this;
-		console.log($('#fName').val());
 		var updatedUser = {
 			first_name : $('#fName').val(),
 			last_name  : $('#lName').val(),
@@ -60,21 +59,23 @@ var EditUser = React.createClass({
 		}
 		console.log(updatedUser);
 		var url="http://0.0.0.0:8889/update_user/"+ JSON.stringify(updatedUser);
-		console.log(url);
 		$.post(url, function (response) {
 		 	response =JSON.parse(response);
-		 	console.log(response);
-		 	console.log(response.messages);
+		 	// console.log(response);
 		 	if (response.success){
 		 		console.log('welcome');
-                // window.location = "http://0.0.0.0:8889/editUser";
+		 		that.popupClose();
+		 		 that.componentDidMount();
 		 	}else
 		 	{
 		 	$('.errorMsg').text(response.messages);
-
+// 
 		 	}
 
 		});
+	},
+	deleteUser : function(userId){
+		console.log("Delete this id : "+userId);
 	},
 	popupClose : function(){
 		console.log('popup close');
@@ -96,6 +97,7 @@ var EditUser = React.createClass({
 <div className='popup'>
 <div className='content'>
 <img src='close-arrow.png' className='x' id='x' onClick={this.popupClose}/>
+						<div className="cUserText errorMsg"></div>	
 						<div className="cUserText">Blackbird Create User</div>
 								<div className="cUserForm">
 
@@ -133,7 +135,7 @@ var EditUser = React.createClass({
           			 	<td>{item.first_name}</td>
 					    <td>{item.last_name}</td>					    
 					    <td>{item.username}</td>
-					    <td><a onClick={that.editUser.bind(null, item) } >Edit</a> / <a href="#">Delete</a> </td>
+					    <td><a onClick={that.editUser.bind(null, item) } >Edit</a> / <a onClick={that.deleteUser.bind(null, item._id) } >Delete</a> </td>
 
 					  </tr>)
 					  
