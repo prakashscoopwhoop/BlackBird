@@ -1,9 +1,17 @@
-from bottle import route, run, static_file, template
+from bottle import route, run, static_file, template, error
 from app.service import UserService,InterestService
 from app.utils import RestResponse
 from app.config import logging
 import httplib
 from app.validator import User
+import time
+
+
+#Error handler
+@error(404)
+def error404(error):
+    return template('templates/error.html')
+
 
 # Static Routes
 @route('/<filename:re:.*\.js>')
@@ -110,6 +118,7 @@ def update_user(user):
         logging.error(e)
         return RestResponse(data={}, status = httplib.BAD_REQUEST,
                             messages="Enter Invalid Inputs ", success = False).to_json()
+
 
 @route('/all_users')                            
 def get_all_users():

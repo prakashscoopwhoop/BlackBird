@@ -9,7 +9,7 @@ var Dashboard = React.createClass({
 
 		return(
 			<div>
-			                    <Header />
+
 
 				<div className="dashboard">
 						<div className="cUserText">Blackbird dashboard</div>

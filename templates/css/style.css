@@ -521,4 +521,5 @@ overflow: scroll;  }
   padding: 8px 6px;
   margin-bottom: 1px;
 }
-
+.errorContainer{margin:0 auto; text-align:center; background-color:#f6f6f6; height:100%; width:100%;}
+.errorimg {height:80%;}
