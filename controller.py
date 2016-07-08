@@ -125,6 +125,17 @@ def get_all_users():
     users = __user_service.find_all_users()
     return RestResponse(users).to_json()
 
+
+@route('/remove_user/<user_id>',method='DELETE') 
+def remove_user(user_id):
+    status =__user_service.remove_user(user_id)
+    if status:
+        return RestResponse(data={}, status = httplib.OK,
+                            messages="user is removed successfully", success = True).to_json()
+    else:
+        return RestResponse(data={}, status = httplib.NOT_FOUND,
+                            messages="user is not found", success = False).to_json()
+    
 if __name__ == "__main__":
     __user_service = UserService()
     __interest_service = InterestService()
