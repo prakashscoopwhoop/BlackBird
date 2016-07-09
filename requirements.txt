@@ -1,0 +1,8 @@
+requests
+# Install with: 'sudo pip install -r requirements.txt'
+
+bottle
+waitress
+schema
+pymongo
+logging
