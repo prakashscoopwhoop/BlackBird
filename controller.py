@@ -4,7 +4,6 @@ from app.utils import RestResponse
 from app.config import logging
 import httplib
 from app.validator import User
-import time
 
 
 #Error handler
@@ -66,11 +65,23 @@ def category_wise_interest(category):
 
 
 @route('/my_interest/<user_id>')
-def user_interest(user_id): 
+def get_user_interest(user_id): 
     interest = __user_service.find_user_interests(user_id)
-    return RestResponse(interest).to_json()
+    if interest is not None:
+        return RestResponse(interest).to_json()
+    else:
+        return RestResponse(data={}, status = httplib.NOT_FOUND,
+                            messages="user is not found!!", success = False).to_json()
 
-
+@route('/set_interest/<user_id>/<ur_interest>',method='PUT')
+def set_user_interest(user_id,ur_interest):
+    user = __user_service.add_user_interest(user_id, ur_interest)
+    if user is not None:
+        return RestResponse(user).to_json()
+    else:
+        return RestResponse(data={}, status = httplib.NOT_FOUND,
+                            messages="user is not found!!", success = False).to_json()
+    
 @route('/all_category')
 def get_all_categories():
     all_categories =__interest_service.find_all_categories()

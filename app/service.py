@@ -82,23 +82,17 @@ class UserService:
         return user_dto
     
     def find_user_interests(self,user_id):
-        user_interest = []
-        if user_id is not isinstance(user_id, ObjectId):
-            user_id = ObjectId(user_id)
-        user = self.db().find_one(user_id)
+        user = self.find_user(user_id)
         if user is not None:
-            for interest in user[User.INTEREST]:
-                for sub_category in InterestService().find_interests_by_sub_category(interest):
-                    user_interest.append(sub_category)
-        return user_interest
+            return InterestService().find_my_interests(user[User.INTEREST])
+        else:
+            return
     
     def update_user(self,user):
         user = json.loads(user)
         if User.ID not in user:
             return
-        elif not isinstance(user[User.ID],ObjectId):
-            user[User.ID]= ObjectId(user[User.ID])
-        existing_user = self.db().find_one(user[User.ID])
+        existing_user = self.find_user(user[User.ID])
         if existing_user is not None:
             existing_user.update(user)
             user_id = self.db().save(existing_user)
@@ -111,11 +105,21 @@ class UserService:
         user = self.find_user(user_id)
         if user is None:
             return False
-        if not isinstance(user_id, ObjectId):
-            user_id = ObjectId(user_id)
-        self.db().remove(user_id)
-        return True        
-    
+        self.db().remove(user[User.ID])
+        return True 
+           
+    def add_user_interest(self,user_id,interest):
+        user = self.find_user(user_id)
+        if user is not None:
+            for inst_id in interest:
+                if str(inst_id) not in user[User.INTEREST]:
+                    user[User.INTEREST].append(str(inst_id))
+            user_id = self.db().save(user)
+            user[User.ID] = str(user_id)
+            return user
+        else:
+            return
+        
 class InterestService:
     
     def db(self):
@@ -134,14 +138,19 @@ class InterestService:
             catagory_data.append(interest)
         return catagory_data
     
+    def find_interest(self,interest_id):
+        if interest_id is not isinstance(interest_id, ObjectId):
+            interest_id = ObjectId(interest_id)
+        return self.db().find_one(interest_id)
+    
   
-    def find_interests_by_sub_category(self,sub_category):
-        sub_catagory_data = []
-        interests = self.db().find({Interest.SUB_CATEGORY:sub_category})
-        for interest in interests:
-            interest[Interest.ID]= str(interest[Interest.ID])
-            sub_catagory_data.append(interest)
-        return sub_catagory_data
+    def find_my_interests(self,interests):
+        interest_data = []
+        for ins_id in interests:
+            interest = self.find_interest(ins_id)
+            if interest is not None:
+                interest_data.append(interest)
+        return interest_data
     
     def find_all_categories(self):
         all_categories = []
