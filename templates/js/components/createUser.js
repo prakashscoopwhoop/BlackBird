@@ -35,7 +35,7 @@ console.log(valPassword());
 		 	if (response.success){
 		 		console.log('welcome');
 		 		// window.localStorage.setItem("userDetail",response.data);
-                window.location = "http://0.0.0.0:8889/interest";
+                window.location = "/dashboard";
 		 	}else
 		 	{
 		 	$('.errorMsg').text(response.messages);

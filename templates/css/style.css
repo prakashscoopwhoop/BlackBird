@@ -140,14 +140,15 @@ body a{
     /*width: auto !important;*/
     display: inline-block !important;
     float: left;
-    padding: 8px 0px;
+    padding: 8px 0 0 0;
 
 }
 
-.click-target{
-color:#787f87;
-cursor:pointer; text-align:center;
-}
+.click-target{ color:#787f87;cursor:pointer; text-align:center; border-bottom: 2px solid transparent;}
+
+.click-target:active, .click-active{ border-bottom: 2px solid #787878;
+    font-weight: bold; text-align:center; cursor:pointer;
+    color: #787878;}
 
 .click-target:hover{
 color:#333;
@@ -230,9 +231,9 @@ font-weight: bold;
 
 
 .interest_container_div .name{
-	    margin-top: -56px;
+	    margin-top: -45px;
     margin-left: 73px;
-    font-family: ralewayReg; font-size:14px; color: #787f87;}
+    font-family: ralewayReg; font-size:14px; color: #787f87; position: absolute;}
 
 
 .interest_container_div img{
@@ -270,7 +271,7 @@ font-weight: bold;
     transform: translate3d(0, 0, 0);
 }
 
-.inner-container{margin: 0 50px; }
+.inner-container{margin: 0 20px; }
 
 
 .inner-container .menu{
@@ -286,7 +287,7 @@ font-weight: bold;
     border: solid 1px #292929;
     line-height: 31px;
     padding-right: 5px;
-    position: relative;
+    position: relative; width:160px; cursor:pointer;
     }
 .menu img {width:28px; height:28px; float:left; border-radius:3px; padding: 2px;}
 .menu .name{
@@ -295,7 +296,7 @@ font-weight: bold;
     font-family: ralewayLight;
 }
 
-.fa{padding-top: 9px;}
+/*.fa{padding-top: 9px;}*/
 .fa-angle-down:before {content: "\f107";}
 .dropdown-menu {
     top: 39px;
@@ -462,13 +463,13 @@ overflow: scroll;  }
 
 
 /*Dashboard*/
+/*
 .menu {
   display: block;
   z-index: 999999;
   width: 200px
 }
 .menu li {
-  /*display: inline-block;*/
   position: relative;
 }
 .menu li.dropdown:hover > .submenu {
@@ -504,7 +505,6 @@ overflow: scroll;  }
 .submenu {
   margin: 0px;
   padding: 0px;
-  /*position: absolute;*/
   left: 0px;
   list-style-type: none;
   display: block;
@@ -520,6 +520,7 @@ overflow: scroll;  }
   color: #fff;
   padding: 8px 6px;
   margin-bottom: 1px;
-}
+}*/
 .errorContainer{margin:0 auto; text-align:center; background-color:#f6f6f6; height:100%; width:100%;}
 .errorimg {height:80%;}
+.check{float:right;}

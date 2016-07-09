@@ -32,3 +32,40 @@ class Interest:
     SUB_CATEGORY:basestring,
     IMAGE:basestring
     }))
+
+class Story:
+    ID = '_id'
+    TITLE = 'title'
+    URL = 'url'
+    DESCRIPTION = 'description'
+    KEYWORDS = 'keywords'
+    FEATURE_IMAGE = 'feature_image'
+    NEW_SCORE = 'new_score'
+    MAX_NEW_SCORE = 'max_new_score'
+    FB_LIKE = 'fb_like'
+    TWEET_COUNT = 'tweet_count'
+    PUBLISHER = 'publisher'
+    UUID = 'uuid'
+    PUBLISHED = 'published'
+    FETCH = 'fetch'
+    CATEGORY = 'category'
+    TOPIC = 'topic'
+
+    VALIDATOR = Schema(And(Use(json.loads), {
+    Optional(ID):object,
+    TITLE:basestring,
+    URL:basestring,
+    DESCRIPTION:basestring,
+    KEYWORDS:basestring,
+    FEATURE_IMAGE:basestring,
+    NEW_SCORE:basestring,
+    MAX_NEW_SCORE:basestring,
+    FB_LIKE:basestring,
+    TWEET_COUNT:basestring,
+    PUBLISHER:basestring,
+    UUID:basestring,
+    PUBLISHED:basestring,
+    FETCH:basestring,
+    CATEGORY:basestring,
+    TOPIC:basestring
+    }))

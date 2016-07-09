@@ -12,8 +12,7 @@ var Error = React.createClass({
                 <div className="errorContainer">
                     <img className="errorimg" src="error404.jpg"></img>
                 </div>
-
-				</div>
+			</div>
 			)
 	}
 })

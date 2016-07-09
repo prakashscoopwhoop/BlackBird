@@ -11,7 +11,7 @@ var Login = React.createClass({
 //            window.location = "/";
             }else{
             if (loggedIn.success === true){
-                window.location = "/interest";
+                window.location = "/dashboard";
 				}
 				else{
 //				window.location = "/";
@@ -27,7 +27,7 @@ var Login = React.createClass({
 		 	if (response['success']=== true){
 		 	    window.localStorage.setItem("userDetail", JSON.stringify(response));
 //		 	    console.log(JSON.parse(window.localStorage.getItem("userDetail")));
-                window.location = "http://0.0.0.0:8889/interest";
+                window.location = "/dashboard";
 		 	}else
 		 	{
 		 	alert(response["messages"]);

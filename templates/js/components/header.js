@@ -33,7 +33,7 @@ var Header = React.createClass({
                           <div className="name">mrigendra11</div>
                           <div className="fa fa-angle-down"></div>
                         <div className="dropdown-menu">
-                            <a className="dropdown-item" href="/discover/interests"><span className="menu-text">Edit Interests</span></a>
+                            <a className="dropdown-item" href="/interest"><span className="menu-text">Edit Interests</span></a>
                             <a className="dropdown-item" href="/" ><span onClick={this.logOut} className="menu-text">Log Out</span></a>
                         </div>
                         </div>

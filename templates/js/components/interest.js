@@ -42,13 +42,21 @@ componentDidMount: function() {
             }
         }.bind(this));        
      },
- loadCategory :function(cat){
-      console.log('sss'+cat)
+ loadCategory :function(cat, event){
+    for(i=0;i<event.currentTarget.parentNode.childNodes.length;i++){
+        if(event.currentTarget.parentNode.childNodes[i].children[0].className==="click-target" || event.currentTarget.parentNode.childNodes[i].children[0].className==="click-active"){
+        event.currentTarget.parentNode.childNodes[i].children[0].className="click-target";
+        }
+    }
+    if(event.target.className==="click-target" || event.target.className==="click-active"){
+    event.target.className ="click-active";
+    }
+
       var abc=cat.replace('/','-');
-      console.log(abc);
+//      console.log(abc);
       $.get("http://0.0.0.0:8889/interest/"+abc, function(result) {
-          console.log(result);
-          console.log(JSON.parse(result).data);
+//          console.log(result);
+//          console.log(JSON.parse(result).data);
         if (this.isMounted()) {
               this.setState({
                 catData      : JSON.parse(result).data,
@@ -56,6 +64,9 @@ componentDidMount: function() {
               });
             }
         }.bind(this)); 
+     },
+     logout :function(){
+        console.log($(this));
      },
 	render: function(){
 		var that=this;
@@ -103,6 +114,7 @@ componentDidMount: function() {
                     <div className="interest_container_div" >
                       <img src={item.image}></img>
                       <div className="name">{item.sub_category}</div>
+                      <div id={item._id} className="check"><input type="checkbox"></input></div>
                     </div>
               )
             }):null

@@ -1,4 +1,4 @@
-from app.validator import User, Interest
+from app.validator import User, Interest, Story
 from app.utils import encrypt_password
 from app import config
 from app.config import PAGE_SIZE
@@ -150,4 +150,17 @@ class InterestService:
             if category[Interest.CATEGORY] not in all_categories:
                 all_categories.append(category[Interest.CATEGORY])
         return all_categories
-    
+
+
+class StoryService:
+
+    def db(self):
+        return config.db['stories']
+
+    def save_story(self,story):
+        if self.db().find_one({Story.UUID:story[Story.UUID]}) is None :
+            story_id = self.db().save(story)
+            story[Story.ID] = str(story_id)
+            return story
+        else:
+            return
