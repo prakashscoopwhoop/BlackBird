@@ -25,12 +25,12 @@
 
 @font-face {
             font-family: "ralewayLight";
-            src: url(Raleway-Light.ttf) format("truetype");
+            src: url(../fonts/Raleway-Light.ttf) format("truetype");
         }
 
 @font-face {
             font-family: "ralewayReg";
-            src: url(Raleway-Regular.ttf) format("truetype");
+            src: url(../fonts/Raleway-Regular.ttf) format("truetype");
         }
 
 *{
@@ -524,3 +524,38 @@ overflow: scroll;  }
 .errorContainer{margin:0 auto; text-align:center; background-color:#f6f6f6; height:100%; width:100%;}
 .errorimg {height:80%;}
 .check{float:right;}
+
+
+
+#articles_container{
+    width: 25%;
+    display: inline-flex;
+
+}
+
+.article_div{
+        padding: 25px;
+}
+
+.article_title {
+
+        margin: 10px 0 10px 0;
+}
+
+.article_source{
+        color: #808080;
+}
+
+.article_description{
+     margin: 10px 0 10px 0;
+}
+
+.shareIcons{
+    display: inline-flex;
+}
+
+.shareIcons img{
+    height: 25px;
+    padding: 5px;
+}
+
