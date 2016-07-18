@@ -297,7 +297,7 @@ font-weight: bold;
 }
 
 /*.fa{padding-top: 9px;}*/
-.fa-angle-down:before {content: "\f107";}
+/*.fa-angle-down:before {content: "\f107";}*/
 .dropdown-menu {
     top: 39px;
     position: absolute;
@@ -662,5 +662,7 @@ overflow: scroll;  }
    color: white;
 }
 
-
+.menu_ img{
+        width: 41px;
+}
 
