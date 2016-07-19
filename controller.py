@@ -25,7 +25,7 @@ def stylesheets(filename):
 
 @route('/<filename:re:.*\.(jpg|png|gif|ico)>')
 def images(filename):
-    return static_file(filename, root='templates/images')
+    return static_file(filename, root='templates/images | data')
 
 
 @route('/<filename:.*\.jpg>')
