@@ -152,17 +152,49 @@ class InterestService:
                 interest_data.append(interest)
         return interest_data
     
+    
+class CategoryService:
+    
+    def db(self):
+        return config.db['categories']
+    
     def find_all_categories(self):
         all_categories = []
         categories = self.db().find()
         for category in categories:
-            if category[Interest.CATEGORY] not in all_categories:
-                all_categories.append(category[Interest.CATEGORY])
-        return all_categories
-
+            all_categories.append(category["category"])
+        return all_categories 
+    
+    def save_category(self,category):
+        if self.db().find_one({"category":category}) is None:
+            category_id = self.db().save(category)
+            category['_id']= str(category_id)
+            return category
+        else:
+            return 
+        
+    def find_category_by_name(self,name):
+        category =  self.db().find_one({"category":name})
+        if category is not None:
+            category['_id'] = str(category['_id'])
+            return category
+        return
+    
+    def find_category(self,category_id):
+        if category_id is not isinstance(category_id, ObjectId):
+            category_id = ObjectId(category_id)
+        return self.db().find_one(category_id)
+    
+    def remove_category(self,category_id):
+        categoty = self.find_user(category_id)
+        if categoty is None:
+            return False
+        self.db().remove(categoty["_id"])
+        return True 
+    
 
 class StoryService:
-
+    
     def db(self):
         return config.db['stories']
 
