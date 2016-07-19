@@ -315,13 +315,13 @@ font-weight: bold;
     margin: 3px 0; font-family: ralewayReg; color: #787f87;
 }
 /*Create User*/
-.cUser {
+.cUser,.cInterest{
     width: 450px;
     margin: 50px auto 0;
     background-color: #efefef;
     padding: 50px;
 }
-.cUserText {
+.cUserText,.cInterestText {
     font-size:  28px;
     color: #333333;
     font-family: ralewayReg;
@@ -336,12 +336,12 @@ font-weight: bold;
     font-weight: bold;
     font-size: 30px;
 }
-.cUserForm label {
+.cUserForm,.cInterestForm label {
     width: 100px;
     float: left;
     margin: 10px;
 }
-.cUserForm input{
+.cUserForm,.cInterestForm input{
     height: 40px;
     outline-style: none;
     padding-left: 20px;
@@ -351,11 +351,11 @@ font-weight: bold;
     width: 300px;
     margin: 10px;
 }
-.cUserForm button {
+.cUserForm,.cInterestForm button {
     margin-top: 17px;
-    height: 63px;
+    height: 57px;
     outline-style: none;
-    padding: 20px;
+    padding: 16px;
     font-size: 24px;
     border: none;
     background-color: #0058bc;
