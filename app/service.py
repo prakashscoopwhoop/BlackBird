@@ -126,13 +126,21 @@ class InterestService:
         return config.db['interests']
     
     def save_interest(self,interest):
-        interest_id = self.db().save(interest)
-        interest[Interest.ID]= str(interest_id)
-        return interest
+        if self.db().find_one({Interest.SUB_CATEGORY:interest[Interest.SUB_CATEGORY]}) is None:
+            category = CategoryService().db().find_category_by_name(interest[Interest.CATEGORY])
+            if category is not None:
+                interest["category_id"] = str(category["_id"])
+                interest_id = self.db().save(interest)
+                interest[Interest.ID]= str(interest_id)
+                return interest
+            else:
+                return
+        else:
+            return
     
-    def find_interests_by_category(self,category):
+    def find_interests_by_category(self,category_id):
         catagory_data = []
-        interests = self.db().find({Interest.CATEGORY:category})
+        interests = self.db().find({"category_id":category_id})
         for interest in interests:
             interest[Interest.ID]= str(interest[Interest.ID])
             catagory_data.append(interest)
