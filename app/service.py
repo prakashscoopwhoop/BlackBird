@@ -127,9 +127,10 @@ class InterestService:
     
     def save_interest(self,interest):
         if self.db().find_one({Interest.SUB_CATEGORY:interest[Interest.SUB_CATEGORY]}) is None:
-            category = CategoryService().db().find_category_by_name(interest[Interest.CATEGORY])
+            category = CategoryService().db().find_category(interest[Interest.CATEGORY_ID])
             if category is not None:
-                interest["category_id"] = str(category["_id"])
+                if Interest.KEYWORDS not in interest:
+                    interest[Interest.KEYWORDS] = []
                 interest_id = self.db().save(interest)
                 interest[Interest.ID]= str(interest_id)
                 return interest
@@ -140,7 +141,7 @@ class InterestService:
     
     def find_interests_by_category(self,category_id):
         catagory_data = []
-        interests = self.db().find({"category_id":category_id})
+        interests = self.db().find({Interest.CATEGORY_ID:category_id})
         for interest in interests:
             interest[Interest.ID]= str(interest[Interest.ID])
             catagory_data.append(interest)
@@ -170,7 +171,8 @@ class CategoryService:
         all_categories = []
         categories = self.db().find()
         for category in categories:
-            all_categories.append(category["category"])
+            category["_id"] = str(category["_id"])
+            all_categories.append(category)
         return all_categories 
     
     def save_category(self,category):
@@ -182,6 +184,7 @@ class CategoryService:
             return 
         
     def find_category_by_name(self,name):
+        name = name.lower()
         category =  self.db().find_one({"category":name})
         if category is not None:
             category['_id'] = str(category['_id'])

@@ -21,16 +21,18 @@ class User:
 
 class Interest:
     ID = '_id'
-    CATEGORY = 'category'
+    CATEGORY_ID = 'category_id'
     IMAGE = 'image'
     SUB_CATEGORY = 'sub_category'
     INTEREST='interest'
+    KEYWORDS = 'keywords'
     
     VALIDATOR = Schema(And(Use(json.loads), {
     Optional(ID):object,
-    CATEGORY:basestring,
+    CATEGORY_ID:basestring,
     SUB_CATEGORY:basestring,
-    IMAGE:basestring
+    IMAGE:basestring,
+    Optional(KEYWORDS):[]
     }))
 
 class Story:
