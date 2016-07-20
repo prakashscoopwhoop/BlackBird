@@ -71,3 +71,13 @@ class Story:
     CATEGORY:basestring,
     TOPIC:basestring
     }))
+    
+class Category:
+    ID = '_id'
+    CATEGORY = "category"
+    
+    VALIDATOR = Schema(And(Use(json.loads), {
+    Optional(ID):object,
+    CATEGORY: basestring
+    }))
+    

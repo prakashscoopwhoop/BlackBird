@@ -1,4 +1,4 @@
-from app.validator import User, Interest, Story
+from app.validator import User, Interest, Story,Category
 from app.utils import encrypt_password
 from app import config
 from app.config import PAGE_SIZE
@@ -171,23 +171,23 @@ class CategoryService:
         all_categories = []
         categories = self.db().find()
         for category in categories:
-            category["_id"] = str(category["_id"])
+            category[Category.ID] = str(category[Category.ID])
             all_categories.append(category)
         return all_categories 
     
     def save_category(self,category):
-        if self.db().find_one({"category":category}) is None:
+        if self.db().find_one({Category.CATEGORY:category}) is None:
             category_id = self.db().save(category)
-            category['_id']= str(category_id)
+            category[Category.ID]= str(category_id)
             return category
         else:
             return 
         
     def find_category_by_name(self,name):
         name = name.lower()
-        category =  self.db().find_one({"category":name})
+        category =  self.db().find_one({Category.CATEGORY:name})
         if category is not None:
-            category['_id'] = str(category['_id'])
+            category[Category.ID] = str(category[Category.ID])
             return category
         return
     
@@ -197,10 +197,10 @@ class CategoryService:
         return self.db().find_one(category_id)
     
     def remove_category(self,category_id):
-        categoty = self.find_user(category_id)
+        categoty = self.find_category(category_id)
         if categoty is None:
             return False
-        self.db().remove(categoty["_id"])
+        self.db().remove(categoty[Category.ID])
         return True 
     
 
