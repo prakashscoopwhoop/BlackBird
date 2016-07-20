@@ -28,9 +28,9 @@ def images(filename):
     return static_file(filename, root='templates/images')
 
 
-# @route('/<filename:.*\.jpg>')
-# def data_images(filename):
-#     return static_file(filename, root='data')
+@route('/<filename:.*\.jpg>')
+def data_images(filename):
+    return static_file(filename, root='data')
 
 @route('/fonts/<filename:re:.*\.(otf|eot|ttf|woff|woff2|svg)>')
 def fonts(filename):
@@ -54,7 +54,6 @@ def index():
 @route('/interest')
 def interest_page():
     return template('templates/interest.html')
-
 
 
 @route('/interest/<category_id>')
@@ -174,4 +173,3 @@ if __name__ == "__main__":
 
     run(host='0.0.0.0', port=8889, server='waitress')
     logging.info("server running....")
-    
