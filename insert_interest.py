@@ -20,10 +20,10 @@ def read_file(file_to_analyze):
         f_csv = csv.DictReader(f)
         for row in f_csv:
             r_category = row['Category']
-            r_sub_category = row['Name']
-            r_image = download_images_locally(row['ImageUrl'])
-            records.append(
-                {'category': r_category, 'sub_category': r_sub_category, 'image': r_image})
+
+            if not any(record['category'] == r_category for record in records):
+                records.append(
+                               {'category': r_category})
     if os.path.isfile('temp.csv'):
         os.remove('temp.csv')
     return  records
@@ -42,7 +42,7 @@ def download_images_locally(url):
 if __name__== "__main__":
     client =  client = MongoClient()
     db = client.blackbird
-    col_name = db.interests
+    col_name = db.categories
     to_insert = read_file("stumleupon.csv")
     for row in to_insert:
         col_name.save(row)

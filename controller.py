@@ -56,6 +56,7 @@ def interest_page():
     return template('templates/interest.html')
 
 
+
 @route('/interest/<category_id>')
 def category_wise_interest(category_id):
     interests = __interest_service.find_interests_by_category(category_id)
@@ -99,6 +100,10 @@ def edit_user():
 @route('/dashboard')
 def dashboard():
     return template('templates/dashboard.html')
+
+@route('/createInterest')
+def interest_page():
+    return template('templates/createInterest.html')
 
 
 @route('/save_user/<user>', method='POST')
