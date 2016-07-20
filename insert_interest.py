@@ -20,6 +20,7 @@ def read_file(file_to_analyze):
         f_csv = csv.DictReader(f)
         for row in f_csv:
             r_category = row['Category']
+
             if not any(record['category'] == r_category for record in records):
                 records.append(
                                {'category': r_category})

@@ -25,12 +25,12 @@
 
 @font-face {
             font-family: "ralewayLight";
-            src: url(../fonts/Raleway-Light.ttf) format("truetype");
+            src: url(fonts/Raleway-Light.ttf) format("truetype");
         }
 
 @font-face {
             font-family: "ralewayReg";
-            src: url(../fonts/Raleway-Regular.ttf) format("truetype");
+            src: url(fonts/Raleway-Regular.ttf) format("truetype");
         }
 
 *{
@@ -299,7 +299,7 @@ font-weight: bold;
 /*.fa{padding-top: 9px;}*/
 /*.fa-angle-down:before {content: "\f107";}*/
 .dropdown-menu {
-    top: 39px;
+    top: 33px;
     position: absolute;
     line-height: 23px;
     display: none;
@@ -308,7 +308,7 @@ font-weight: bold;
     text-align: left;
     padding: 5px;
     margin: 0;
-    width: 100%;
+    width: 94%;
 }
 .dropdown-item {
     display: block;
@@ -336,12 +336,12 @@ font-weight: bold;
     font-weight: bold;
     font-size: 30px;
 }
-.cUserForm,.cInterestForm label {
+.cUserForm label,.cInterestForm label {
     width: 100px;
     float: left;
     margin: 10px;
 }
-.cUserForm,.cInterestForm input{
+.cUserForm input,.cInterestForm input{
     height: 40px;
     outline-style: none;
     padding-left: 20px;
@@ -351,7 +351,7 @@ font-weight: bold;
     width: 300px;
     margin: 10px;
 }
-.cUserForm,.cInterestForm button {
+.cUserForm button,.cInterestForm button {
     margin-top: 17px;
     height: 57px;
     outline-style: none;
@@ -457,8 +457,7 @@ cursor: pointer;
 
 
 
-.side-menu { background-color: #f3f3f3; color: #787f87; font-family: RalewayReg; border: 0; padding: 0; margin: 0; position: fixed; top: 45px; left:0;  width: 280px; min-height: 100%; box-sizing: border-box; z-index: 2; text-align: left; display: none;
-overflow: scroll;  }
+.side-menu { background-color: #f3f3f3; color: #787f87; font-family: RalewayReg; border: 0; padding: 0; margin: 0; position: fixed; top: 47px; left:0;  width: 280px; min-height: 100%; box-sizing: border-box; z-index: 2; text-align: left; display: none;  }
 
 .side-dropdown-item{display:block; padding:5px; color: #787f87;}
 
@@ -588,18 +587,18 @@ overflow: scroll;  }
 }
 
 .feature_article_div h2{
-    width: 28%%;
+    width: 28%;
     margin-top: -21%;
     margin-left: 40%;
 }
 
 .feature_article_div span{
-    width: 28%%;
+    width: 28%;
     margin-left: 40%;
 }
 
 .feature_article_div  .article_description{
-    width: 28%%;
+    width: 28%;
    margin-left: 40%;
 }
 
@@ -634,7 +633,7 @@ overflow: scroll;  }
     margin-top: 9px;
 }
 
-.styled-select {
+.styled-select,.select_interest{
  background: url(http://i62.tinypic.com/15xvbd5.png) no-repeat 96% 0;
     height: 29px;
     overflow: hidden;
@@ -643,12 +642,24 @@ overflow: scroll;  }
     height: 34px;
     width: 197px;
     position: absolute;
-    top: 6px;
-    left: 79px;
+ 
     color: #dddddd;
 }
 
-.styled-select select {
+.styled-select{
+       top: 6px;
+    left: 79px;
+}
+
+.select_interest{
+    margin-left: 127px !important;
+    width: 20p !important;
+    width: 303px !important;
+    height: 40px !important;
+
+}
+
+.styled-select,.select_interest select {
    background: transparent;
    border: none;
    font-size: 14px;
@@ -660,6 +671,13 @@ overflow: scroll;  }
    height: 34px;
    width: 268px;
    color: white;
+}
+
+.select_interest select{
+    height: 40px !important;
+    width: 303px !important;
+    color: #a9a5a5 !important;
+    background: white !important;
 }
 
 .menu_ img{

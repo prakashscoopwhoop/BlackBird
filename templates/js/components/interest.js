@@ -52,10 +52,10 @@ componentDidMount: function() {
     event.target.className ="click-active";
     }
 
-      var abc=cat.replace('/','-');
+//      var abc=cat.replace('/','-');
 //      console.log(abc);
-      $.get("http://0.0.0.0:8889/interest/"+abc, function(result) {
-//          console.log(result);
+      $.get("http://0.0.0.0:8889/interest/"+cat._id, function(result) {
+          console.log(result);
 //          console.log(JSON.parse(result).data);
         if (this.isMounted()) {
               this.setState({
@@ -93,7 +93,7 @@ componentDidMount: function() {
 					
           {
           this.state.intDataLoded ? this.state.intrestData.map(function(item,i){
-            sliderData.push(<li className="nav_btns_list" id={i} onClick={that.loadCategory.bind(null,item)}><div className="click-target">{item}</div></li>)
+            sliderData.push(<li className="nav_btns_list" id={item._id} onClick={that.loadCategory.bind(null,item)}><div className="click-target">{item.category}</div></li>)
           }) : null
          }
 					<div className="wrapper">
