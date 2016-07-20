@@ -336,12 +336,12 @@ font-weight: bold;
     font-weight: bold;
     font-size: 30px;
 }
-.cUserForm,.cInterestForm label {
+.cUserForm label,.cInterestForm label {
     width: 100px;
     float: left;
     margin: 10px;
 }
-.cUserForm,.cInterestForm input{
+.cUserForm input,.cInterestForm input{
     height: 40px;
     outline-style: none;
     padding-left: 20px;
@@ -351,7 +351,7 @@ font-weight: bold;
     width: 300px;
     margin: 10px;
 }
-.cUserForm,.cInterestForm button {
+.cUserForm button,.cInterestForm button {
     margin-top: 17px;
     height: 57px;
     outline-style: none;
