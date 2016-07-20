@@ -36,17 +36,20 @@ def watching_stories(domain_list):
     :return:
     """
     for domain in domain_list:
-        r = requests.get("https://api.newswhip.com/v1/publisher/" + domain + "/1?key="+newswhip_key)
+        r = requests.get("https://api.newswhip.com/v1/publisher/" + domain + "/48?key="+newswhip_key)
         response = json.loads(r.text)
-        for item in response['articles']:
+        for item in response['articles'][1:2]:
             print item['link'].encode('utf-8')
             domparser.element_picker(item['link'].encode('utf-8'))
+            topic_list = []
+            for i in item['topics']:
+                topic_list.append(i['name'])
             comp_art = {'title': item['headline'].encode('utf-8'), 'url': item['link'].encode('utf-8'),
                         'description': item['excerpt'], 'keywords': item['keywords'],'feature_image':item['image_link'],
                         'New_score': item['nw_score'], 'max_new_score': item['max_nw_score'],
                         'fb_like': item['fb_data']['like_count'], 'tweet_count': item['tw_data']['tw_count'],
                         'publisher': item['source']['publisher'],"uuid": item['uuid'],
-                        'published': time.strftime('%d %b %H:%M',time.localtime(item['publication_timestamp'] / 1000.0))}
+                        'published': time.strftime('%d %b %H:%M',time.localtime(item['publication_timestamp'] / 1000.0)), 'topic': topic_list}
             # __story_service.save_story(comp_art)
 
 if __name__ == "__main__":

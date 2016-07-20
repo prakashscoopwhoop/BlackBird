@@ -24,7 +24,7 @@ def element_picker(url):
         soup = BeautifulSoup(source, 'html.parser')
         for meta in soup.find_all('meta'):
             # print meta
-            if 'category' == meta.get('property'):
+            if 'category' == meta.get('property') or 'category' == meta.get('name') or 'vr:category' == meta.get('property') or 'article:section' == meta.get('property') or 'channel' == meta.get('name'):
                 python_dict["categories"].append(str(meta.get('content')))
             if 'og:title' == meta.get('property'):
                 python_dict["title"] = str(meta.get('content').encode('utf-8'))
@@ -35,6 +35,8 @@ def element_picker(url):
             if 'description' == meta.get('property') or 'og:description' == meta.get('property') or 'description' == meta.get('name') or 'og:description' == meta.get('name'):
                 python_dict["description"] = str(meta.get('content').encode('utf-8'))
             if 'keywords' == meta.get('property') or 'keywords' == meta.get('itemprop') or 'keywords' == meta.get('name'):
+                python_dict["keywords"].append(str(meta.get('content').encode('utf-8')))
+            elif 'article:tag' == meta.get('property'):
                 python_dict["keywords"].append(str(meta.get('content').encode('utf-8')))
         print python_dict
         print "\n\n\n\n"
