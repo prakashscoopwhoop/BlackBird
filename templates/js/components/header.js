@@ -38,6 +38,7 @@ var Header = React.createClass({
                                 <div onClick={this.getMenu} className="menu">
                                     <img src="https://nb9-stumbleupon.netdna-ssl.com/WcjiEMsHQiBUV9Q-ZK4lDg" />
                                     <div className="name">mrigendra11</div>
+                                    <div ><img src="drop-down-arrow.png"/></div>
                                     <div className="fa fa-angle-down"><img src="drop-down-arrow.png"/></div>
                                     
                                     <div className="dropdown-menu">

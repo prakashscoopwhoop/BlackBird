@@ -7,6 +7,29 @@ var CreateInterest = React.createClass({
 
 	// createInterest_func : function(){
 
+		var newInterest = {
+			sub_category_image : $('#i_url').val(),
+			category_id: $('#i_name').val(),
+			sub_categories: $('#i_category').val()
+		};
+
+
+  $.post("http://0.0.0.0:8889/save_user/"+ JSON.stringify(newUser), function (response) {
+		 	response =JSON.parse(response);
+		 	console.log(response);
+		 	console.log(response.messages);
+		 	if (response.success){
+		 		console.log('welcome');
+		 		// window.localStorage.setItem("userDetail",response.data);
+                window.location = "/dashboard";
+		 	}else
+		 	{
+		 	$('.errorMsg').text(response.messages);
+
+		 	}
+
+		});
+	},	
 	// 	var newInterest = {
 	// 		sub_category image : $('#i_url').val(),
 	// 		category_id: $('#i_name').val(),
@@ -81,7 +104,6 @@ var CreateInterest = React.createClass({
   									<button onClick={this.createInterest_func}>Create Interest</button>
   								</div>
 					</div>
-
 
 					)
 	}
