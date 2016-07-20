@@ -126,7 +126,7 @@ class InterestService:
         return config.db['interests']
     
     def save_interest(self,interest):
-        if self.db().find_one({Interest.SUB_CATEGORY:interest[Interest.SUB_CATEGORY]}) is None:
+        if self.db().find_one({Interest.INTEREST:interest[Interest.INTEREST]}) is None:
             category = CategoryService().db().find_category(interest[Interest.CATEGORY_ID])
             if category is not None:
                 if Interest.KEYWORDS not in interest:
