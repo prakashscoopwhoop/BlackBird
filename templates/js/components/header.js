@@ -20,7 +20,7 @@ var Header = React.createClass({
 				<div>
                     <div className="toolbar">
                         <div className="inner-container">
-                            <div onClick={this.getHMenu} className="menu_"><img src="/Users/Yu/Documents/githubSW/blackbird/BlackBird/templates/images/menu-icon.png"/></div>
+                            <div onClick={this.getHMenu} className="menu_"><img src="menu-icon.png"/></div>
                                 <div className="side-menu">
                                     <a className="side-dropdown-item" href="/createUser" data-track="menu-addinterests">
                                         <span className="menu-text">Create User</span>
@@ -38,7 +38,7 @@ var Header = React.createClass({
                                 <div onClick={this.getMenu} className="menu">
                                     <img src="https://nb9-stumbleupon.netdna-ssl.com/WcjiEMsHQiBUV9Q-ZK4lDg" />
                                     <div className="name">mrigendra11</div>
-                                    <div className="fa fa-angle-down"><img src="/Users/Yu/Documents/githubSW/blackbird/BlackBird/templates/images/drop-down-arrow.png"/></div>
+                                    <div className="fa fa-angle-down"><img src="drop-down-arrow.png"/></div>
                                     
                                     <div className="dropdown-menu">
                                         <a className="dropdown-item" href="/interest"><span className="menu-text">Edit Interests</span></a>

@@ -634,7 +634,7 @@ overflow: scroll;  }
     margin-top: 9px;
 }
 
-.styled-select {
+.styled-select,.select_interest{
  background: url(http://i62.tinypic.com/15xvbd5.png) no-repeat 96% 0;
     height: 29px;
     overflow: hidden;
@@ -643,12 +643,24 @@ overflow: scroll;  }
     height: 34px;
     width: 197px;
     position: absolute;
-    top: 6px;
-    left: 79px;
+ 
     color: #dddddd;
 }
 
-.styled-select select {
+.styled-select{
+       top: 6px;
+    left: 79px;
+}
+
+.select_interest{
+    margin-left: 127px !important;
+    width: 20p !important;
+    width: 303px !important;
+    height: 40px !important;
+
+}
+
+.styled-select,.select_interest select {
    background: transparent;
    border: none;
    font-size: 14px;
@@ -660,6 +672,13 @@ overflow: scroll;  }
    height: 34px;
    width: 268px;
    color: white;
+}
+
+.select_interest select{
+    height: 40px !important;
+    width: 303px !important;
+    color: #a9a5a5 !important;
+    background: white !important;
 }
 
 .menu_ img{
