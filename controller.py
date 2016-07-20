@@ -25,14 +25,14 @@ def stylesheets(filename):
 
 @route('/<filename:re:.*\.(jpg|png|gif|ico)>')
 def images(filename):
-    return static_file(filename, root='templates/images | data')
+    return static_file(filename, root='templates/images')
 
 
 # @route('/<filename:.*\.jpg>')
 # def data_images(filename):
 #     return static_file(filename, root='data')
 
-@route('/<filename:re:.*\.(otf|eot|ttf|woff|svg)>')
+@route('/fonts/<filename:re:.*\.(otf|eot|ttf|woff|woff2|svg)>')
 def fonts(filename):
     return static_file(filename, root='templates/fonts')
 
@@ -63,13 +63,14 @@ def category_wise_interest(category_id):
 
 
 @route('/my_interest/<user_id>')
-def get_user_interest(user_id): 
+def get_user_interest(user_id):
     interest = __user_service.find_user_interests(user_id)
     if interest is not None:
         return RestResponse(interest).to_json()
     else:
         return RestResponse(data={}, status = httplib.NOT_FOUND,
                             messages="user is not found!!", success = False).to_json()
+
 
 @route('/set_interest/<user_id>/<ur_interest>',method='PUT')
 def set_user_interest(user_id,ur_interest):
@@ -79,7 +80,7 @@ def set_user_interest(user_id,ur_interest):
     else:
         return RestResponse(data={}, status = httplib.NOT_FOUND,
                             messages="user is not found!!", success = False).to_json()
-    
+
 @route('/all_category')
 def get_all_categories():
     all_categories =__category_service.find_all_categories()
@@ -93,7 +94,7 @@ def create_user():
 
 @route('/editUser')
 def edit_user():
-    return template('templates/editUser.html')    
+    return template('templates/editUser.html')
 
 @route('/dashboard')
 def dashboard():
@@ -113,9 +114,9 @@ def register_user(user):
         logging.error(e)
         return RestResponse(data={}, status = httplib.BAD_REQUEST,
                             messages="Enter Invalid Inputs ", success = False).to_json()
-                            
 
-@route('/update_user/<user>', method='POST')                            
+
+@route('/update_user/<user>', method='POST')
 def update_user(user):
     try:
         updated_user = __user_service.update_user(user)
@@ -129,13 +130,13 @@ def update_user(user):
                             messages="Enter Invalid Inputs ", success = False).to_json()
 
 
-@route('/all_users')                            
+@route('/all_users')
 def get_all_users():
     users = __user_service.find_all_users()
     return RestResponse(users).to_json()
 
 
-@route('/remove_user/<user_id>',method='DELETE') 
+@route('/remove_user/<user_id>',method='DELETE')
 def remove_user(user_id):
     status =__user_service.remove_user(user_id)
     if status:
@@ -146,7 +147,7 @@ def remove_user(user_id):
                             messages="user is not found", success = False).to_json()
 
 
-@route('/add_interest/<interest>', method='POST')                                                        
+@route('/add_interest/<interest>', method='POST')
 def set_interest(interest):
     try:
         interest = Interest.VALIDATOR.validate(interest)
@@ -159,12 +160,13 @@ def set_interest(interest):
         logging.error(e)
         return RestResponse(data={}, status = httplib.BAD_REQUEST,
                             messages="Enter Invalid Inputs ", success = False).to_json()
-    
+
+
 if __name__ == "__main__":
     __user_service = UserService()
     __interest_service = InterestService()
     __category_service = CategoryService()
-    
+
     run(host='0.0.0.0', port=8889, server='waitress')
     logging.info("server running....")
     

@@ -8,13 +8,12 @@ var CreateInterest = React.createClass({
 	createInterest_func : function(){
 
 		var newInterest = {
-			sub_category image : $('#i_url').val(),
+			sub_category_image : $('#i_url').val(),
 			category_id: $('#i_name').val(),
-			sub_categories: $('#i_category').val(),
-			
-		
-		}
-		
+			sub_categories: $('#i_category').val()
+		};
+
+
   $.post("http://0.0.0.0:8889/save_user/"+ JSON.stringify(newUser), function (response) {
 		 	response =JSON.parse(response);
 		 	console.log(response);
@@ -53,7 +52,6 @@ var CreateInterest = React.createClass({
   									<button onClick={this.createInterest_func}>Create Interest</button>
   								</div>
 					</div>
-
 
 					)
 	}
