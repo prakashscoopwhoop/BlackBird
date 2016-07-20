@@ -1,9 +1,9 @@
 from bottle import route, run, static_file, template, error
-from app.service import UserService,InterestService
+from app.service import UserService,InterestService, CategoryService
 from app.utils import RestResponse
 from app.config import logging
 import httplib
-from app.validator import User
+from app.validator import User,Interest
 
 
 #Error handler
@@ -56,11 +56,9 @@ def interest_page():
     return template('templates/interest.html')
 
 
-@route('/interest/<category>')
-def category_wise_interest(category):
-    if '-' in category:
-        category = category.replace('-','/')
-    interests = __interest_service.find_interests_by_category(category)
+@route('/interest/<category_id>')
+def category_wise_interest(category_id):
+    interests = __interest_service.find_interests_by_category(category_id)
     return RestResponse(interests).to_json()
 
 
@@ -84,7 +82,7 @@ def set_user_interest(user_id,ur_interest):
     
 @route('/all_category')
 def get_all_categories():
-    all_categories =__interest_service.find_all_categories()
+    all_categories =__category_service.find_all_categories()
     return RestResponse(all_categories).to_json()
 
 
@@ -110,7 +108,7 @@ def register_user(user):
         if saved_user is None:
             return RestResponse(data={}, status = httplib.CONFLICT,
                             messages="Username already exists!!", success = False).to_json()
-        return RestResponse(user).to_json()
+        return RestResponse(saved_user).to_json()
     except Exception as e:
         logging.error(e)
         return RestResponse(data={}, status = httplib.BAD_REQUEST,
@@ -124,7 +122,7 @@ def update_user(user):
         if updated_user is None:
             return RestResponse(data={}, status = httplib.NOT_FOUND,
                             messages="user is not exists!!", success = False).to_json()
-        return RestResponse(user).to_json()
+        return RestResponse(updated_user).to_json()
     except Exception as e:
         logging.error(e)
         return RestResponse(data={}, status = httplib.BAD_REQUEST,
@@ -146,10 +144,27 @@ def remove_user(user_id):
     else:
         return RestResponse(data={}, status = httplib.NOT_FOUND,
                             messages="user is not found", success = False).to_json()
+
+
+@route('/add_interest/<interest>', method='POST')                                                        
+def set_interest(interest):
+    try:
+        interest = Interest.VALIDATOR.validate(interest)
+        saved_interest = __interest_service.save_interest(interest)
+        if saved_interest is None:
+            return RestResponse(data={}, status = httplib.CONFLICT,
+                            messages="sub_category already exists or relative category not exists !!", success = False).to_json()
+        return RestResponse(saved_interest).to_json()
+    except Exception as e:
+        logging.error(e)
+        return RestResponse(data={}, status = httplib.BAD_REQUEST,
+                            messages="Enter Invalid Inputs ", success = False).to_json()
     
 if __name__ == "__main__":
     __user_service = UserService()
     __interest_service = InterestService()
+    __category_service = CategoryService()
+    
     run(host='0.0.0.0', port=8889, server='waitress')
     logging.info("server running....")
     

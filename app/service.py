@@ -1,4 +1,4 @@
-from app.validator import User, Interest, Story
+from app.validator import User, Interest, Story,Category
 from app.utils import encrypt_password
 from app import config
 from app.config import PAGE_SIZE
@@ -126,13 +126,22 @@ class InterestService:
         return config.db['interests']
     
     def save_interest(self,interest):
-        interest_id = self.db().save(interest)
-        interest[Interest.ID]= str(interest_id)
-        return interest
+        if self.db().find_one({Interest.SUB_CATEGORY:interest[Interest.SUB_CATEGORY]}) is None:
+            category = CategoryService().db().find_category(interest[Interest.CATEGORY_ID])
+            if category is not None:
+                if Interest.KEYWORDS not in interest:
+                    interest[Interest.KEYWORDS] = []
+                interest_id = self.db().save(interest)
+                interest[Interest.ID]= str(interest_id)
+                return interest
+            else:
+                return
+        else:
+            return
     
-    def find_interests_by_category(self,category):
+    def find_interests_by_category(self,category_id):
         catagory_data = []
-        interests = self.db().find({Interest.CATEGORY:category})
+        interests = self.db().find({Interest.CATEGORY_ID:category_id})
         for interest in interests:
             interest[Interest.ID]= str(interest[Interest.ID])
             catagory_data.append(interest)
@@ -152,17 +161,51 @@ class InterestService:
                 interest_data.append(interest)
         return interest_data
     
+    
+class CategoryService:
+    
+    def db(self):
+        return config.db['categories']
+    
     def find_all_categories(self):
         all_categories = []
         categories = self.db().find()
         for category in categories:
-            if category[Interest.CATEGORY] not in all_categories:
-                all_categories.append(category[Interest.CATEGORY])
-        return all_categories
-
+            category[Category.ID] = str(category[Category.ID])
+            all_categories.append(category)
+        return all_categories 
+    
+    def save_category(self,category):
+        if self.db().find_one({Category.CATEGORY:category}) is None:
+            category_id = self.db().save(category)
+            category[Category.ID]= str(category_id)
+            return category
+        else:
+            return 
+        
+    def find_category_by_name(self,name):
+        name = name.lower()
+        category =  self.db().find_one({Category.CATEGORY:name})
+        if category is not None:
+            category[Category.ID] = str(category[Category.ID])
+            return category
+        return
+    
+    def find_category(self,category_id):
+        if category_id is not isinstance(category_id, ObjectId):
+            category_id = ObjectId(category_id)
+        return self.db().find_one(category_id)
+    
+    def remove_category(self,category_id):
+        categoty = self.find_category(category_id)
+        if categoty is None:
+            return False
+        self.db().remove(categoty[Category.ID])
+        return True 
+    
 
 class StoryService:
-
+    
     def db(self):
         return config.db['stories']
 

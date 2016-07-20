@@ -8,6 +8,7 @@ var CreateUser = require('./components/createUser');
 var EditUser = require('./components/editUser');
 var Dashboard = require('./components/dashboard');
 var Error = require('./components/error');
+var CreateInterest = require('./components/createInterest');
 
 
 
@@ -29,7 +30,9 @@ switch(state){
 				  		  break;
 	case "dashboard"	  : loadDashboardScreen();
 						  break;			  		  				  		  		  		  			  		  
-    case "error" 	  : loadErrorScreen();
+    case "error" 	  	  : loadErrorScreen();
+						  break;
+	case "createInterest" : LoadCreateInterestScreen();
 						  break;
 
 	default				  : break;
@@ -134,3 +137,26 @@ function loadErrorScreen(){
 	});
 	ReactDOM.render(<ErrorScreen />, document.getElementById("error"));
 }
+
+
+
+function LoadCreateInterestScreen(){
+	var CreateInterestScreen= React.createClass({
+		render : function(){
+			return(
+			<div>
+			 <Header />
+				<CreateInterest />
+			</div>
+			);
+		}
+	});
+	ReactDOM.render(<CreateInterestScreen />, document.getElementById("createInterest"));
+}
+
+
+
+
+
+
+
