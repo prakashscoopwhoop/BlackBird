@@ -11,9 +11,6 @@ var Error = require('./components/error');
 var CreateInterest = require('./components/createInterest');
 
 
-
-
-
 switch(state){
 
 	case "header" 		  : loadHeaderScreen();

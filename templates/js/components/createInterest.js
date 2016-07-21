@@ -5,55 +5,38 @@ var $ = require("jquery");
 var CreateInterest = React.createClass({
 
 
-	// createInterest_func : function(){
+	createInterest_func : function(){
 
 		var newInterest = {
-			sub_category_image : $('#i_url').val(),
-			category_id: $('#i_name').val(),
-			sub_categories: $('#i_category').val()
+			image : $('#i_url').val(),
+			interest: $('#i_name').val(),
+			keywords: [],
+			category_id: $('.select_').val()
 		};
+		console.log(newInterest);
 
 
-  $.post("http://0.0.0.0:8889/save_user/"+ JSON.stringify(newUser), function (response) {
-		 	response =JSON.parse(response);
-		 	console.log(response);
-		 	console.log(response.messages);
-		 	if (response.success){
-		 		console.log('welcome');
-		 		// window.localStorage.setItem("userDetail",response.data);
-                window.location = "/dashboard";
-		 	}else
-		 	{
-		 	$('.errorMsg').text(response.messages);
+		$.ajax({
+			   type: "POST",
+			   url: "http://0.0.0.0:8889/add_interest/",
+			   data: JSON.stringify(newInterest),
+			   contentType: "application/json; charset=utf-8",
+			   dataType: "json",
+			   success: function(data){
+			       console.log(data);
+			   },
+			   failure: function(err) {
+			       console.log(err);
+			   }
+});
+ 
 
-		 	}
-
-		});
+	//   $.post("http://0.0.0.0:8889/add_interest/" + JSON.stringify(newInterest), function (response) {
+	// 		 	// response =JSON.parse(response);
+	// 		 	console.log(response);
+	// 		});
 	},	
-	// 	var newInterest = {
-	// 		sub_category image : $('#i_url').val(),
-	// 		category_id: $('#i_name').val(),
-	// 		sub_categories: $('#i_category').val(),
-			
-		
-	// 	}
-		
- //  $.post("http://0.0.0.0:8889/save_user/"+ JSON.stringify(newUser), function (response) {
-	// 	 	response =JSON.parse(response);
-	// 	 	console.log(response);
-	// 	 	console.log(response.messages);
-	// 	 	if (response.success){
-	// 	 		console.log('welcome');
-	// 	 		// window.localStorage.setItem("userDetail",response.data);
- //                window.location = "/dashboard";
-	// 	 	}else
-	// 	 	{
-	// 	 	$('.errorMsg').text(response.messages);
-
-	// 	 	}
-
-	// 	});
-	// },	
+	
 
 	interest_list_func : function(){
 
@@ -63,9 +46,10 @@ var CreateInterest = React.createClass({
 
 			for (var i = 0; i < response.data.length; i++) { 
 			
- 				console.log(response.data[i])
- 				console.log(i)
+ 				// console.log(response.data[i])
+ 				// console.log(i)
  				
+ 				$(".select_").append('<option value="'+response.data[i]._id+'">'+response.data[i].category+'</option>')
  				
 			}
 			
@@ -91,11 +75,8 @@ var CreateInterest = React.createClass({
 									<label>Category:</label>
 									<div className="select_interest" onClick={this.interest_list_func}>
 										
-										<select>
-										  <option value="volvo">Sports</option>
-										  <option value="saab">Music</option>
-										  <option value="opel">Books</option>
-										  <option value="audi">News</option>
+										<select className="select_">
+												<option value="null">-----select-----</option>
 										</select>
 										
 									</div>
