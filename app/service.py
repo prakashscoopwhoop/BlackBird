@@ -211,7 +211,7 @@ class StoryService:
         return config.db['stories']
 
     def save_story(self,story):
-        if self.db().find_one({Story.UUID:story[Story.UUID]}) is None :
+        if self.db().find_one({Story.UUID:story[Story.UUID]}) is None:
             story_id = self.db().save(story)
             story[Story.ID] = str(story_id)
             return story
