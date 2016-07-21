@@ -1,4 +1,4 @@
-from bottle import route, run, static_file, template, error
+from bottle import route, run, static_file, template, error,request
 from app.service import UserService,InterestService, CategoryService
 from app.utils import RestResponse
 from app.config import logging
@@ -97,7 +97,7 @@ def dashboard():
     return template('templates/dashboard.html')
 
 @route('/createInterest')
-def interest_page():
+def add_interest_page():
     return template('templates/createInterest.html')
 
 
@@ -147,14 +147,15 @@ def remove_user(user_id):
                             messages="user is not found", success = False).to_json()
 
 
-@route('/add_interest/<interest>', method='POST')
+@route('/add_interest/', method='POST')
 def set_interest(interest):
     try:
+        interest = request.json
         interest = Interest.VALIDATOR.validate(interest)
         saved_interest = __interest_service.save_interest(interest)
         if saved_interest is None:
             return RestResponse(data={}, status = httplib.CONFLICT,
-                            messages="sub_category already exists or relative category not exists !!", success = False).to_json()
+                            messages="interest already exists or relative category not exists !!", success = False).to_json()
         return RestResponse(saved_interest).to_json()
     except Exception as e:
         logging.error(e)
