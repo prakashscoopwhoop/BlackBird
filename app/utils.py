@@ -1,6 +1,6 @@
 import hashlib
 import httplib
-import json
+import json,os,urllib
 
 salt = "swblackbird"
 
@@ -31,3 +31,16 @@ class RestResponse:
         :return json-encoded.
         '''
         return json.dumps(self.__entity)
+    
+    
+def download_images_locally(url):
+    
+    cwd = os.getcwd()
+    if not os.path.exists('../templates/images'):
+        os.makedirs('../templates/images')
+    filename = url.split('/')[-1]+".jpg"
+    os.chdir('../templates/images')
+    image_path =  os.getcwd()
+    urllib.urlretrieve(url, filename)
+    os.chdir(cwd)
+    return image_path +"/"+ filename

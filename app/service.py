@@ -1,5 +1,5 @@
 from app.validator import User, Interest, Story,Category
-from app.utils import encrypt_password
+from app.utils import encrypt_password, download_images_locally
 from app import config
 from app.config import PAGE_SIZE
 from bson.objectid import ObjectId
@@ -126,11 +126,13 @@ class InterestService:
         return config.db['interests']
     
     def save_interest(self,interest):
+        interest = interest[Interest.INTEREST].lower()
         if self.db().find_one({Interest.INTEREST:interest[Interest.INTEREST]}) is None:
             category = CategoryService().find_category(interest[Interest.CATEGORY_ID])
             if category is not None:
                 if Interest.KEYWORDS not in interest:
                     interest[Interest.KEYWORDS] = []
+                interest[Interest.IMAGE]=download_images_locally(interest[Interest.IMAGE])
                 interest_id = self.db().save(interest)
                 interest[Interest.ID]= str(interest_id)
                 return interest

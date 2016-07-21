@@ -26,13 +26,13 @@ class Interest:
     INTEREST = 'interest'
     KEYWORDS = 'keywords'
     
-    VALIDATOR = Schema(And(Use(json.loads), {
+    VALIDATOR = Schema({
     Optional(ID):object,
     CATEGORY_ID:basestring,
     INTEREST:basestring,
     IMAGE:basestring,
     Optional(KEYWORDS):[]
-    }))
+    })
 
 class Story:
     ID = '_id'
