@@ -113,7 +113,7 @@ componentDidMount: function() {
               return (
                     <div className="interest_container_div" >
                       <img src={item.image}></img>
-                      <div className="name">{item.sub_category}</div>
+                      <div className="name">{item.interest}</div>
                       <div id={item._id} className="check"><input type="checkbox"></input></div>
                     </div>
               )

@@ -28,10 +28,6 @@ def images(filename):
     return static_file(filename, root='templates/images')
 
 
-@route('/<filename:.*\.jpg>')
-def data_images(filename):
-    return static_file(filename, root='data')
-
 @route('/fonts/<filename:re:.*\.(otf|eot|ttf|woff|woff2|svg)>')
 def fonts(filename):
     return static_file(filename, root='templates/fonts')

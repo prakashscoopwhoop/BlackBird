@@ -78,10 +78,6 @@ var Dashboard = React.createClass({
 								</div>
 
 								<div className="shareIcons">
-
-									<img src="fb-icon.png"/>
-									<img src="twitter-icon.png"/>
-									<img src="google_icon.png"/>
 									<img src="facebook_share.png"/>
 									<img src="twitter_share.png"/>
 									<img src="gplus_share.png"/>
