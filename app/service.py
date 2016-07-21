@@ -126,7 +126,9 @@ class InterestService:
         return config.db['interests']
     
     def save_interest(self,interest):
-        interest = interest[Interest.INTEREST].lower()
+        print interest
+        interest[Interest.INTEREST] = interest[Interest.INTEREST].lower()
+        
         if self.db().find_one({Interest.INTEREST:interest[Interest.INTEREST]}) is None:
             category = CategoryService().find_category(interest[Interest.CATEGORY_ID])
             if category is not None:

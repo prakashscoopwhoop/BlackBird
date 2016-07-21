@@ -148,9 +148,10 @@ def remove_user(user_id):
 
 
 @route('/add_interest/', method='POST')
-def set_interest(interest):
+def set_interest():
     try:
         interest = request.json
+        print interest
         interest = Interest.VALIDATOR.validate(interest)
         saved_interest = __interest_service.save_interest(interest)
         if saved_interest is None:
