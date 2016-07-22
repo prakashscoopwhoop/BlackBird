@@ -1,6 +1,7 @@
 import json
 import time
 from datetime import datetime
+import re
 from urlparse import urlparse
 import urllib2
 from bs4 import BeautifulSoup
@@ -18,14 +19,12 @@ def watching_stories(domain_list):
     db_category_list = __category_service.find_all_categories()
     db_interest_list = __interest_service.find_all_interests()
     for domain in domain_list:
-        r = requests.get("https://api.newswhip.com/v1/publisher/" + domain + "/1?key="+newswhip_key)
+        r = requests.get("https://api.newswhip.com/v1/publisher/" + domain + "/2?key="+newswhip_key)
         # r = requests.get("https://api.newswhip.com/v1/region/india/sports/24?key="+newswhip_key)
         response = json.loads(r.text)
-        print domain
         for item in response['articles']:
             article_info = domparser.element_picker(item['link'].encode('utf-8'))
             if article_info['title'] is not None or article_info['feature_image'] is not None or article_info['url'] is not None:
-                print article_info
                 article = {'title': '', 'url': '', 'description': '', 'keywords': '', 'feature_image': '','New_score': '',
                         'max_new_score': '', 'fb_like': '', 'tweet_count': '', 'publisher': '', "uuid": '', 'published': '',
                            'category': [], 'interest': [], 'fetch': ''}
@@ -61,8 +60,16 @@ def watching_stories(domain_list):
                 article['uuid'] = item['uuid']
                 article['published'] = time.strftime('%Y-%m-%d %H:%M', time.localtime(item['publication_timestamp']/1000.0))
                 article['fetch'] = datetime.strftime(datetime.now(), "%Y-%m-%d")
+
+                dummy_category = []
+                for i in article_info['category']:
+                    split_list = i.split(',')
+                    for itr in split_list:
+                        if itr not in dummy_category:
+                            dummy_category.append(itr.lower())
+
+                article_info['category'] = dummy_category
                 if not any(category['category'] in article_info['category'] for category in db_category_list):
-                    print article_info['category']
                     for item in article_info['category']:
                         for interest in db_interest_list:
                             if item == interest['interest']:
@@ -72,8 +79,16 @@ def watching_stories(domain_list):
                                     if interest['category_id'] == category['_id'] and category['category'] not in article['category']:
                                         article['category'].append(category['category'])
                 else:
-                    print "else", article_info['category']
+                    if article_info['keywords'] is not None:
+                        for interest in db_interest_list:
+                            rx = r'\b{0}\b'.format(interest['interest'].lower())
+                            pattern = re.compile(rx)
+                            match_group = pattern.findall(''.join(map(str, (article_info['keywords'][0]).lower())))
+                            if match_group:
+                                if interest not in article['interest']:
+                                    article['interest'].append(interest['interest'])
                     article['category'] = article_info['category']
+
                 if article['interest']:
                     article['status'] = True
                 else:

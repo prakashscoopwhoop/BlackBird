@@ -33,7 +33,8 @@ def element_picker(url):
                 if 'description' == meta.get('property') or 'og:description' == meta.get('property') or 'description' == meta.get('name') or 'og:description' == meta.get('name'):
                     python_dict["description"] = str(meta.get('content').encode('utf-8'))
                 if 'keywords' == meta.get('property') or 'keywords' == meta.get('itemprop') or 'keywords' == meta.get('name'):
-                    python_dict["keywords"].append(str(meta.get('content').encode('utf-8')))
+                    if str(meta.get('content').encode('utf-8')).strip() not in python_dict['keywords']:
+                        python_dict["keywords"].append(str(meta.get('content').encode('utf-8')).strip())
                 elif 'article:tag' == meta.get('property'):
                     python_dict["keywords"].append(str(meta.get('content').encode('utf-8')))
             return python_dict
