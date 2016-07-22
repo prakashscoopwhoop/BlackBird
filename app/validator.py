@@ -50,6 +50,7 @@ class Story:
     PUBLISHED = 'published'
     FETCH = 'fetch'
     CATEGORY = 'category'
+    STATUS = 'status'
 
     VALIDATOR = Schema(And(Use(json.loads), {
     Optional(ID):object,
@@ -66,7 +67,8 @@ class Story:
     UUID:basestring,
     PUBLISHED:basestring,
     FETCH:basestring,
-    CATEGORY:basestring
+    CATEGORY:basestring,
+    STATUS:bool
     }))
     
 class Category:

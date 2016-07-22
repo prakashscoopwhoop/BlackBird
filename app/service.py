@@ -126,7 +126,7 @@ class InterestService:
         return config.db['interests']
     
     def save_interest(self,interest):
-        print interest
+        # print interest
         interest[Interest.INTEREST] = interest[Interest.INTEREST].lower()
         
         if self.db().find_one({Interest.INTEREST:interest[Interest.INTEREST]}) is None:
@@ -155,8 +155,7 @@ class InterestService:
         if interest_id is not isinstance(interest_id, ObjectId):
             interest_id = ObjectId(interest_id)
         return self.db().find_one(interest_id)
-    
-  
+
     def find_my_interests(self,interests):
         interest_data = []
         for ins_id in interests:
@@ -164,8 +163,16 @@ class InterestService:
             if interest is not None:
                 interest_data.append(interest)
         return interest_data
-    
-    
+
+    def find_all_interests(self):
+        all_interests = []
+        interests = self.db().find()
+        for interest in interests:
+            interest[Interest.ID] = str(interest[Interest.ID])
+            all_interests.append(interest)
+        return all_interests
+
+
 class CategoryService:
     
     def db(self):

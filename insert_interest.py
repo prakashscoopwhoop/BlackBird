@@ -1,7 +1,7 @@
-import csv,os
-from pymongo import MongoClient
-import urllib
+import csv
+import os
 from app.service import CategoryService, InterestService
+from pymongo import MongoClient
 
 
 def read_file(file_to_analyze):
@@ -34,33 +34,23 @@ def read_file(file_to_analyze):
         os.remove('temp.csv')
     return records, interests
 
-
-def download_images_locally(url):
-    cwd = os.getcwd()
-    if not os.path.exists('templates/images'):
-        os.makedirs('templates/images')
-    filename = url.split('/')[-1]+".jpg"
-    os.chdir('templates/images')
-    image_path = os.getcwd()
-    urllib.urlretrieve(url, filename)
-    os.chdir(cwd)
-    return filename
-
 if __name__ == "__main__":
+
     client = client = MongoClient()
     db = client.blackbird
-    col_name = db.categories
-    interest_col = db.interests
+    col_name = db.interests
+
     __category_service = CategoryService()
     __interest_service = InterestService()
     (to_insert, to_interest) = read_file("stumleupon.csv")
     for row in to_insert:
         __category_service.save_category(row)
     for row in to_interest:
-        row['image'] = download_images_locally(row['image'])
-        category_info = __category_service.find_category_by_name(row['category'])
-        row['category_id'] = str(category_info['_id'])
-        del row['category']
-        __interest_service.save_interest(row)
-        # print row
+        check_row = col_name.find_one({'interest': row['interest']})
+        if check_row is None:
+            category_info = __category_service.find_category_by_name(row['category'])
+            row['category_id'] = str(category_info['_id'])
+            del row['category']
+            __interest_service.save_interest(row)
+            print row
     print "insert successfully..."

@@ -40,7 +40,7 @@ def download_images_locally(url):
         os.makedirs('templates/images')
     filename = url.split('/')[-1]+".jpg"
     os.chdir('templates/images')
-    image_path =  os.getcwd()
+    image_path = os.getcwd()
     urllib.urlretrieve(url, filename)
     os.chdir(cwd)
-    return image_path +"/"+ filename
+    return filename
