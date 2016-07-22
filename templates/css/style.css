@@ -659,7 +659,7 @@ cursor: pointer;
 
 }
 
-.styled-select,.select_interest select {
+.styled-select select ,.select_interest select {
    background: transparent;
    border: none;
    font-size: 14px;

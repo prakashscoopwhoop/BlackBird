@@ -22,19 +22,13 @@ var CreateInterest = React.createClass({
 			   data: JSON.stringify(newInterest),
 			   contentType: "application/json; charset=utf-8",
 			   dataType: "json",
-			   success: function(data){
-			       console.log(data);
-			   },
-			   failure: function(err) {
-			       console.log(err);
-			   }
-});
- 
-
-	//   $.post("http://0.0.0.0:8889/add_interest/" + JSON.stringify(newInterest), function (response) {
-	// 		 	// response =JSON.parse(response);
-	// 		 	console.log(response);
-	// 		});
+				   success: function(data){
+				       console.log(data);
+				   },
+				   failure: function(err) {
+				       console.log(err);
+				   }
+				});
 	},	
 	
 
@@ -45,15 +39,9 @@ var CreateInterest = React.createClass({
 			response =JSON.parse(data);
 
 			for (var i = 0; i < response.data.length; i++) { 
-			
- 				// console.log(response.data[i])
- 				// console.log(i)
- 				
- 				$(".select_").append('<option value="'+response.data[i]._id+'">'+response.data[i].category+'</option>')
- 				
-			}
-			
 		
+ 				$(".select_").append('<option value="'+response.data[i]._id+'">'+response.data[i].category+'</option>')
+ 			}
 		})
 
 	},
