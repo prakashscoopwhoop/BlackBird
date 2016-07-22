@@ -1,5 +1,6 @@
 from bottle import route, run, static_file, template, error,request
-from app.service import UserService,InterestService, CategoryService
+from app.service import UserService,InterestService, CategoryService,\
+    StoryService
 from app.utils import RestResponse
 from app.config import logging
 import httplib
@@ -162,12 +163,20 @@ def set_interest():
         logging.error(e)
         return RestResponse(data={}, status = httplib.BAD_REQUEST,
                             messages="Enter Invalid Inputs ", success = False).to_json()
+     
+     
+@route('/get_article/<interest_id>')                       
+def get_article_by_interest_wise(interest_id):
+    interest = __interest_service.find_interest(interest_id)
+    articles = __story_service.get_stories(interest[Interest.INTEREST])
+    return RestResponse(articles).to_json()
 
 
 if __name__ == "__main__":
     __user_service = UserService()
     __interest_service = InterestService()
     __category_service = CategoryService()
-
+    __story_service = StoryService()
+    
     run(host='0.0.0.0', port=8889, server='waitress')
     logging.info("server running....")
