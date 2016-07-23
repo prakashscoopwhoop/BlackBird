@@ -55,7 +55,9 @@ class UserService:
     def find_user(self,user_id):
         if user_id is not isinstance(user_id, ObjectId):
             user_id = ObjectId(user_id)
-        return self.db().find_one(user_id)
+        user = self.db().find_one(user_id)
+        user[User.ID] = str(user[User.ID])
+        return user
     
     def find_all_users(self):
         user_dto =[]
@@ -126,7 +128,6 @@ class InterestService:
         return config.db['interests']
     
     def save_interest(self,interest):
-        # print interest
         interest[Interest.INTEREST] = interest[Interest.INTEREST].lower()
         
         if self.db().find_one({Interest.INTEREST:interest[Interest.INTEREST]}) is None:
@@ -161,6 +162,7 @@ class InterestService:
         for ins_id in interests:
             interest = self.find_interest(ins_id)
             if interest is not None:
+                interest[Interest.ID] = str(interest[Interest.ID])
                 interest_data.append(interest)
         return interest_data
 
@@ -186,7 +188,7 @@ class CategoryService:
             all_categories.append(category)
         return all_categories 
     
-    def save_category(self,category):
+    def save_category(self, category):
         if self.db().find_one({Category.CATEGORY:category[Category.CATEGORY]}) is None:
             category_id = self.db().save(category)
             category[Category.ID]= str(category_id)

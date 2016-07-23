@@ -71,6 +71,7 @@ def get_user_interest(user_id):
 
 @route('/set_interest/<user_id>/<ur_interest>',method='PUT')
 def set_user_interest(user_id,ur_interest):
+    ur_interest = ur_interest.split(',')
     user = __user_service.add_user_interest(user_id, ur_interest)
     if user is not None:
         return RestResponse(user).to_json()
