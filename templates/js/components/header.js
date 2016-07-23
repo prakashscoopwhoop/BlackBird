@@ -3,6 +3,29 @@ var ReactDOM = require('react-dom');
 var $ = require("jquery");
 
 var Header = React.createClass({
+    getInitialState:function(){
+
+          loggedIn = JSON.parse(window.localStorage.getItem("userDetail"));
+
+          complete: (!!this.props.complete) || false
+              if(loggedIn=== null || loggedIn=== undefined){
+                  window.location = "/";
+              }else{
+
+                    if (loggedIn.success === true){
+
+                        return{
+                  				intrestData  : [],
+                                intDataLoded : false,
+                                catData      : [],
+                                catDataLoded : false
+                  			}
+
+				            }else{
+            				window.location = "/";
+            				}
+            }
+  		},
  	getHMenu: function(){
         $(".side-menu").toggle();
     },
@@ -37,8 +60,8 @@ var Header = React.createClass({
                                 </div>
                                 <div onClick={this.getMenu} className="menu">
                                     <img src="https://nb9-stumbleupon.netdna-ssl.com/WcjiEMsHQiBUV9Q-ZK4lDg" />
-                                    <div className="name">mrigendra11</div>
-                                    <div ><img src="drop-down-arrow.png"/></div>
+                                    <div className="name">{loggedIn.data.first_name}</div>
+                                    <div><img className="dropdown-img" src="drop-down-arrow.png"/></div>
                                     
                                     <div className="dropdown-menu">
                                         <a className="dropdown-item" href="/interest"><span className="menu-text">Edit Interests</span></a>

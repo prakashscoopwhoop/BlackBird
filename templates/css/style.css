@@ -138,15 +138,15 @@ body a{
 {
     /*list-style-type: none;*/
     /*width: auto !important;*/
-    display: inline-block !important;
+    display: inline-block ;
     float: left;
     padding: 8px 0 0 0;
 
 }
 
-.click-target{ color:#787f87;cursor:pointer; text-align:center; border-bottom: 2px solid transparent;}
+.click-target{ color:#787f87;cursor:pointer; text-align:center; border-bottom: 2px solid transparent; padding: 0 5px; margin: 0 15px;}
 
-.click-target:active, .click-active{ border-bottom: 2px solid #787878;
+.click-target:active, .click-active{ border-bottom: 2px solid #787878; padding: 0 5px; margin: 0 15px;
     font-weight: bold; text-align:center; cursor:pointer;
     color: #787878;}
 
@@ -632,7 +632,7 @@ cursor: pointer;
     display: inline-block;
     margin-top: 9px;
 }
-
+/*
 .styled-select,.select_interest{
  background: url(http://i62.tinypic.com/15xvbd5.png) no-repeat 96% 0;
     height: 29px;
@@ -645,12 +645,12 @@ cursor: pointer;
  
     color: #dddddd;
 }
-
+*/
 .styled-select{
-       top: 6px;
-    left: 79px;
+       top: 2px;
+    left: 79px; position: absolute;
 }
-
+/*
 .select_interest{
     margin-left: 127px !important;
     width: 20p !important;
@@ -664,7 +664,7 @@ cursor: pointer;
    border: none;
    font-size: 14px;
    height: 29px;
-   padding: 5px; /* If you add too much padding here, the options won't show in IE */
+   padding: 5px;
    width: 268px;
    border: 1px solid #ccc;
    font-size: 16px;
@@ -679,8 +679,24 @@ cursor: pointer;
     color: #a9a5a5 !important;
     background: white !important;
 }
-
+*/
 .menu_ img{
         width: 41px;
 }
+.dropdown-img{ float:right !important;}
 
+
+.styled-select select {
+  font-size: 14px;
+    color: #f2f2f2;
+    margin: 5px;
+    background: -webkit-linear-gradient(270deg, #4f4f4f 0%, #323232 100%);
+    background: -moz-linear-gradient(270deg, #4f4f4f 0%, #323232 100%);
+    background: -o-linear-gradient(270deg, #4f4f4f 0%, #323232 100%);
+    background: -ms-linear-gradient(270deg, #4f4f4f 0%, #323232 100%);
+    background: linear-gradient(180deg, #4f4f4f 0%, #323232 100%);
+    border: solid 1px #292929;
+    line-height: 31px;
+    padding-right: 5px;
+    position: relative; width:180px; cursor:pointer; height:34px;text-transform: capitalize; outline:none;
+}

@@ -3,25 +3,62 @@ var ReactDOM = require('react-dom');
 var $ = require("jquery");
 
 var Dashboard = React.createClass({
-	
-	render: function(){
 
+    getInitialState:function(){
+            loggedIn = JSON.parse(window.localStorage.getItem("userDetail"));
+            if(loggedIn=== null || loggedIn=== undefined){
+            return null;
+            }else{
+            if (loggedIn.success === true){
+                if (loggedIn.data.interest.length <=0)
+                {
+                window.location = "/interest";
+                }
+                else{
+                return{
+                    interestData  : [],
+                    intDataLoaded : false
+                    }
+                }
+				}
+            }
+            return null;
+		},
+	componentDidMount: function() {
+
+          $.get("http://0.0.0.0:8889/my_interest/"+loggedIn.data._id, function(result) {
+            console.log(JSON.parse(result).data);
+            if (this.isMounted()) {
+                  this.setState({
+                    interestData  : JSON.parse(result).data,
+                    intDataLoaded : true
+                  });
+            }
+
+          }.bind(this));
+    },
+	render: function(){
+        var optionList = [];
 		return(
 			<div>
 					<div className="styled-select ">
-							
-							<select>
-							  <option value="volvo">Sports</option>
-							  <option value="saab">Music</option>
-							  <option value="opel">Books</option>
-							  <option value="audi">News</option>
+
+                            {
+                                  this.state.intDataLoaded ? this.state.interestData.map(function(item,i){
+                                    optionList.push(<option key={i} id={item._id} value={item._id} >{item.interest}</option>)
+                                  }) : null
+                                 }
+                            <select>
+                            <option id="all" value="all">all</option>
+                                {optionList}
 							</select>
-							
+
+
 						</div>
 
 				<div className="dashboard">
 
-						<div className="cUserText">Blackbird Dashboard</div>
+						<div className="cUserText">Dashboard</div>
 				</div>
 				
 

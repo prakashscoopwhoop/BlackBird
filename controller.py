@@ -79,6 +79,7 @@ def set_user_interest(user_id,ur_interest):
         return RestResponse(data={}, status = httplib.NOT_FOUND,
                             messages="user is not found!!", success = False).to_json()
 
+
 @route('/all_category')
 def get_all_categories():
     all_categories =__category_service.find_all_categories()
@@ -153,7 +154,6 @@ def remove_user(user_id):
 def set_interest():
     try:
         interest = request.json
-        print interest
         interest = Interest.VALIDATOR.validate(interest)
         saved_interest = __interest_service.save_interest(interest)
         if saved_interest is None:

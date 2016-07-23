@@ -19,10 +19,13 @@ var Interest = React.createClass({
                     if (loggedIn.success === true){
                         			
                         return{
-                  				      intrestData  : [],
+                  				intrestData  : [],
                                 intDataLoded : false,
                                 catData      : [],
-                                catDataLoded : false
+                                catDataLoded : false,
+//                                myInterestExists: false
+                                myInterestData: [],
+                                myIntDataLoaded : false
                   			}
 
 				            }else{
@@ -32,7 +35,18 @@ var Interest = React.createClass({
   		},
 
     componentDidMount: function() {
-         
+
+          $.get("http://0.0.0.0:8889/my_interest/"+loggedIn.data._id, function(result) {
+          if(JSON.parse(result).data.length>0){
+          myInterestExists:true;
+            $("#my_interest").show();
+          }else{
+          myInterestExists:false;
+            $("#my_interest").hide();
+          }
+          }),
+
+
           $.get("http://0.0.0.0:8889/all_category", function(result) {
           
             if (this.isMounted()) {
@@ -62,57 +76,64 @@ var Interest = React.createClass({
           if (this.isMounted()) {
                 this.setState({
                   catData      : JSON.parse(result).data,
-                  catDataLoded : true
+                  catDataLoded : true,
+                  myIntDataLoaded : false
                 });
               }
           }.bind(this)); 
      },
 
-     logout :function(){
-        console.log($(this));
+     loadMyInterest :function(){
+            $.get("http://0.0.0.0:8889/my_interest/"+loggedIn.data._id, function(result) {
+            console.log(JSON.parse(result).data);
+            if (this.isMounted()) {
+                  this.setState({
+                    myInterestData  : JSON.parse(result).data,
+                    myIntDataLoaded : true,
+                    catDataLoded    : false
+                  });
+            }
+
+          }.bind(this));
      },
 
-    choose_interest : function(id){
+    chooseInterest : function(id){
 
-          console.log(id)
-          console.log(loggedIn.data._id)
+          console.log(id);
+          console.log(loggedIn.data._id);
 
-          var userId=loggedIn.data._id
-          var interestId=id
-         
+          var userId=loggedIn.data._id;
+          var interestId=id;
+          var ar = [];
+          ar.push(id);
 
 
               $.ajax({
                    type: "PUT",
-                   url: "http://0.0.0.0:8889/set_interest/"+loggedIn.data._id+"/"+id,
+                   url: "http://0.0.0.0:8889/set_interest/"+loggedIn.data._id+"/"+ar,
                    contentType: "application/json; charset=utf-8",
                    dataType: "json",
                      success: function(data){
-                         console.log(data);
+                         window.localStorage.setItem("userDetail", JSON.stringify(data));
                      },
                      failure: function(err) {
                          console.log(err);
                      }
             });
-
-              // $.put("http://0.0.0.0:8889/set_interest/"+loggedIn.data._id+"/"+id, function(response) {
-
-              //         console.log(response)
-              //       });
-           
             },  
 
 	render: function(){
 		var that=this;
 		var settings = {
-	      infinite: false,
-	      speed: 500,
-	      slidesToShow: 10,
-	      slidesToScroll: 5,
-	      arrows: true,
-	      initialSlide: 0
+	      initialSlide: 0,
+          infinite: false,
+          speed: 300,
+          slidesToShow: 8,slidesToScroll: 3,
+          variableWidth: true
+
 	    };
       var sliderData = [];
+
 
 
 		return(
@@ -126,6 +147,7 @@ var Interest = React.createClass({
 					</div>
 					
           {
+//          sliderData.push(<li key='99' className="nav_btns_list" id="my_interest" ><div className="click-target">My Interest</div></li>),
           this.state.intDataLoded ? this.state.intrestData.map(function(item,i){
             sliderData.push(<li key={i} className="nav_btns_list" id={item._id} onClick={that.loadCategory.bind(null,item)}><div className="click-target">{item.category}</div></li>)
           }) : null
@@ -133,7 +155,7 @@ var Interest = React.createClass({
 					<div className="wrapper">
   						<ul className="navlist">
   						<Slider {...settings}>
-  							
+  							<li key='99' className="nav_btns_list" id="my_interest" onClick={this.loadMyInterest} ><div className="click-target">My Interest</div></li>
                   {sliderData}
                                 
                               
@@ -148,11 +170,23 @@ var Interest = React.createClass({
                     <div key={i} className="interest_container_div" >
                       <img src={item.image}></img>
                       <div className="name">{item.interest}</div>
-                      <div className="check"><input type="checkbox" id={item._id} checked={that.state.complete} ref="complete" onChange={that.choose_interest.bind(null,item._id)}/></div>
+                      <div className="check"><input type="checkbox" id={item._id} checked={that.state.complete} ref="complete" onChange={that.chooseInterest.bind(null,item._id)}/></div>
                     </div>
               )
             }):null
-          } 
+          }
+
+          { this.state.myIntDataLoaded ? this.state.myInterestData.map(function(item, i){
+              return (
+                    <div key={i} className="interest_container_div" >
+                      <img src={item.image}></img>
+                      <div className="name">{item.interest}</div>
+
+                    </div>
+              )
+            }):null
+          }
+
 					</div>
 				</div>
 			)

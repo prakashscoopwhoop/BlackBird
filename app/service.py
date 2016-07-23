@@ -56,7 +56,6 @@ class UserService:
         if user_id is not isinstance(user_id, ObjectId):
             user_id = ObjectId(user_id)
         user = self.db().find_one(user_id)
-        user[User.ID] = str(user[User.ID])
         return user
     
     def find_all_users(self):

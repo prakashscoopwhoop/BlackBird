@@ -76,6 +76,19 @@ var EditUser = React.createClass({
 	},
 	deleteUser : function(userId){
 		console.log("Delete this id : "+userId);
+		$.ajax({
+                   type: "DELETE",
+                   url: "http://0.0.0.0:8889/remove_user/"+userId,
+                   contentType: "application/json; charset=utf-8",
+                   dataType: "json",
+                     success: function(data){
+                         console.log(data);
+//                         componentDidMount();
+                     },
+                     failure: function(err) {
+                         console.log(err);
+                     }
+            });
 	},
 	popupClose : function(){
 		console.log('popup close');
@@ -131,11 +144,11 @@ var EditUser = React.createClass({
 					  <tbody>
 					 {
           this.state.allUserLoded ? this.state.allUser.map(function(item,i){
-          			 return( <tr>
+          			 return( <tr key={i}>
           			 	<td>{item.first_name}</td>
 					    <td>{item.last_name}</td>					    
 					    <td>{item.username}</td>
-					    <td><a onClick={that.editUser.bind(null, item) } >Edit</a> / <a onClick={that.deleteUser.bind(null, item._id) } >Delete</a> </td>
+					    <td><a onClick={that.editUser.bind(null, item) } >Edit</a> / <a id={item._id} onClick={that.deleteUser.bind(null, item._id) } >Delete</a> </td>
 
 					  </tr>)
 					  
