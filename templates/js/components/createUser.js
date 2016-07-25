@@ -50,7 +50,7 @@ console.log(valPassword());
 		return(
 					<div className="cUser">
 						<div className="cUserText errorMsg"></div>
-						<div className="cUserText">Blackbird Create User</div>
+						<div className="cUserText">Create User</div>
 								<div className="cUserForm">
 
 									<label>First Name:</label>

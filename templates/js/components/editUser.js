@@ -128,25 +128,30 @@ var EditUser = React.createClass({
   								</div>
 </div>
 </div>  
-						<div className="cUserText">Blackbird Edit user</div>
+						<div className="cUserText">Edit User</div>
 
-					<div className="editUserTable">
-					<table>
-					<thead>
-					  <tr>
-					     <th>Firstname</th>
-					    <th>Lastname</th>
-					    <th>User ID</th>
-					    <th></th>
-					  </tr>
-					  </thead>
-					  
-					  <tbody>
+
+
+                        <div  className="tbl-header">
+                        <table cellPadding="0" cellSpacing="0" border="0">
+                          <thead>
+                            <tr>
+                              <th>Name</th>
+                              <th>User ID</th>
+                              <th>Action</th>
+                            </tr>
+                          </thead>
+                        </table>
+                        </div>
+
+
+                    <div  className="tbl-content">
+                    <table cellPadding="0" cellSpacing="0" border="0">
+                      <tbody>
 					 {
           this.state.allUserLoded ? this.state.allUser.map(function(item,i){
           			 return( <tr key={i}>
-          			 	<td>{item.first_name}</td>
-					    <td>{item.last_name}</td>					    
+          			 	<td>{item.first_name} &nbsp; {item.last_name}</td>
 					    <td>{item.username}</td>
 					    <td><a onClick={that.editUser.bind(null, item) } >Edit</a> / <a id={item._id} onClick={that.deleteUser.bind(null, item._id) } >Delete</a> </td>
 

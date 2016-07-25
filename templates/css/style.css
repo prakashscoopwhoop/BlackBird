@@ -1,3 +1,4 @@
+@import url(http://fonts.googleapis.com/css?family=Roboto:400,500,300,700);
 @font-face {
             font-family: "helveticaNeueBold";
             src: url(https://s4.scoopwhoop.com/v4/static/sw/mobile/fonts/HELVETICA-NEUE-MEDIUM.TTF) format("truetype");
@@ -41,6 +42,7 @@ body{
 	background: #fff;
 	color: #000;
 	/*font-family: "arial";*/
+	font-family: 'Roboto', sans-serif;
 }
 body a{
 	text-decoration: none;
@@ -306,16 +308,15 @@ font-weight: bold;
     border-radius: 0 0 3px 3px;
     background-color: #f2f2f2;
     text-align: left;
-    padding: 5px;
     margin: 0;
-    width: 94%;
+    width: 100%;     border-top: 4px solid #d4d4d4;
 }
 .dropdown-item {
     display: block;
-    margin: 3px 0; font-family: ralewayReg; color: #787f87;
+    font-family: ralewayReg; color: #787f87; padding: 5px 10px;
 }
 /*Create User*/
-.cUser,.cInterest{
+.cUser,.cInterest, .editUser{
     width: 450px;
     margin: 50px auto 0;
     background-color: #efefef;
@@ -378,16 +379,7 @@ font-weight: bold;
     background-color: #efefef;
     padding: 50px;
 }
-.editUser table{
-    width: 100%
-}
-.editUser table, .editUser th, .editUser td {
-    border: 1px solid black;
-    border-collapse: collapse;
-}
-.editUser th, .editUser td {
-    padding: 5px;
-}
+
 /*popup code*/
 #overlay {
 position: fixed;
@@ -455,74 +447,12 @@ font-weight: bold;
 cursor: pointer;
 }
 
-
-
 .side-menu { background-color: #f3f3f3; color: #787f87; font-family: RalewayReg; border: 0; padding: 0; margin: 0; position: fixed; top: 47px; left:0;  width: 280px; min-height: 100%; box-sizing: border-box; z-index: 2; text-align: left; display: none;  }
 
 .side-dropdown-item{display:block; padding:5px; color: #787f87;}
 
 .menu_{float:left; font-size:30px; cursor:pointer;}
 
-
-/*Dashboard*/
-/*
-.menu {
-  display: block;
-  z-index: 999999;
-  width: 200px
-}
-.menu li {
-  position: relative;
-}
-.menu li.dropdown:hover > .submenu {
-  display: block;
-}
-.menu li a {
-  display: block;
-  padding: 12px 8px;
-  background: #ccc;
-}
-.menu li.dropdown > a::after {
-  content: "\e259";
-  font-family: 'Glyphicons Halflings';
-  font-style: normal;
-  font-weight: 400;
-  margin-left: 8px;
-  font-size: 10px;
-}
-.menu li a::before {
-  content: "\e179";
-  font-family: 'Glyphicons Halflings';
-  font-style: normal;
-  font-weight: 400;
-  margin-right: 8px;
-}
-.menu li a:hover {
-  background: grey;
-}
-
-.menu .submenu {
-  display: none;
-}
-.submenu {
-  margin: 0px;
-  padding: 0px;
-  left: 0px;
-  list-style-type: none;
-  display: block;
-  width: 200px;
-  z-index: 9;
-}
-.submenu li {
-  display: block;
-}
-.submenu li a {
-  display: block;
-  background: #999;
-  color: #fff;
-  padding: 8px 6px;
-  margin-bottom: 1px;
-}*/
 .errorContainer{margin:0 auto; text-align:center; background-color:#f6f6f6; height:100%; width:100%;}
 .errorimg {height:80%;}
 .check{float:right;}
@@ -637,61 +567,19 @@ cursor: pointer;
     display: inline-block;
     margin-top: 9px;
 }
-/*
-.styled-select,.select_interest{
- background: url(http://i62.tinypic.com/15xvbd5.png) no-repeat 96% 0;
-    height: 29px;
-    overflow: hidden;
-    width: 240px;
-    background: url(http://i62.tinypic.com/2e3ybe1.jpg) no-repeat right center;
-    height: 34px;
-    width: 197px;
-    position: absolute;
- 
-    color: #dddddd;
-}
-*/
+
 .styled-select{
        top: 2px;
     left: 79px; position: absolute;
 }
-/*
-.select_interest{
-    margin-left: 127px !important;
-    width: 20p !important;
-    width: 303px !important;
-    height: 40px !important;
 
-}
-
-.styled-select select ,.select_interest select {
-   background: transparent;
-   border: none;
-   font-size: 14px;
-   height: 29px;
-   padding: 5px;
-   width: 268px;
-   border: 1px solid #ccc;
-   font-size: 16px;
-   height: 34px;
-   width: 268px;
-   color: white;
-}
-
-.select_interest select{
-    height: 40px !important;
-    width: 303px !important;
-    color: #a9a5a5 !important;
-    background: white !important;
-}
-*/
 .menu_ img{
         width: 41px;
 }
 .dropdown-img{ float:right !important;}
 
 
-.styled-select select {
+.styled-select select, .interest-select select {
   font-size: 14px;
     color: #f2f2f2;
     margin: 5px;
@@ -705,3 +593,39 @@ cursor: pointer;
     padding-right: 5px;
     position: relative; width:180px; cursor:pointer; height:34px;text-transform: capitalize; outline:none;
 }
+
+.interest-select select{ position: inherit !important; text-align:center; background: #fff !important; color: #333; border:none; width:300px; margin-left: 10px!important;text-indent: 15px; }
+
+table{
+  width:100%;
+  table-layout: fixed;
+}
+.tbl-header{
+  background-color: rgba(255,255,255,0.6);
+ }
+.tbl-content{
+  height:auto;
+  overflow-x:auto;
+  margin-top: 0px;
+  border: 1px solid rgba(255,255,255,0.4);
+  background-color: rgba(255,255,255,0.3);
+}
+th{
+  padding: 20px 15px;
+  text-align: left;
+  font-weight: 500;
+  font-size: 13px;
+  color: #333;
+  text-transform: uppercase;
+}
+td{
+  padding: 15px;
+  text-align: left;
+  vertical-align:middle;
+  font-weight: 300;
+  font-size: 13px;
+  color: #333;
+  border-bottom: solid 1px rgba(255,255,255,0.1);
+}
+
+

@@ -61,16 +61,16 @@ var Interest = React.createClass({
 
      loadCategory :function(cat, event){ 
 
-        for(i=0;i<event.currentTarget.parentNode.childNodes.length;i++){
-              if(event.currentTarget.parentNode.childNodes[i].children[0].className==="click-target" || event.currentTarget.parentNode.childNodes[i].children[0].className==="click-active"){
-                  event.currentTarget.parentNode.childNodes[i].children[0].className="click-target";
-              }
-        }
-
-        if(event.target.className==="click-target" || event.target.className==="click-active"){
-            event.target.className ="click-active";
-        }
-
+//        for(i=0;i<event.currentTarget.parentNode.childNodes.length;i++){
+//              if(event.currentTarget.parentNode.childNodes[i].children[0].className==="click-target" || event.currentTarget.parentNode.childNodes[i].children[0].className==="click-active"){
+//                  event.currentTarget.parentNode.childNodes[i].children[0].className="click-target";
+//              }
+//        }
+//
+//        if(event.target.className==="click-target" || event.target.className==="click-active"){
+//            event.target.className ="click-active";
+//        }
+        console.log(cat);
        $.get("http://0.0.0.0:8889/interest/"+cat._id, function(result) {
 
           if (this.isMounted()) {
@@ -147,15 +147,14 @@ var Interest = React.createClass({
 					</div>
 					
           {
-//          sliderData.push(<li key='99' className="nav_btns_list" id="my_interest" ><div className="click-target">My Interest</div></li>),
           this.state.intDataLoded ? this.state.intrestData.map(function(item,i){
-            sliderData.push(<li key={i} className="nav_btns_list" id={item._id} onClick={that.loadCategory.bind(null,item)}><div className="click-target">{item.category}</div></li>)
+            sliderData.push(<li key={i} className="nav_btns_list" id={item._id} onClick={that.loadCategory.bind(null,item)}><div className="click-target" id={'posts' +item._id} >{item.category}</div></li>)
           }) : null
          }
 					<div className="wrapper">
   						<ul className="navlist">
   						<Slider {...settings}>
-  							<li key='99' className="nav_btns_list" id="my_interest" onClick={this.loadMyInterest} ><div className="click-target">My Interest</div></li>
+  							<li key='99' className="nav_btns_list" id="my_interest" onClick={this.loadMyInterest} ><div className="click-target" id="my_interest">My Interest</div></li>
                   {sliderData}
                                 
                               

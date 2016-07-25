@@ -51,7 +51,7 @@ var CreateInterest = React.createClass({
 		return(
 				<div className="cInterest">
 						<div className="cUserText errorMsg"></div>
-						<div className="cInterestText">Blackbird Create Interest</div>
+						<div className="cInterestText">Create Interest</div>
 								<div className="cInterestForm">
 
 									<label>Image:</label>
@@ -61,7 +61,7 @@ var CreateInterest = React.createClass({
 									<input type="text" name="i_name" id="i_name" placeholder="Enter Interest Name" required/><br/>
 
 									<label>Category:</label>
-									<div className="select_interest" onClick={this.interest_list_func}>
+									<div className="interest-select" onClick={this.interest_list_func}>
 										
 										<select className="select_">
 												<option value="null">-----select-----</option>
