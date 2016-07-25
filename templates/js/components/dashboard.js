@@ -29,12 +29,7 @@ var Dashboard = React.createClass({
             return null;
 		},
 
-		renderArticle(interestList) {
-        console.log(interestList);
-        var interests = [];
-        for(i=0; i<interestList.length; i++){
-            interests.push(interestList[i].interest);
-        }
+		renderArticle(interests) {
         $.get("http://0.0.0.0:8889/get_article/"+interests, function(result) {
             console.log(JSON.parse(result).data);
             var featureItem = [], restItem = [];
@@ -49,10 +44,12 @@ var Dashboard = React.createClass({
                     featuredArticleLoaded : true,
                     articleLoaded : true
                   });
-            }else{
+            }else if(JSON.parse(result).data.length<1){
             this.setState({
                     featuredArticleLoaded : false,
-                    articleLoaded : false
+                    articleLoaded : false,
+                    featuredArticleData  : [],
+                    articleData : []
                   });
             }
             for(i=0; i<JSON.parse(result).data.length; i++){
@@ -61,9 +58,7 @@ var Dashboard = React.createClass({
                 }else{
                     restItem.push(JSON.parse(result).data[i]);
                 }
-
             }
-
             if (this.isMounted()) {
                   this.setState({
                     featuredArticleData  : featureItem,
@@ -73,26 +68,24 @@ var Dashboard = React.createClass({
                   });
             }
         }.bind(this));
+
     },
     change:function(event){
         var clicked = event.target.value;
-        if (clicked === "all"){
-        this.renderArticle(this.state.interestData);
-
+        var interests = [];
+        for(i=0; i< this.state.interestData.length; i++){
+        if(clicked==="all"){
+            interests.push(this.state.interestData[i].interest);
+        }if(clicked===this.state.interestData[i]._id){
+            interests.push(this.state.interestData[i].interest);
         }
-        else{
-            for(i=0; i< this.state.interestData.length; i++){
-            if(clicked===this.state.interestData[i]._id){
-//            this.renderArticle(this.state.interestData[i]);
-                console.log(this.renderArticle([this.state.interestData[i]]),this.state.interestData[i]._id);
-            }
-            }
         }
-
+            this.renderArticle(interests);
 		},
 	componentDidMount: function() {
 
           $.get("http://0.0.0.0:8889/my_interest/"+loggedIn.data._id, function(result) {
+          var interests = [];
             console.log(JSON.parse(result).data);
             if (this.isMounted()) {
                   this.setState({
@@ -100,7 +93,10 @@ var Dashboard = React.createClass({
                     intDataLoaded : true
                   });
             }
-           this.renderArticle(JSON.parse(result).data);
+            for(i=0;i<JSON.parse(result).data.length; i++){
+            interests.push(JSON.parse(result).data[i].interest);
+            }
+           this.renderArticle(interests);
           }.bind(this));
     },
 	render: function(){
@@ -147,7 +143,7 @@ var Dashboard = React.createClass({
 
 				</div>
 
-                {
+ {
           this.state.featuredArticleLoaded ? this.state.featuredArticleData.map(function(item,i){
           			 return(
 

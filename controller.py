@@ -168,11 +168,15 @@ def set_interest():
      
 @route('/get_article/<interest_id>')                       
 def get_article_by_interest_wise(interest_id):
-    # interest = __interest_service.find_interest(interest_id)
     interest_id = interest_id.split(',')
-    print interest_id
     articles = __story_service.get_stories(interest_id)
     return RestResponse(articles).to_json()
+
+
+@route('/all_interest')
+def get_all_interests():
+    all_interest = __interest_service.find_all_interests()
+    return RestResponse(all_interest).to_json()
 
 
 if __name__ == "__main__":
