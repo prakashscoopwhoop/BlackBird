@@ -178,6 +178,10 @@ def get_all_interests():
     all_interest = __interest_service.find_all_interests()
     return RestResponse(all_interest).to_json()
 
+@route('/editInterest')
+def edit_interest():
+    return template('templates/editInterest.html')
+
 
 if __name__ == "__main__":
     __user_service = UserService()
