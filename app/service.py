@@ -230,7 +230,7 @@ class StoryService:
         
     def get_stories(self,interest_name):
         articles = []
-        stories = self.db().find({"interest":{"$in":[interest_name]}})
+        stories = self.db().find({"interest":{"$in":interest_name}})
         for story in stories:
             story["_id"]= str(story["_id"])
             articles.append(story)

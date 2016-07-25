@@ -530,20 +530,22 @@ cursor: pointer;
 
 
 #articles_container{
-    width: 100%;
-    display: inline-flex;
+    width: 97%;
+    display: block;
     margin-left: 3%;
         margin-top: 3%;
 
 }
 
 .article_div{
-    width: 27%;
-        padding: 2.2%;;
+        width: 27%;
+        padding:1% 2.2%;
+        float:left;
+        height:560px;
 }
 
 .article_div > img:first-child{
-        width: 100%;
+        width: 100%; max-height:280px; height:100%;
 }
 
 .article_title {
@@ -559,6 +561,9 @@ cursor: pointer;
 .article_source{
         color: #808080;
 }
+
+.article_source a {font-family: futuraLTBold;
+    color: #333;}
 
 .article_description{
      margin: 10px 0 10px 0;
@@ -610,7 +615,7 @@ cursor: pointer;
 #trends_div{
     float: right;
     border: 1px solid rgba(165, 156, 151, 0.85);
-    margin-right: 5%;
+    margin-right: 8%;
     width: 23%;
     height: 245px;
     /*border-radius: 5px;*/
