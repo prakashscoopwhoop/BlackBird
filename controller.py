@@ -179,8 +179,34 @@ def get_all_interests():
     return RestResponse(all_interest).to_json()
 
 @route('/editInterest')
-def edit_interest():
+def edit_interest_page():
     return template('templates/editInterest.html')
+
+@route('/get_interest/<interest_id>')
+def get_interest(interest_id):
+    interest = __interest_service.find_interest(interest_id)
+    if interest is not None:
+        interest["_id"] = str( interest["_id"])
+        return RestResponse(interest).to_json()
+    else:
+        return RestResponse(data={}, status = httplib.NOT_FOUND,
+                            messages="user is not found", success = False).to_json()
+                            
+@route('/add_interest/', method='PUT')                            
+def edit_interest():
+    try:
+        interest = request.json
+        interest = Interest.VALIDATOR.validate(interest)
+        updated_interest = __interest_service.update_interest(interest)
+        if updated_interest is None:
+            return RestResponse(data={}, status = httplib.CONFLICT,
+                            messages="interest already exists or relative category not exists !!", success = False).to_json()
+        return RestResponse(updated_interest).to_json()
+    except Exception as e:
+        logging.error(e)
+        return RestResponse(data={}, status = httplib.BAD_REQUEST,
+                            messages="Enter Invalid Inputs ", success = False).to_json()
+    
 
 
 if __name__ == "__main__":

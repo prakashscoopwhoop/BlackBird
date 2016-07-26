@@ -142,7 +142,14 @@ class InterestService:
                 return
         else:
             return
-    
+        
+    def update_interest(self,interest):
+        if self.find_interest(interest[Interest.ID]) is not None:
+            interest_id = self.db().save(interest)
+            interest[Interest.ID]= str(interest_id)
+            return interest
+        else:
+            return 
     def find_interests_by_category(self,category_id):
         catagory_data = []
         interests = self.db().find({Interest.CATEGORY_ID:category_id})
