@@ -9,8 +9,9 @@ var EditUser = require('./components/editUser');
 var Dashboard = require('./components/dashboard');
 var Error = require('./components/error');
 var CreateInterest = require('./components/createInterest');
+var EditInterest = require('./components/editInterest');
 
-
+// console.log(state)
 switch(state){
 
 	case "header" 		  : loadHeaderScreen();
@@ -31,6 +32,8 @@ switch(state){
 						  break;
 	case "createInterest" : LoadCreateInterestScreen();
 						  break;
+	case "editInterest"   : LoadEditInterestScreen();
+							break;
 
 	default				  : break;
 				  
@@ -152,7 +155,20 @@ function LoadCreateInterestScreen(){
 }
 
 
+function LoadEditInterestScreen(){
 
+	var EditInterestScreen= React.createClass({
+		render :function(){
+			return(
+					<div>
+						<Header />
+						<EditInterest />
+					</div>
+				)
+		}
+	});
+	ReactDOM.render(<EditInterestScreen />, document.getElementById("editInterest"));
+}
 
 
 

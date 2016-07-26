@@ -192,7 +192,7 @@ def get_interest(interest_id):
         return RestResponse(data={}, status = httplib.NOT_FOUND,
                             messages="user is not found", success = False).to_json()
                             
-@route('/add_interest/', method='PUT')                            
+@route('/edit_interest_data/', method='PUT')                            
 def edit_interest():
     try:
         interest = request.json

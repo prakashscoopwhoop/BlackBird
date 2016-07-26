@@ -107,10 +107,10 @@ var EditUser = React.createClass({
 		return(
 			
 				<div className="editUser">
-<div className='popup'>
-<div className='content'>
-<img src='close-arrow.png' className='x' id='x' onClick={this.popupClose}/>
-						<div className="cUserText errorMsg"></div>	
+				<div className='popup'>
+				<div className='content'>
+				<img src='close-arrow.png' className='x' id='x' onClick={this.popupClose}/>
+				<div className="cUserText errorMsg"></div>	
 						<div className="cUserText">Blackbird Create User</div>
 								<div className="cUserForm">
 
@@ -126,8 +126,8 @@ var EditUser = React.createClass({
 
   									<button onClick={this.updateUser}>Update User</button>
   								</div>
-</div>
-</div>  
+				</div>
+				</div>  
 						<div className="cUserText">Edit User</div>
 
 

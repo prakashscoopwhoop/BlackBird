@@ -16,9 +16,9 @@ var Header = React.createClass({
 
                         return{
                   				intrestData  : [],
-                                intDataLoded : false,
-                                catData      : [],
-                                catDataLoded : false
+                          intDataLoded : false,
+                          catData      : [],
+                          catDataLoded : false
                   			}
 
 				            }else{
@@ -38,6 +38,7 @@ var Header = React.createClass({
     },
 
 	render: function(){
+    console.log("check")
 
 		return(
 				<div>
@@ -58,6 +59,10 @@ var Header = React.createClass({
 
                                     <a className="side-dropdown-item" href="/createInterest" data-track="menu-addinterests">
                                         <span className="menu-text">Create Interest</span>
+                                    </a>
+
+                                    <a className="side-dropdown-item" href="/editInterest" data-track="menu-addinterests">
+                                        <span className="menu-text">Edit Interest</span>
                                     </a>
 
                                 </div>
