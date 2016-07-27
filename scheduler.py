@@ -19,7 +19,7 @@ def watching_stories(domain_list):
     db_category_list = __category_service.find_all_categories()
     db_interest_list = __interest_service.find_all_interests()
     for domain in domain_list:
-        r = requests.get("https://api.newswhip.com/v1/publisher/" + domain + "/2?key="+newswhip_key)
+        r = requests.get("https://api.newswhip.com/v1/publisher/" + domain + "/1?key="+newswhip_key)
         # r = requests.get("https://api.newswhip.com/v1/region/india/sports/24?key="+newswhip_key)
         response = json.loads(r.text)
         for item in response['articles']:
@@ -70,14 +70,23 @@ def watching_stories(domain_list):
 
                 article_info['category'] = dummy_category
                 if not any(category['category'] in article_info['category'] for category in db_category_list):
-                    for item in article_info['category']:
+                    for category_item in article_info['category']:
                         for interest in db_interest_list:
-                            if item == interest['interest']:
-                                if item not in article['interest']:
-                                    article['interest'].append(item)
-                                for category in db_category_list:
-                                    if interest['category_id'] == category['_id'] and category['category'] not in article['category']:
-                                        article['category'].append(category['category'])
+                            if category_item == interest['interest']:
+                                if category_item not in article['interest']:
+                                    article['interest'].append(category_item)
+
+                    if len(article['interest'])<=0:
+                        article['category'] = article_info['category']
+                    else:
+                        article['category'] = []
+                        for int_item in article['interest']:
+                            current_interest = filter(lambda member:int_item == member['interest'],db_interest_list)
+                            if len(current_interest) == 1:
+                                current_category = filter(lambda member: current_interest[0]['category_id'] == member['_id'], db_category_list)
+                            if len(current_category) == 1:
+                                article['category'].append(current_category[0]['category'])
+
                 else:
                     if article_info['keywords'] is not None:
                         for interest in db_interest_list:
