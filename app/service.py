@@ -1,5 +1,5 @@
 from app.validator import User, Interest, Story,Category
-from app.utils import encrypt_password, download_images_locally
+from app.utils import encrypt_password, download_images_locally, remove_image
 from app import config
 from app.config import PAGE_SIZE
 from bson.objectid import ObjectId
@@ -144,12 +144,23 @@ class InterestService:
             return
         
     def update_interest(self,interest):
-        if self.find_interest(interest[Interest.ID]) is not None:
+        existing_interest = self.find_interest(interest[Interest.ID])
+        if existing_interest is not None:
+            if interest[Interest.IMAGE] == existing_interest[Interest.IMAGE]:
+                pass
+            elif (interest[Interest.IMAGE] != existing_interest[Interest.IMAGE] ) and ("http" or "https" in interest[Interest.IMAGE]):
+                remove_image(existing_interest[Interest.IMAGE])
+                interest[Interest.IMAGE] = download_images_locally(interest[Interest.IMAGE])
+            else:
+                pass
+            if interest[Interest.ID]  is not isinstance(interest[Interest.ID], ObjectId) :
+                interest[Interest.ID] = ObjectId(interest[Interest.ID])
             interest_id = self.db().save(interest)
             interest[Interest.ID]= str(interest_id)
             return interest
         else:
             return 
+        
     def find_interests_by_category(self,category_id):
         catagory_data = []
         interests = self.db().find({Interest.CATEGORY_ID:category_id})
@@ -220,6 +231,8 @@ class CategoryService:
             return False
         self.db().remove(categoty[Category.ID])
         return True 
+    def remove(self):
+        remove_image("_2s_OBbqQ-O348BjcTF13Q.jpg")
     
 
 class StoryService:
