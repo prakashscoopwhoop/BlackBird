@@ -14,7 +14,8 @@ var EditInterestComponent = React.createClass({
 	    	optionValue: '',
 	    	optionValue: '',
 	    	cIdValue: '',
-	    	curIndVal: 0
+	    	curIndVal: 0,
+	    	showLoadGif: false
 	    };
 	  },
 	
@@ -104,6 +105,10 @@ var EditInterestComponent = React.createClass({
 
 
 	editInterest_func: function(id_v){
+
+		var component=this
+		this.setState({showLoadGif: true})
+		// $.("#loadingDiv").show
 		var that=this
 		var editInterestData = {
 			_id: id_v,
@@ -122,6 +127,7 @@ var EditInterestComponent = React.createClass({
                    dataType: "json",
                      success: function(data){
                          console.log("success")
+                         component.setState({showLoadGif: false})
                          
                          var dataArrVal = that.state.data_arr;  
                                               
@@ -151,8 +157,8 @@ var EditInterestComponent = React.createClass({
 		return(
 
 			<div>
-
 			<div className='edit_interest_popup'>
+			{this.state.showLoadGif ? <div id="loadingDiv"><img src="loading.gif" /></div> : null}
 					<div className='edit_interest_content'>
 					<img src='close-arrow.png' className='x' id='x' onClick={this.editPopupClose}/>
 							<div className="editInterest errorMsg"></div>	
@@ -161,7 +167,7 @@ var EditInterestComponent = React.createClass({
 								<div className="editInterestForm" id={this.state.idValue}>
 
 									<label>Image:</label>
-									<input type="text" id="e_url" value={this.state.imageValue} /><br/>
+									<input type="text" id="e_url" value={this.state.imageValue} onChange={this.handleChange.bind(null,'e_url') }/><br/>
 
 									<label>Interest:</label>
 									<input type="text" id="e_name" value={this.state.interestValue} onChange={this.handleChange.bind(null,'e_name') }/><br/>
