@@ -158,19 +158,13 @@ var EditInterestComponent = React.createClass({
 
 			<div>
 			<div className='edit_interest_popup'>
-			{this.state.showLoadGif ? <div id="loadingDiv"><img src="loading.gif" /></div> : null}
+			{this.state.showLoadGif ? <div className="loadingDiv"><img src="loading.gif" /></div> : null}
 					<div className='edit_interest_content'>
 					<img src='close-arrow.png' className='x' id='x' onClick={this.editPopupClose}/>
 							<div className="editInterest errorMsg"></div>	
-							<div className="editInterestText" >Blackbird Edit Interest</div>
+							<div className="editInterestText" >Edit Interest</div>
 
 								<div className="editInterestForm" id={this.state.idValue}>
-
-									<label>Image:</label>
-									<input type="text" id="e_url" value={this.state.imageValue} onChange={this.handleChange.bind(null,'e_url') }/><br/>
-
-									<label>Interest:</label>
-									<input type="text" id="e_name" value={this.state.interestValue} onChange={this.handleChange.bind(null,'e_name') }/><br/>
 
 									<label>Category:</label>
 									<div className="interest-select" onClick={this.interest_list_func} >
@@ -181,7 +175,17 @@ var EditInterestComponent = React.createClass({
 										
 									</div>
 
-  									<button onClick={this.editInterest_func.bind(null,this.state.idValue)}>Edit Interest</button>
+									<label>Interest:</label>
+									<input type="text" id="e_name" value={this.state.interestValue} onChange={this.handleChange.bind(null,'e_name') }/><br/>
+
+
+									<label>Image:</label>
+									<input type="text" id="e_url" value={this.state.imageValue} onChange={this.handleChange.bind(null,'e_url') }/><br/>
+
+									
+									
+
+  									<button onClick={this.editInterest_func.bind(null,this.state.idValue)}>Edit</button>
   								</div>
 					</div>
 			</div>  

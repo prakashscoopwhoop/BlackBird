@@ -4,19 +4,34 @@ var $ = require("jquery");
 
 var Login = React.createClass({
 	
- 	createUser : function(){
- 		$('.errorMsg').text('');
- 		function valPassword() {
-        var password = document.getElementById("fPassword").value;
-        var confirmPassword = document.getElementById("rPassword").value;
-        if (password != confirmPassword) {
-            // alert("Passwords do not match.");
-            return false;
-        }
-        return true;
-    }
 
-console.log(valPassword());
+
+	getInitialState: function(){
+		return {
+			errorMsg: false,
+			loadGifC: false,
+		}
+		
+
+	},
+
+ 	createUser : function(){
+
+ 		var component = this;
+ 		this.setState({loadGifC: true})
+ 		
+ 		function valPassword() {
+	        var password = document.getElementById("fPassword").value;
+	        var confirmPassword = document.getElementById("rPassword").value;
+	        if (password != confirmPassword) {
+	            // alert("Passwords do not match.");
+	            return false;
+	        }
+	        return true;
+    	}
+
+		console.log(valPassword());
+
 		var newUser = {
 			first_name : $('#fName').val(),
 			last_name : $('#lName').val(),
@@ -26,21 +41,31 @@ console.log(valPassword());
 			role	 : 'member'
 		
 		}
-		console.log('Create User');
-		console.log(newUser);
-  $.post("http://0.0.0.0:8889/save_user/"+ JSON.stringify(newUser), function (response) {
-		 	response =JSON.parse(response);
-		 	console.log(response);
-		 	console.log(response.messages);
-		 	if (response.success){
-		 		console.log('welcome');
-		 		// window.localStorage.setItem("userDetail",response.data);
-                window.location = "/dashboard";
-		 	}else
-		 	{
-		 	$('.errorMsg').text(response.messages);
 
-		 	}
+		console.log(newUser);
+ 		
+ 		$.post("http://0.0.0.0:8889/save_user/"+ JSON.stringify(newUser), function (response) {
+
+	  		
+
+			response =JSON.parse(response);
+			console.log(response);
+			console.log(response.messages);
+
+			 	if (response.success){
+			 		console.log('welcome');
+			 		component.setState({loadGifC: false})
+
+			 		// window.localStorage.setItem("userDetail",response.data);
+	                window.location = "/editUser";
+			 	}else{
+				       		component.setState({
+				       			errorMsg: true,
+				       			loadGifC: false
+
+				       		})
+				       		
+				       }
 
 		});
 	},	
@@ -49,7 +74,8 @@ console.log(valPassword());
 
 		return(
 					<div className="cUser">
-						<div className="cUserText errorMsg"></div>
+						{this.state.errorMsg ? <div className="cUserText errorMsg">Error: Try again</div> :null}
+						{this.state.loadGifC ? <div className="loadingDiv"><img src="loading.gif" /></div> : null}
 						<div className="cUserText">Create User</div>
 								<div className="cUserForm">
 
