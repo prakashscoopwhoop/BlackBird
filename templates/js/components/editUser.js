@@ -83,6 +83,7 @@ var EditUser = React.createClass({
                    dataType: "json",
                      success: function(data){
                          console.log(data);
+                         window.location ="/editUser";
 //                         componentDidMount();
                      },
                      failure: function(err) {
@@ -111,7 +112,7 @@ var EditUser = React.createClass({
 				<div className='content'>
 				<img src='close-arrow.png' className='x' id='x' onClick={this.popupClose}/>
 				<div className="cUserText errorMsg"></div>	
-						<div className="cUserText">Blackbird Create User</div>
+						<div className="cUserText">Create User</div>
 								<div className="cUserForm">
 
 									<label>User ID:</label>
@@ -124,7 +125,7 @@ var EditUser = React.createClass({
 									<input type="text" name="lName" id="lName" placeholder="Enter Last Name" value={this.state.lName} onChange={this.handleChange.bind(null, 'lName')} /><br/>
 
 
-  									<button onClick={this.updateUser}>Update User</button>
+  									<button onClick={this.updateUser}>Update</button>
   								</div>
 				</div>
 				</div>  
@@ -153,7 +154,7 @@ var EditUser = React.createClass({
           			 return( <tr key={i}>
           			 	<td>{item.first_name} &nbsp; {item.last_name}</td>
 					    <td>{item.username}</td>
-					    <td><a onClick={that.editUser.bind(null, item) } >Edit</a> / <a id={item._id} onClick={that.deleteUser.bind(null, item._id) } >Delete</a> </td>
+					    <td><a onClick={that.editUser.bind(null, item) } ><img className="editIcon_" src="edit-xxl.png"/></a> <a id={item._id} onClick={that.deleteUser.bind(null, item._id) } ><img className="deleteIcon_" src="delete-icon.png"/></a> </td>
 
 					  </tr>)
 					  
