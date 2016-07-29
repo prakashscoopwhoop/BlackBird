@@ -1,6 +1,5 @@
 from bottle import route, run, static_file, template, error,request
-from app.service import UserService,InterestService, CategoryService,\
-    StoryService
+from app.service import UserService,InterestService, CategoryService, StoryService
 from app.utils import RestResponse
 from app.config import logging
 import httplib
