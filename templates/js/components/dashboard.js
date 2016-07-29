@@ -131,12 +131,12 @@ var Dashboard = React.createClass({
 
 						<div className="trends_inner_div">
 						<ul>
-							<li><a href="http://digg.com/">#CiscoDigitizingIndia</a></li>
-							<li><a href="http://digg.com/">#rise</a></li>
-							<li><a href="http://digg.com/">#makeme</a></li>
-							<li><a href="http://digg.com/">#girlstalk</a></li>
-							<li><a href="http://digg.com/">darjeeling</a></li>
-							<li><a href="http://digg.com/">afterallthistime</a></li>
+							<li><img className="trending" src="trending_up.png"></img><a href="http://digg.com/">#CiscoDigitizingIndia</a></li>
+							<li><img className="trending" src="trending_up.png"></img><a href="http://digg.com/">#rise</a></li>
+							<li><img className="trending" src="trending_up.png"></img><a href="http://digg.com/">#makeme</a></li>
+							<li><img className="trending" src="trending_up.png"></img><a href="http://digg.com/">#girlstalk</a></li>
+							<li><img className="trending" src="trending_up.png"></img><a href="http://digg.com/">darjeeling</a></li>
+							<li><img className="trending" src="trending_up.png"></img><a href="http://digg.com/">afterallthistime</a></li>
 
 						</ul>
 						</div>
