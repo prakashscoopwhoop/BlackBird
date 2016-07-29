@@ -112,17 +112,17 @@ def extractKeyphrases(text):
         secondWord = textlist[j]
         if firstWord in keyphrases and secondWord in keyphrases:
             keyphrase = firstWord + ' ' + secondWord
-            modifiedKeyphrases.add(keyphrase)
-            dealtWith.add(firstWord)
-            dealtWith.add(secondWord)
+            modifiedKeyphrases.add(str(keyphrase))
+            dealtWith.add(str(firstWord))
+            dealtWith.add(str(secondWord))
         else:
             if firstWord in keyphrases and firstWord not in dealtWith:
-                modifiedKeyphrases.add(firstWord)
+                modifiedKeyphrases.add(str(firstWord))
 
             # if this is the last word in the text, and it is a keyword,
             # it definitely has no chance of being a keyphrase at this point
             if j == len(textlist) - 1 and secondWord in keyphrases and secondWord not in dealtWith:
-                modifiedKeyphrases.add(secondWord)
+                modifiedKeyphrases.add(str(secondWord))
 
         i = i + 1
         j = j + 1
@@ -166,11 +166,11 @@ def writeFiles(summary, keyphrases, fileName):
 
 
 # retrieve each of the articles
-articles = os.listdir("articles")
-for article in articles:
-    print 'Reading articles/' + article
-    articleFile = io.open('articles/' + article, 'r')
-    text = articleFile.read()
-    keyphrases = extractKeyphrases(text)
-    summary = extractSentences(text)
-    writeFiles(summary, keyphrases, article)
+# articles = os.listdir("articles")
+# for article in articles:
+#     print 'Reading articles/' + article
+#     articleFile = io.open('articles/' + article, 'r')
+#     text = articleFile.read()
+#     keyphrases = extractKeyphrases(text)
+#     summary = extractSentences(text)
+#     writeFiles(summary, keyphrases, article)

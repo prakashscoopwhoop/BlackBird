@@ -1,3 +1,5 @@
+bs4
+tldextract
 requests
 # Install with: 'sudo pip install -r requirements.txt'
 
