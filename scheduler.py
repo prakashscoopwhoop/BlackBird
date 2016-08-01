@@ -1,12 +1,36 @@
 import json
 import time
-from datetime import datetime
+from datetime import datetime, timedelta
 import re
 import requests
-from app.service import StoryService, CategoryService, InterestService
+from app.service import StoryService, CategoryService, InterestService,FetchService
 import domparser
 from textrank import extractKeyphrases
 from collections import Counter
+
+
+def fetch_time_line():
+    time_frame = {"start_time": 0, "end_time": 0}
+    c_time = datetime.now()
+    start_time = (c_time.year, c_time.month, c_time.day, c_time.hour, 0, 1, 0, 0, 0)
+    start_epoch = int(time.mktime(start_time))
+    c_time = c_time + timedelta(hours=1)
+    end_time = (c_time.year, c_time.month, c_time.day, c_time.hour, 59, 59, 0, 0, 0)
+    end_epoch = int(time.mktime(end_time))
+    time_frame['start_time'] = start_epoch
+    time_frame['end_time'] = end_epoch
+    return time_frame
+
+
+def current_epoch_time(now):
+    """
+    Calculating epoch time in secs
+    :param now: Article fetch time
+    :return: Epoch time in secs
+    """
+    t = (now.year, now.month, now.day, now.hour, now.minute, now.second, 0, 0, 0)
+    secs = int(time.mktime(t))
+    return secs
 
 
 def checking_interest(article_keywords):
@@ -29,6 +53,7 @@ def watching_stories(domain_list):
     :param domain_list: targeted competitors domain names
     :return:
     """
+    fetch = fetch_time_line()
     db_category_list = __category_service.find_all_categories()
     db_interest_list = __interest_service.find_all_interests()
     for domain in domain_list:
@@ -74,7 +99,8 @@ def watching_stories(domain_list):
                     article['publisher'] = item['source']['publisher']
                     article['uuid'] = item['uuid']
                     article['published'] = time.strftime('%Y-%m-%d %H:%M', time.localtime(item['publication_timestamp']/1000.0))
-                    article['fetch'] = datetime.strftime(datetime.now(), "%Y-%m-%d")
+                    # article['fetch'] = datetime.strftime(datetime.now(), "%Y-%m-%d")
+                    article['fetch'] = current_epoch_time(datetime.now())
 
                     dummy_category = []
                     for i in article_info['category']:
@@ -150,6 +176,8 @@ def watching_stories(domain_list):
                     else:
                         article['status'] = False
                     __story_service.save_story(article)
+                    __fetch_service.save_fetch(fetch)
+
             except Exception as ex:
                 print ex
 
@@ -157,6 +185,7 @@ if __name__ == "__main__":
     __story_service = StoryService()
     __category_service = CategoryService()
     __interest_service = InterestService()
+    __fetch_service = FetchService()
     with open('credentials.json', 'r') as credential_file:
         data = json.load(credential_file)
         newswhip_key = data["key"]

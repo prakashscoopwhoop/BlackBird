@@ -125,7 +125,7 @@ var Dashboard = React.createClass({
 				</div>
 				
 
-
+                <div className="top-container">
 				<div id="trends_div">
 						<span>Trends</span>
 
@@ -168,6 +168,7 @@ var Dashboard = React.createClass({
                 }) : null
                 }
 
+                </div>
 				<div id="articles_container">
                         {
           this.state.articleLoaded ? this.state.articleData.map(function(item,i){

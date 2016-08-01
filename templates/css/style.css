@@ -720,3 +720,6 @@ td{
     cursor: pointer;
     margin-left: 15px;
 }
+.top-container{
+width:100%; height:100%; display: block;
+}

@@ -1,4 +1,4 @@
-from app.validator import User, Interest, Story,Category
+from app.validator import User, Interest, Story,Category, Fetch
 from app.utils import encrypt_password, download_images_locally, remove_image
 from app import config
 from app.config import PAGE_SIZE
@@ -252,8 +252,34 @@ class StoryService:
         articles = []
         stories = self.db().find({"interest":{"$in":interest_name}})
         for story in stories:
-            story["_id"]= str(story["_id"])
+            story["_id"] = str(story["_id"])
             articles.append(story)
         return articles
         
-        
+    def find_latest_stories(self):  #, from_time, end_time
+        all_stories = []
+        fetched = FetchService().get_fetch()
+        stories = self.db().find({"fetch": {"$gte": fetched['start_time'], "$lt": fetched['end_time']}})
+        for story in stories:
+            story[Story.ID] = str(story[Story.ID])
+            all_stories.append(story)
+        return all_stories
+
+
+class FetchService:
+
+    def db(self):
+        return config.db['fetch']
+
+    def save_fetch(self, fetch):
+        if self.db().find().count() > 0:
+            self.db().remove()
+        fetch_id = self.db().save(fetch)
+        fetch[Fetch.ID] = str(fetch_id)
+        return fetch
+
+    def get_fetch(self):
+        fetch = self.db().find_one()
+        if fetch is not None:
+            fetch[Fetch.ID] = str(fetch[Fetch.ID])
+            return fetch
