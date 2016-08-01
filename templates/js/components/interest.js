@@ -35,25 +35,36 @@ var Interest = React.createClass({
   		},
 
     componentDidMount: function() {
-
+      var that = this;
+      var myInterestExists = false;
           $.get("http://0.0.0.0:8889/my_interest/"+loggedIn.data._id, function(result) {
-          if(JSON.parse(result).data.length>0){
-          myInterestExists:true;
-            $("#my_interest").show();
-          }else{
-          myInterestExists:false;
-            $("#my_interest").hide();
-          }
+                
+                console.log(JSON.parse(result).data.length)
+                if(JSON.parse(result).data.length>0){
+                    myInterestExists = true;
+                    $("#my_interest").show();
+                    console.log("my interest exist")
+                    that.loadMyInterest();
+                }else{
+                    myInterestExists = false;
+                    $("#my_interest").hide();
+              }
           }),
 
 
           $.get("http://0.0.0.0:8889/all_category", function(result) {
-          
+          console.log(result);
             if (this.isMounted()) {
                   this.setState({
                     intrestData  : JSON.parse(result).data,
                     intDataLoded : true
                   });
+                  console.log("lfCat");
+                  console.log(JSON.parse(result).data[0],myInterestExists);
+                  if(myInterestExists == false){
+                    that.loadCategory(JSON.parse(result).data[0],null);                      
+                  }
+                  
             }
 
           }.bind(this));        
@@ -156,8 +167,7 @@ var Interest = React.createClass({
   						<Slider {...settings}>
   							<li key='99' className="nav_btns_list" id="my_interest" onClick={this.loadMyInterest} ><div className="click-target" id="my_interest">My Interest</div></li>
                   {sliderData}
-                                
-                              
+                                              
   							</Slider>
   						</ul>
 					</div>

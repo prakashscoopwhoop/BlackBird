@@ -1,5 +1,5 @@
-from app.validator import User, Interest, Story,Category
-from app.utils import encrypt_password, download_images_locally
+from app.validator import User, Interest, Story,Category, Fetch
+from app.utils import encrypt_password, download_images_locally, remove_image
 from app import config
 from app.config import PAGE_SIZE
 from bson.objectid import ObjectId
@@ -144,12 +144,23 @@ class InterestService:
             return
         
     def update_interest(self,interest):
-        if self.find_interest(interest[Interest.ID]) is not None:
+        existing_interest = self.find_interest(interest[Interest.ID])
+        if existing_interest is not None:
+            if interest[Interest.IMAGE] == existing_interest[Interest.IMAGE]:
+                pass
+            elif (interest[Interest.IMAGE] != existing_interest[Interest.IMAGE] ) and ("http" or "https" in interest[Interest.IMAGE]):
+                remove_image(existing_interest[Interest.IMAGE])
+                interest[Interest.IMAGE] = download_images_locally(interest[Interest.IMAGE])
+            else:
+                pass
+            if interest[Interest.ID]  is not isinstance(interest[Interest.ID], ObjectId) :
+                interest[Interest.ID] = ObjectId(interest[Interest.ID])
             interest_id = self.db().save(interest)
             interest[Interest.ID]= str(interest_id)
             return interest
         else:
             return 
+        
     def find_interests_by_category(self,category_id):
         catagory_data = []
         interests = self.db().find({Interest.CATEGORY_ID:category_id})
@@ -220,6 +231,8 @@ class CategoryService:
             return False
         self.db().remove(categoty[Category.ID])
         return True 
+    def remove(self):
+        remove_image("_2s_OBbqQ-O348BjcTF13Q.jpg")
     
 
 class StoryService:
@@ -239,8 +252,34 @@ class StoryService:
         articles = []
         stories = self.db().find({"interest":{"$in":interest_name}})
         for story in stories:
-            story["_id"]= str(story["_id"])
+            story["_id"] = str(story["_id"])
             articles.append(story)
         return articles
         
-        
+    def find_latest_stories(self):  #, from_time, end_time
+        all_stories = []
+        fetched = FetchService().get_fetch()
+        stories = self.db().find({"fetch": {"$gte": fetched['start_time'], "$lt": fetched['end_time']}})
+        for story in stories:
+            story[Story.ID] = str(story[Story.ID])
+            all_stories.append(story)
+        return all_stories
+
+
+class FetchService:
+
+    def db(self):
+        return config.db['fetch']
+
+    def save_fetch(self, fetch):
+        if self.db().find().count() > 0:
+            self.db().remove()
+        fetch_id = self.db().save(fetch)
+        fetch[Fetch.ID] = str(fetch_id)
+        return fetch
+
+    def get_fetch(self):
+        fetch = self.db().find_one()
+        if fetch is not None:
+            fetch[Fetch.ID] = str(fetch[Fetch.ID])
+            return fetch

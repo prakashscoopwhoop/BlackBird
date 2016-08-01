@@ -9,7 +9,7 @@ logging.basicConfig(level=logging.DEBUG,
             filemode='w')
 
 # connect to the running mongod instance
-client =  client = MongoClient('mongodb://127.0.0.1', 27017)
+client = MongoClient('mongodb://127.0.0.1', 27017)
 #switch to the UKM database, if not exist then create new db.
 db = client.blackbird
 

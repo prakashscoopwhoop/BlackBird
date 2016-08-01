@@ -79,4 +79,14 @@ class Category:
     Optional(ID):object,
     CATEGORY: basestring
     }))
-    
+
+
+class Fetch:
+    ID = '_id'
+    START_TIME = 'start_time',
+    END_TIME = 'end_time'
+
+    VALIDATOR = Schema({
+        Optional(ID): object,
+        START_TIME:int,
+        END_TIME:int})

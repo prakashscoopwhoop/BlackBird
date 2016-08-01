@@ -344,12 +344,13 @@ font-weight: bold;
 .cUserText.errorMsg,.editInterest .errorMsg {
     color: red;
     font-weight: bold;
-    font-size: 30px;
+    font-size: 14px;
 }
 .cUserForm label,.cInterestForm label,.editInterestForm label {
     width: 100px;
     float: left;
     margin: 10px;
+    margin-left: 17px;
 }
 .cUserForm input,.cInterestForm input,.editInterestForm input{
     height: 40px;
@@ -363,18 +364,19 @@ font-weight: bold;
 }
 .cUserForm button,.cInterestForm button,.editInterestForm button{
     margin-top: 17px;
-    height: 57px;
+    height: 44px;
     outline-style: none;
-    padding: 16px;
-    font-size: 24px;
+    padding: 6px;
+    font-size: 21px;
     border: none;
     background-color: #0058bc;
     cursor: pointer;
     font-family: ralewayReg;
     width: 300px;
-    margin-left: 130px;
+    margin-left: 137px;
     color: #fff;
     text-transform: uppercase;
+
 }
 .userRole input[type="radio"] {
     width: auto;
@@ -456,11 +458,9 @@ font-weight: bold;
     right: -12px;
     top: -13px;
     width: 27px;
-}
-
-.content .x:hover{
     cursor: pointer;
 }
+
 
 .side-menu { 
     background-color: #333333; 
@@ -568,37 +568,38 @@ font-weight: bold;
 
 
 .feature_article_div > img:first-child{
-    width: 38%;
+    width: 30%;
 }
 
 .feature_article_div h2{
     width: 28%;
     margin-top: -21%;
-    margin-left: 40%;
+    margin-left: 35%;
 }
 
 .feature_article_div span{
     width: 28%;
-    margin-left: 40%;
+    margin-left: 35%;
 }
 
 .feature_article_div  .article_description{
     width: 28%;
-   margin-left: 40%;
+   margin-left: 35%;
 }
 
 .feature_article_div  .shareIcons{
 
-    margin-left: 40%;
+    margin-left: 35%;
 }
 
 #trends_div{
     float: right;
-    border: 1px solid rgba(165, 156, 151, 0.85);
+    border: 1px solid rgba(165, 156, 151, 0.1);
     margin-right: 8%;
     width: 23%;
     height: 245px;
-    /*border-radius: 5px;*/
+    border-radius: 3px;
+    background-color: #f4f4f4;
 }
 
 .trends_inner_div{
@@ -607,7 +608,7 @@ font-weight: bold;
 }
 
 .trends_inner_div li{
-    padding: 3px;
+    padding: 3px; list-style: none;
 }
 
 #trends_div span{
@@ -644,7 +645,17 @@ font-weight: bold;
     position: relative; width:180px; cursor:pointer; height:34px;text-transform: capitalize; outline:none;
 }
 
-.interest-select select{ position: inherit !important; text-align:center; background: #fff !important; color: #333; border:none; width:300px; margin-left: 10px!important;text-indent: 15px; }
+.interest-select select{ 
+    position: inherit !important; 
+    text-align:center; 
+    background: #fff !important; 
+    color: #333; 
+    border:none; 
+    width:300px; 
+    margin-left: 10px!important;
+    text-indent: 15px; 
+    height: 42px;
+}
 
 table{
   width:100%;
@@ -686,3 +697,29 @@ td{
     cursor: pointer;
 }
 
+.loadingDiv{
+    margin-top: -65px;
+    margin-left: -34px;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    z-index: 104;
+    /*display: none;*/
+}
+.trending{width:14px;padding-right:7px;}
+
+.editIcon_{
+    width: 15px;
+    height: 15px;
+    cursor: pointer;
+}
+
+.deleteIcon_{
+    width: 15px;
+    height: 15px;
+    cursor: pointer;
+    margin-left: 15px;
+}
+.top-container{
+width:100%; height:100%; display: block;
+}
