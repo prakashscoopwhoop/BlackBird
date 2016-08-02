@@ -190,7 +190,8 @@ def get_interest(interest_id):
     else:
         return RestResponse(data={}, status = httplib.NOT_FOUND,
                             messages="user is not found", success = False).to_json()
-                            
+
+
 @route('/edit_interest_data/', method='PUT')                            
 def edit_interest():
     try:
@@ -205,7 +206,18 @@ def edit_interest():
         logging.error(e)
         return RestResponse(data={}, status = httplib.BAD_REQUEST,
                             messages="Enter Invalid Inputs ", success = False).to_json()
-    
+
+
+@route('/group')
+def get_trending_group():
+    all_group = __story_service.pull_group()
+    return RestResponse(all_group).to_json()
+
+
+@route('/group/<group_id>')
+def get_trending_group(group_id):
+    group_stories = __story_service.get_group_stories(group_id)
+    return RestResponse(group_stories).to_json()
 
 
 if __name__ == "__main__":
@@ -213,6 +225,6 @@ if __name__ == "__main__":
     __interest_service = InterestService()
     __category_service = CategoryService()
     __story_service = StoryService()
-    
+
     run(host='0.0.0.0', port=8889, server='waitress')
     logging.info("server running....")
