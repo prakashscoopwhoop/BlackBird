@@ -21,7 +21,10 @@ var Dashboard = React.createClass({
                     featuredArticleData  : [],
                     featuredArticleLoaded : false,
                     articleData  : [],
-                    articleLoaded : false
+                    articleLoaded : false,
+                    trendBtn :true,
+                    twitterBtn :false,
+                    toptweetBtn : false,
                     }
                 }
 				}
@@ -82,6 +85,36 @@ var Dashboard = React.createClass({
         }
             this.renderArticle(interests);
 		},
+
+        trendsFunc:function(){
+
+            this.setState({
+                trendBtn: true,
+                twitterBtn: false,
+                toptweetBtn: false
+            })
+            console.log("trends")
+        },
+
+        twitterFunc:function(){
+
+            this.setState({
+                twitterBtn: true,
+                trendBtn: false,
+                toptweetBtn: false
+            })
+            console.log("twitter")
+        },
+
+        toptweetFunc:function(){
+
+            this.setState({
+                toptweetBtn:true,
+                trendBtn: false,
+                twitterBtn: false
+            })
+        },
+
 	componentDidMount: function() {
 
           $.get("http://0.0.0.0:8889/my_interest/"+loggedIn.data._id, function(result) {
@@ -157,19 +190,45 @@ var Dashboard = React.createClass({
                 }
 
                 <div id="trends_div">
-						<span>Trends</span>
+						
+                        <div>
+                            <span id="trending" onClick={this.trendsFunc}>Trending</span>
+                            <span id="twitter" onClick={this.twitterFunc}>Twitter</span>
+                            <span id="topTweets" onClick={this.toptweetFunc}>TopTweets</span>
+                        </div>
 
-						<div className="trends_inner_div">
-						<ul>
-							<li><img className="trending" src="trending_up.png"></img><a href="http://digg.com/">#CiscoDigitizingIndia</a></li>
-							<li><img className="trending" src="trending_up.png"></img><a href="http://digg.com/">#rise</a></li>
-							<li><img className="trending" src="trending_up.png"></img><a href="http://digg.com/">#makeme</a></li>
-							<li><img className="trending" src="trending_up.png"></img><a href="http://digg.com/">#girlstalk</a></li>
-							<li><img className="trending" src="trending_up.png"></img><a href="http://digg.com/">darjeeling</a></li>
-							<li><img className="trending" src="trending_up.png"></img><a href="http://digg.com/">afterallthistime</a></li>
 
-						</ul>
-						</div>
+
+
+{
+        this.state.trendBtn ? <div className="trends_inner_div">
+                <ul>
+                    <li><img className="trending" src="trending_up.png"></img><a href="http://digg.com/">#CiscoDigitizingIndia</a></li>
+                    <li><img className="trending" src="trending_up.png"></img><a href="http://digg.com/">#rise</a></li>
+                    <li><img className="trending" src="trending_up.png"></img><a href="http://digg.com/">#makeme</a></li>
+                    <li><img className="trending" src="trending_up.png"></img><a href="http://digg.com/">#girlstalk</a></li>
+                    <li><img className="trending" src="trending_up.png"></img><a href="http://digg.com/">#darjeeling</a></li>
+                    <li><img className="trending" src="trending_up.png"></img><a href="http://digg.com/">#afterallthistime</a></li>
+
+                </ul>
+            </div>:(this.state.twitterBtn ?   <div className="twitter_inner_div">
+                        <ul>
+                            <li><img className="trending" src="trending_up.png"></img><a href="http://digg.com/">abcdefgh</a></li>
+                            <li><img className="trending" src="trending_up.png"></img><a href="http://digg.com/">abcdefgh</a></li>
+                            <li><img className="trending" src="trending_up.png"></img><a href="http://digg.com/">abcdefgh</a></li>
+                            <li><img className="trending" src="trending_up.png"></img><a href="http://digg.com/">abcdefgh</a></li>
+                            <li><img className="trending" src="trending_up.png"></img><a href="http://digg.com/">abcdefgh</a></li>
+                            <li><img className="trending" src="trending_up.png"></img><a href="http://digg.com/">abcdefgh</a></li>
+                        </ul>
+                        </div> 
+                    : <div>helloworld</div>
+        )
+                                
+
+
+ }
+
+
 
 				</div>
                 </div>
@@ -200,8 +259,6 @@ var Dashboard = React.createClass({
 
 					}) : null
 					}
-
-
 
 				</div>
 			</div>

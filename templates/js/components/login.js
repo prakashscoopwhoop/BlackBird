@@ -18,6 +18,7 @@ var Login = React.createClass({
                 window.location = "/interest";
                 }
 				}
+                return null;
             }
 		},
 	getLogin : function(){
