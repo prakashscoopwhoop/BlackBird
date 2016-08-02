@@ -126,7 +126,37 @@ var Dashboard = React.createClass({
 				
 
                 <div className="top-container">
-				<div id="trends_div">
+
+
+ {
+          this.state.featuredArticleLoaded ? this.state.featuredArticleData.map(function(item,i){
+          			 return(
+
+				<div key={i} className="feature">
+						<div className="feature-left">
+						<img src={item.feature_image}></img>
+                        </div>
+                        <div className="feature-right">
+						<h2 className="article_title"><a href={item.url}>{item.title}</a></h2>
+
+						<span className="article_source"><a href={item.url}>{item.publisher}</a></span>
+
+						<div className="article_description">
+							{item.description}
+						</div>
+
+						<div className="shareIcons">
+							<img src="facebook_share.png"/>
+							<img src="twitter_share.png"/>
+							<img src="gplus_share.png"/>
+						</div>
+						</div>
+				</div>
+                )
+                }) : null
+                }
+
+                <div id="trends_div">
 						<span>Trends</span>
 
 						<div className="trends_inner_div">
@@ -142,32 +172,6 @@ var Dashboard = React.createClass({
 						</div>
 
 				</div>
-
- {
-          this.state.featuredArticleLoaded ? this.state.featuredArticleData.map(function(item,i){
-          			 return(
-
-				<div key={i} className="feature_article_div">
-						<img src={item.feature_image}></img>
-
-						<h2 className="article_title"><a href={item.url}>{item.title}</a></h2>
-
-						<span className="article_source"><a href={item.url}>{item.publisher}</a></span>
-
-						<div className="article_description">
-							{item.description}
-						</div>
-
-						<div className="shareIcons">
-							<img src="facebook_share.png"/>
-							<img src="twitter_share.png"/>
-							<img src="gplus_share.png"/>
-						</div>
-				</div>
-                )
-                }) : null
-                }
-
                 </div>
 				<div id="articles_container">
                         {
