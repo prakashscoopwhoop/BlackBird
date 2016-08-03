@@ -325,16 +325,18 @@ class TwitterService:
             return
 
     def get_distinct_location(self):
-        python_dict = {'locations':[]}
-        python_dict['locations'] = self.db().distinct('location')
-        return python_dict
+        return self.db().distinct('location')
 
-    def get_location_trending(self, location):
+    def get_location_trending(self):
         location_trending = []
-        hashtags = self.db().find({"location":location})
-        for hashtag in hashtags:
-            hashtag['_id'] = str(hashtag['_id'])
-            location_trending.append(hashtag)
+        locations = self.get_distinct_location()
+        for location in locations:
+            python_dict = {'location':location,'data':[]} 
+            hashtags = self.db().find({"location":location})
+            for hashtag in hashtags:
+                hashtag['_id'] = str(hashtag['_id'])
+                python_dict['data'].append(hashtag)
+            location_trending.append(python_dict)
         return location_trending
 
     def remove_twitter(self):
