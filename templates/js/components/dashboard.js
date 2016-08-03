@@ -25,6 +25,7 @@ var Dashboard = React.createClass({
                     trendBtn :true,
                     twitterBtn :false,
                     toptweetBtn : false,
+                    trendsData: [],
                     }
                 }
 				}
@@ -87,13 +88,24 @@ var Dashboard = React.createClass({
 		},
 
         trendsFunc:function(){
-
+            var component = this
             this.setState({
                 trendBtn: true,
                 twitterBtn: false,
                 toptweetBtn: false
             })
             console.log("trends")
+
+            $.get('http://0.0.0.0:8889/group', function(data){
+
+                console.log(data)
+               
+                component.setState({
+                    trendsData :JSON.parse(data).data
+                })
+
+
+            })
         },
 
         twitterFunc:function(){
@@ -113,6 +125,17 @@ var Dashboard = React.createClass({
                 trendBtn: false,
                 twitterBtn: false
             })
+        },
+
+        groupFunc:function(g_id){
+            console.log(g_id)
+
+$.get(" http://0.0.0.0:8889/group/"+g_id, function(data){
+
+console.log(data)
+})
+
+            
         },
 
 	componentDidMount: function() {
@@ -163,7 +186,8 @@ var Dashboard = React.createClass({
 
  {
           this.state.featuredArticleLoaded ? this.state.featuredArticleData.map(function(item,i){
-          			 return(
+          			 
+                     return(
 
 				<div key={i} className="feature">
 						<div className="feature-left">
@@ -191,7 +215,7 @@ var Dashboard = React.createClass({
 
                 <div id="trends_div">
 						
-                        <div>
+                        <div className="span_div">
                             <span id="trending" onClick={this.trendsFunc}>Trending</span>
                             <span id="twitter" onClick={this.twitterFunc}>Twitter</span>
                             <span id="topTweets" onClick={this.toptweetFunc}>TopTweets</span>
@@ -201,17 +225,18 @@ var Dashboard = React.createClass({
 
 
 {
-        this.state.trendBtn ? <div className="trends_inner_div">
-                <ul>
-                    <li><img className="trending" src="trending_up.png"></img><a href="http://digg.com/">#CiscoDigitizingIndia</a></li>
-                    <li><img className="trending" src="trending_up.png"></img><a href="http://digg.com/">#rise</a></li>
-                    <li><img className="trending" src="trending_up.png"></img><a href="http://digg.com/">#makeme</a></li>
-                    <li><img className="trending" src="trending_up.png"></img><a href="http://digg.com/">#girlstalk</a></li>
-                    <li><img className="trending" src="trending_up.png"></img><a href="http://digg.com/">#darjeeling</a></li>
-                    <li><img className="trending" src="trending_up.png"></img><a href="http://digg.com/">#afterallthistime</a></li>
+        this.state.trendBtn ? this.state.trendsData.map(function(item,i){
+            // console.log(item)
+            return(<div className="trends_inner_div" key={i}>
 
+                <ul>
+                        <li id={item._id} onClick={that.groupFunc.bind(null, item._id)}><img className="trending" src="trending_up.png"></img>{item.passphrase[0]}</li>
                 </ul>
-            </div>:(this.state.twitterBtn ?   <div className="twitter_inner_div">
+
+            </div>
+            )
+            
+        }):(this.state.twitterBtn ?   <div className="twitter_inner_div">
                         <ul>
                             <li><img className="trending" src="trending_up.png"></img><a href="http://digg.com/">abcdefgh</a></li>
                             <li><img className="trending" src="trending_up.png"></img><a href="http://digg.com/">abcdefgh</a></li>
@@ -233,7 +258,7 @@ var Dashboard = React.createClass({
 				</div>
                 </div>
 				<div id="articles_container">
-                        {
+        {
           this.state.articleLoaded ? this.state.articleData.map(function(item,i){
           			 return(
 
@@ -258,7 +283,7 @@ var Dashboard = React.createClass({
 						)
 
 					}) : null
-					}
+		}
 
 				</div>
 			</div>

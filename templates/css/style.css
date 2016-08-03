@@ -598,21 +598,21 @@ font-weight: bold;
     border: 1px solid rgba(165, 156, 151, 0.1);
     margin-right: 8%;
     width: 26%;
-    height: 245px;
+    height: 321px;
     border-radius: 3px;
     background-color: #f4f4f4;
 }
 
 .trends_inner_div,.twitter_inner_div{
         margin-left: 10%;
-    margin-top: 5%;
+    /*margin-top: 5%;*/
 }
 
 .trends_inner_div li,.twitter_inner_div li{
     padding: 3px; list-style: none;
 }
 
-#trends_div span{
+#trends_div .span_div span{
     font-size: large;
     color: #fff;
     margin-left: 18px;
@@ -756,3 +756,7 @@ width:100%; height:auto; display: block; overflow: hidden;
 }
 
 .feature-left img {width: 100%;}
+
+.span_div 
+
+
