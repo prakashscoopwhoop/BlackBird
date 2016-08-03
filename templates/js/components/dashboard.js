@@ -130,9 +130,44 @@ var Dashboard = React.createClass({
         groupFunc:function(g_id){
             console.log(g_id)
 
-$.get(" http://0.0.0.0:8889/group/"+g_id, function(data){
+$.get(" http://0.0.0.0:8889/group/"+g_id, function(result){
 
-console.log(data)
+console.log(result)
+var featureItem = [], restItem = [];
+            if(JSON.parse(result).data.length===1){
+                this.setState({
+                    featuredArticleLoaded : true,
+                    articleLoaded : false
+                  });
+            }
+            else if(JSON.parse(result).data.length>1){
+                this.setState({
+                    featuredArticleLoaded : true,
+                    articleLoaded : true
+                  });
+            }else if(JSON.parse(result).data.length<1){
+            this.setState({
+                    featuredArticleLoaded : false,
+                    articleLoaded : false,
+                    featuredArticleData  : [],
+                    articleData : []
+                  });
+            }
+            for(i=0; i<JSON.parse(result).data.length; i++){
+                if(i===0){
+                    featureItem.push(JSON.parse(result).data[i]);
+                }else{
+                    restItem.push(JSON.parse(result).data[i]);
+                }
+            }
+            if (this.isMounted()) {
+                  this.setState({
+                    featuredArticleData  : featureItem,
+                    featuredArticleLoaded : true,
+                    articleData  : restItem,
+                    articleLoaded : true
+                  });
+            }
 })
 
             
