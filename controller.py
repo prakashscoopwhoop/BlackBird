@@ -1,5 +1,5 @@
 from bottle import route, run, static_file, template, error,request
-from app.service import UserService,InterestService, CategoryService, StoryService
+from app.service import UserService,InterestService, CategoryService, StoryService, TwitterService
 from app.utils import RestResponse
 from app.config import logging
 import httplib
@@ -220,11 +220,24 @@ def get_trending_group(group_id):
     return RestResponse(group_stories).to_json()
 
 
+@route('/location')
+def get_unique_location():
+    unique_location = __twitter_service.get_distinct_location()
+    return unique_location
+
+
+@route('/location/<location>')
+def location_trending(location):
+    trending_hashtags = __twitter_service.get_location_trending(location)
+    return RestResponse(trending_hashtags).to_json()
+
+
 if __name__ == "__main__":
     __user_service = UserService()
     __interest_service = InterestService()
     __category_service = CategoryService()
     __story_service = StoryService()
+    __twitter_service = TwitterService()
 
     run(host='0.0.0.0', port=8889, server='waitress')
     logging.info("server running....")
