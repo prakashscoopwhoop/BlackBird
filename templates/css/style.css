@@ -600,33 +600,31 @@ font-weight: bold;
     width: 26%;
     height: 321px;
     border-radius: 3px;
-    background-color: #f4f4f4;
+    background-color: rgba(221, 221, 221, 0.29);
 }
 
-.trends_inner_div,.twitter_inner_div{
+.trends_inner_div{
         margin-left: 10%;
     /*margin-top: 5%;*/
 }
 
-.trends_inner_div li,.twitter_inner_div li{
-    padding: 3px; list-style: none;
+.trends_inner_div li, .twitter_inner_div li{
+    padding: 5px; list-style: none;
 }
 
-#trends_div .span_div span{
+#trends_div .span_div span {
     font-size: large;
-    color: #fff;
-    margin-left: 18px;
     display: inline-block;
-    margin-top: 9px;
-    padding: 8px;
-    border-radius: 4px;
-    background-color: #0058bc;
+    margin: 2px 6px 0;
+    padding: 8px 11px;
+    background: #0058bc;
     cursor: pointer;
 }
 
-#trends_div span:hover, #trends_div span:focus {
-    background: rgba(0, 88, 188, 0.88);
-
+#trends_div .span_div .active1 {
+    background: rgb(245, 245, 245);
+    border-radius: 5px 5px 0 0;
+    color: #000;
 }
 
 #trends_div span:active{
@@ -757,6 +755,30 @@ width:100%; height:auto; display: block; overflow: hidden;
 
 .feature-left img {width: 100%;}
 
-.span_div 
+.span_div {
+    margin-bottom: 10px;
+    background: #0058bc;    
+    padding: 0 8px;
 
+}
+
+
+
+.twitter_inner_div {
+    background: white;
+    padding: 11px;
+    margin: 20px 20px 0px 20px;
+      
+}
+
+.twitter_inner_div span{
+            color: #0058bc;
+    /* margin-top: 5px; */
+    margin: 64px;
+    /* padding-top: 2px; */
+}
+
+.twitter_list{
+        padding: 23px;
+}
 

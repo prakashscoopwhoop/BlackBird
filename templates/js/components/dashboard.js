@@ -1,6 +1,7 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
 var $ = require("jquery");
+var Slider = require('react-slick');
 
 var Dashboard = React.createClass({
 
@@ -26,6 +27,7 @@ var Dashboard = React.createClass({
                     twitterBtn :false,
                     toptweetBtn : false,
                     trendsData: [],
+                    twitterData: [],
                     }
                 }
 				}
@@ -35,7 +37,7 @@ var Dashboard = React.createClass({
 
 		renderArticle(interests) {
         $.get("http://0.0.0.0:8889/get_article/"+interests, function(result) {
-            console.log(JSON.parse(result).data);
+            // console.log(JSON.parse(result).data);
             var featureItem = [], restItem = [];
             if(JSON.parse(result).data.length===1){
                 this.setState({
@@ -74,6 +76,7 @@ var Dashboard = React.createClass({
         }.bind(this));
 
     },
+
     change:function(event){
         var clicked = event.target.value;
         var interests = [];
@@ -88,6 +91,8 @@ var Dashboard = React.createClass({
 		},
 
         trendsFunc:function(){
+            $('.span_div').find('span').removeClass('active1')
+            $('#trending').addClass('active1');
             var component = this
             this.setState({
                 trendBtn: true,
@@ -98,7 +103,7 @@ var Dashboard = React.createClass({
 
             $.get('http://0.0.0.0:8889/group', function(data){
 
-                console.log(data)
+                // console.log(data)
                
                 component.setState({
                     trendsData :JSON.parse(data).data
@@ -109,16 +114,30 @@ var Dashboard = React.createClass({
         },
 
         twitterFunc:function(){
-
+            $('.span_div').find('span').removeClass('active1')
+            $('#twitter').addClass('active1');
+            var component = this
             this.setState({
                 twitterBtn: true,
                 trendBtn: false,
                 toptweetBtn: false
             })
             console.log("twitter")
+
+
+            $.get("http://0.0.0.0:8889/twitter", function(data){
+
+                console.log(data)
+
+                component.setState({
+                    twitterData: JSON.parse(data).data
+                })
+            })
         },
 
         toptweetFunc:function(){
+            $('.span_div').find('span').removeClass('active1')
+            $('#topTweets').addClass('active1');
 
             this.setState({
                 toptweetBtn:true,
@@ -128,56 +147,59 @@ var Dashboard = React.createClass({
         },
 
         groupFunc:function(g_id){
+
             console.log(g_id)
+            var component =this
+            $.get(" http://0.0.0.0:8889/group/"+g_id, function(result){
 
-$.get(" http://0.0.0.0:8889/group/"+g_id, function(result){
-
-console.log(result)
-var featureItem = [], restItem = [];
-            if(JSON.parse(result).data.length===1){
-                this.setState({
-                    featuredArticleLoaded : true,
-                    articleLoaded : false
-                  });
-            }
-            else if(JSON.parse(result).data.length>1){
-                this.setState({
-                    featuredArticleLoaded : true,
-                    articleLoaded : true
-                  });
-            }else if(JSON.parse(result).data.length<1){
-            this.setState({
-                    featuredArticleLoaded : false,
-                    articleLoaded : false,
-                    featuredArticleData  : [],
-                    articleData : []
-                  });
-            }
-            for(i=0; i<JSON.parse(result).data.length; i++){
-                if(i===0){
-                    featureItem.push(JSON.parse(result).data[i]);
-                }else{
-                    restItem.push(JSON.parse(result).data[i]);
-                }
-            }
-            if (this.isMounted()) {
-                  this.setState({
-                    featuredArticleData  : featureItem,
-                    featuredArticleLoaded : true,
-                    articleData  : restItem,
-                    articleLoaded : true
-                  });
-            }
-})
+            console.log(result)
+            var featureItem = [], restItem = [];
+                        if(JSON.parse(result).data.length===1){
+                            component.setState({
+                                featuredArticleLoaded : true,
+                                articleLoaded : false
+                              });
+                        }
+                        else if(JSON.parse(result).data.length>1){
+                            component.setState({
+                                featuredArticleLoaded : true,
+                                articleLoaded : true
+                              });
+                        }else if(JSON.parse(result).data.length<1){
+                        component.setState({
+                                featuredArticleLoaded : false,
+                                articleLoaded : false,
+                                featuredArticleData  : [],
+                                articleData : []
+                              });
+                        }
+                        for(i=0; i<JSON.parse(result).data.length; i++){
+                            if(i===0){
+                                featureItem.push(JSON.parse(result).data[i]);
+                            }else{
+                                restItem.push(JSON.parse(result).data[i]);
+                            }
+                        }
+                        if (component.isMounted()) {
+                              component.setState({
+                                featuredArticleData  : featureItem,
+                                featuredArticleLoaded : true,
+                                articleData  : restItem,
+                                articleLoaded : true
+                              });
+                        }
+            })
 
             
         },
+
+
 
 	componentDidMount: function() {
 
           $.get("http://0.0.0.0:8889/my_interest/"+loggedIn.data._id, function(result) {
           var interests = [];
-            console.log(JSON.parse(result).data);
+            // console.log(JSON.parse(result).data);
             if (this.isMounted()) {
                   this.setState({
                     interestData  : JSON.parse(result).data,
@@ -189,10 +211,23 @@ var featureItem = [], restItem = [];
             }
            this.renderArticle(interests);
           }.bind(this));
+
+        this.trendsFunc();
+
     },
 	render: function(){
+
 	var that = this;
-        var optionList = [];
+    var optionList = [];
+
+    var settings = {
+        infinite: true,
+        speed: 500,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        initialSlide: 1
+    }
+
 		return(
 			<div>
 					<div className="styled-select">
@@ -271,17 +306,44 @@ var featureItem = [], restItem = [];
             </div>
             )
             
-        }):(this.state.twitterBtn ?   <div className="twitter_inner_div">
-                        <ul>
-                            <li><img className="trending" src="trending_up.png"></img><a href="http://digg.com/">abcdefgh</a></li>
-                            <li><img className="trending" src="trending_up.png"></img><a href="http://digg.com/">abcdefgh</a></li>
-                            <li><img className="trending" src="trending_up.png"></img><a href="http://digg.com/">abcdefgh</a></li>
-                            <li><img className="trending" src="trending_up.png"></img><a href="http://digg.com/">abcdefgh</a></li>
-                            <li><img className="trending" src="trending_up.png"></img><a href="http://digg.com/">abcdefgh</a></li>
-                            <li><img className="trending" src="trending_up.png"></img><a href="http://digg.com/">abcdefgh</a></li>
-                        </ul>
-                        </div> 
-                    : <div>helloworld</div>
+        }):(this.state.twitterBtn ? <div className="twitter_inner_div">
+                    <Slider {...settings}>
+                          {this.state.twitterData.map(function(item, i){
+                            // console.log(item.data[i].query)
+                            return(
+                                <div>
+                                <span>{item.location}</span>
+                                <div className="twitter_list">
+                                                                    <ul>
+                                {
+                                    
+                                        item.data.map(function(itemD, j){
+                                            // console.log(itemD.query)
+                                            return(
+                                                    <li>
+                                                        <a href={item.url}>{itemD.query}</a>
+                                                         
+                                                    </li>
+                                                )  
+                                    })
+                                    
+                                    
+                                }
+                                </ul>
+                                 
+                                </div>
+
+                                </div>
+                                   
+                                
+                                )
+                            
+                                })  
+                        }
+                    </Slider>
+                   
+            </div>
+        : <div className="">abcd</div>
         )
                                 
 
