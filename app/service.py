@@ -361,17 +361,10 @@ class TweetService:
         if self.db().find().count() > 0:
             self.db().remove()
 
-    def get_distinct_location(self):
-        return self.db().distinct('location')
-
     def get_tweets(self):
         tweets = []
-        locations = self.get_distinct_location()
-        for location in locations:
-            python_dict = {"location":location, "data":[]}
-            top_tweets = self.db().find({"location":location})
-            for tweet in top_tweets:
-                tweet['_id'] = str(tweet['_id'])
-                python_dict['data'].append(tweet)
-            tweets.append(python_dict)
+        top_tweets = self.db().find()
+        for tweet in top_tweets:
+            tweet['_id'] = str(tweet['_id'])
+            tweets.append(tweet)
         return tweets
