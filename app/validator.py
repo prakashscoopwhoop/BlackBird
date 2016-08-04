@@ -106,3 +106,23 @@ class Twitter:
         LOCATION: basestring,
         QUERY:basestring
     })
+
+
+class Tweet:
+    ID = '_id'
+    SCREEN_NAME = 'screen_name'
+    USER_NAME = 'user_name'
+    ID_STR = 'id_str'
+    QUERY = 'query'
+    LOCATION = 'location'
+    TEXT = 'text'
+
+    VALIDATOR = Schema({
+        Optional(ID): object,
+        SCREEN_NAME: basestring,
+        USER_NAME: basestring,
+        ID_STR: int,
+        QUERY:basestring,
+        LOCATION: basestring,
+        TEXT: basestring
+    })

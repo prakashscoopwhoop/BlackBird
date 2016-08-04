@@ -1,5 +1,5 @@
 from operator import itemgetter
-from app.validator import User, Interest, Story,Category, Fetch, Twitter
+from app.validator import User, Interest, Story,Category, Fetch, Twitter, Tweet
 from app.utils import encrypt_password, download_images_locally, remove_image
 from app import config
 from app.config import PAGE_SIZE
@@ -343,3 +343,35 @@ class TwitterService:
         if self.db().find().count() > 0:
             self.db().remove()
 
+class TweetService:
+
+    def db(self):
+        return config.db['tweet']
+
+    def save_tweet(self, tweet):
+        if self.db().find_one(
+                {Tweet.ID_STR: tweet[Tweet.ID_STR], Tweet.QUERY: tweet[Twitter.QUERY]}) is None:
+            tweet_id = self.db().save(tweet)
+            tweet[Twitter.ID] = str(tweet_id)
+            return tweet
+        else:
+            return
+
+    def remove_tweet(self):
+        if self.db().find().count() > 0:
+            self.db().remove()
+
+    def get_distinct_location(self):
+        return self.db().distinct('location')
+
+    def get_tweets(self):
+        tweets = []
+        locations = self.get_distinct_location()
+        for location in locations:
+            python_dict = {"location":location, "data":[]}
+            top_tweets = self.db().find({"location":location})
+            for tweet in top_tweets:
+                tweet['_id'] = str(tweet['_id'])
+                python_dict['data'].append(tweet)
+            tweets.append(python_dict)
+        return tweets
