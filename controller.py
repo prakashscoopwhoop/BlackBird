@@ -220,10 +220,6 @@ def get_trending_group(group_id):
     return RestResponse(group_stories).to_json()
 
 
-# @route('/location')
-# def get_unique_location():
-#     unique_location = __twitter_service.get_distinct_location()
-#     return unique_location
 
 
 @route('/twitter')
