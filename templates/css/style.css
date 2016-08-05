@@ -529,7 +529,7 @@ font-weight: bold;
 }
 
 .article_title {
-        margin: 10px 0 10px 0;
+        margin: 4px 0 10px 0;
         font-family: ralewayReg;
 }
 
@@ -564,6 +564,7 @@ font-weight: bold;
         margin-left: 5%;
     display: inherit;
     margin-bottom: 55px;
+    width: 66%;
 }
 
 
@@ -596,27 +597,38 @@ font-weight: bold;
     float: right;
     border: 1px solid rgba(165, 156, 151, 0.1);
     margin-right: 8%;
-    width: 23%;
-    height: 245px;
+    width: 26%;
+    height: 321px;
     border-radius: 3px;
-    background-color: #f4f4f4;
+    background-color: #fcfcfc;
+    border-top:none;
 }
 
 .trends_inner_div{
-        margin-left: 10%;
-    margin-top: 5%;
+        width: 86%;
+    margin: 0 auto;
+    /*margin-top: 5%;*/
 }
 
-.trends_inner_div li{
-    padding: 3px; list-style: none;
+.trends_inner_div li, .twitter_inner_div li, .tweet_inner_div li{
+    padding: 5px; list-style: none;
 }
 
-#trends_div span{
-    font-size: larger;
-    color: rgb(113, 110, 110);;
-    margin-left: 9px;
+#trends_div .span_div span {
+    font-size: large;
     display: inline-block;
-    margin-top: 9px;
+    padding: 10px;
+    background: #e4e5e7;
+    cursor: pointer;
+}
+
+#trends_div .span_div .active1 {
+    background-color: #fcfcfc;
+    color: #000;
+}
+
+#trends_div span:active{
+     background: #e4e5e7;
 }
 
 .styled-select{
@@ -721,5 +733,69 @@ td{
     margin-left: 15px;
 }
 .top-container{
-width:100%; height:100%; display: block;
+width:100%; height:auto; display: block; overflow: hidden;
+}
+
+.feature{
+    width: 57%;
+    margin-left: 5%;
+    float: left;
+}
+
+.feature-left{
+    float:left;    
+    width: 59%;
+}
+
+.feature-right{
+    float:right; 
+    width:39%; 
+    margin-left:2%;
+}
+
+.feature-left img {width: 100%;}
+
+.span_div {
+    margin-bottom: 10px;
+    background: #e4e5e7;
+}
+
+
+
+.twitter_inner_div,.tweet_inner_div {
+    /*background: white;
+    padding: 11px;
+    margin: 20px 20px 0px 20px;*/
+    height: 220px!important;
+      
+}
+
+.twitter_inner_div span{
+       margin: 64px;
+
+}
+
+.twitter_list{
+        padding: 23px;
+        cursor: pointer;
+}
+
+.topTweets_list{
+height: 210px!important;
+}
+
+.topTweets_list div{
+        width: 70%;
+    margin-bottom: 22px;
+}
+
+.topTweets_list span{
+    color: #0058bc;
+}
+
+.tweetSlider{
+/*background: white;
+    padding: 28px 0px 42px 15px;
+    margin-top: 12px;*/
+    height: 220px;
 }

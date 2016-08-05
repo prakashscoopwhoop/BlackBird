@@ -88,5 +88,41 @@ class Fetch:
 
     VALIDATOR = Schema({
         Optional(ID): object,
-        START_TIME:int,
-        END_TIME:int})
+        START_TIME: int,
+        END_TIME: int})
+
+
+class Twitter:
+    ID = '_id'
+    URL = 'url'
+    NAME = 'name'
+    LOCATION = 'location'
+    QUERY = 'query'
+
+    VALIDATOR = Schema({
+        Optional(ID): object,
+        URL: basestring,
+        NAME: basestring,
+        LOCATION: basestring,
+        QUERY:basestring
+    })
+
+
+class Tweet:
+    ID = '_id'
+    SCREEN_NAME = 'screen_name'
+    USER_NAME = 'user_name'
+    ID_STR = 'id_str'
+    QUERY = 'query'
+    LOCATION = 'location'
+    TEXT = 'text'
+
+    VALIDATOR = Schema({
+        Optional(ID): object,
+        SCREEN_NAME: basestring,
+        USER_NAME: basestring,
+        ID_STR: int,
+        QUERY:basestring,
+        LOCATION: basestring,
+        TEXT: basestring
+    })
