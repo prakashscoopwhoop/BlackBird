@@ -600,35 +600,35 @@ font-weight: bold;
     width: 26%;
     height: 321px;
     border-radius: 3px;
-    background-color: rgba(221, 221, 221, 0.29);
+    background-color: #fcfcfc;
+    border-top:none;
 }
 
 .trends_inner_div{
-        margin-left: 10%;
+        width: 86%;
+    margin: 0 auto;
     /*margin-top: 5%;*/
 }
 
-.trends_inner_div li, .twitter_inner_div li{
+.trends_inner_div li, .twitter_inner_div li, .tweet_inner_div li{
     padding: 5px; list-style: none;
 }
 
 #trends_div .span_div span {
     font-size: large;
     display: inline-block;
-    margin: 2px 6px 0;
-    padding: 8px 11px;
-    background: #0058bc;
+    padding: 10px;
+    background: #e4e5e7;
     cursor: pointer;
 }
 
 #trends_div .span_div .active1 {
-    background: rgb(245, 245, 245);
-    border-radius: 5px 5px 0 0;
+    background-color: #fcfcfc;
     color: #000;
 }
 
 #trends_div span:active{
-     background: rgba(0, 88, 188, 0.88);   
+     background: #e4e5e7;
 }
 
 .styled-select{
@@ -757,17 +757,16 @@ width:100%; height:auto; display: block; overflow: hidden;
 
 .span_div {
     margin-bottom: 10px;
-    background: #0058bc;    
-    padding: 0 8px;
-
+    background: #e4e5e7;
 }
 
 
 
-.twitter_inner_div {
-    background: white;
+.twitter_inner_div,.tweet_inner_div {
+    /*background: white;
     padding: 11px;
-    margin: 20px 20px 0px 20px;
+    margin: 20px 20px 0px 20px;*/
+    height: 220px!important;
       
 }
 
@@ -782,10 +781,7 @@ width:100%; height:auto; display: block; overflow: hidden;
 }
 
 .topTweets_list{
-   
-    background: white;
-    padding: 28px 0px 42px 15px;
-    margin-top: 12px;
+height: 210px!important;
 }
 
 .topTweets_list div{
@@ -797,3 +793,9 @@ width:100%; height:auto; display: block; overflow: hidden;
     color: #0058bc;
 }
 
+.tweetSlider{
+/*background: white;
+    padding: 28px 0px 42px 15px;
+    margin-top: 12px;*/
+    height: 220px;
+}

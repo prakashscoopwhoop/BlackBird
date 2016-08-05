@@ -135,7 +135,10 @@ class InterestService:
             if category is not None:
                 if Interest.KEYWORDS not in interest:
                     interest[Interest.KEYWORDS] = []
-                interest[Interest.IMAGE]=download_images_locally(interest[Interest.IMAGE])
+                if interest[Interest.IMAGE]:
+                    interest[Interest.IMAGE]=download_images_locally(interest[Interest.IMAGE])
+                else:
+                    interest[Interest.IMAGE] = 'noimagefound.jpg'
                 interest_id = self.db().save(interest)
                 interest[Interest.ID]= str(interest_id)
                 return interest
@@ -149,12 +152,12 @@ class InterestService:
         if existing_interest is not None:
             if interest[Interest.IMAGE] == existing_interest[Interest.IMAGE]:
                 pass
-            elif (interest[Interest.IMAGE] != existing_interest[Interest.IMAGE] ) and ("http" or "https" in interest[Interest.IMAGE]):
+            elif (interest[Interest.IMAGE] != existing_interest[Interest.IMAGE]) and ("http" or "https" in interest[Interest.IMAGE]):
                 remove_image(existing_interest[Interest.IMAGE])
                 interest[Interest.IMAGE] = download_images_locally(interest[Interest.IMAGE])
             else:
                 pass
-            if interest[Interest.ID]  is not isinstance(interest[Interest.ID], ObjectId) :
+            if interest[Interest.ID] is not isinstance(interest[Interest.ID], ObjectId) :
                 interest[Interest.ID] = ObjectId(interest[Interest.ID])
             interest_id = self.db().save(interest)
             interest[Interest.ID]= str(interest_id)

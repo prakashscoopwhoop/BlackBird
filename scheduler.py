@@ -3,12 +3,12 @@ import time
 from datetime import datetime, timedelta
 import re
 import requests
-from app.service import StoryService, CategoryService, InterestService,FetchService
+from app.service import StoryService, CategoryService, InterestService, FetchService
 import domparser
 from textrank import extractKeyphrases
 from collections import Counter
 import math
-from pymongo import MongoClient
+from app.config import logging
 
 
 def reset_story_group():
@@ -17,7 +17,7 @@ def reset_story_group():
 
 def fetch_time_line():
     time_frame = {"start_time": 0, "end_time": 0}
-    c_time = datetime.now() + timedelta(hours=-1)
+    c_time = datetime.now() + timedelta(hours=-4)
     start_time = (c_time.year, c_time.month, c_time.day, c_time.hour, 0, 1, 0, 0, 0)
     start_epoch = int(time.mktime(start_time))
     c_time = c_time + timedelta(hours=1)
@@ -25,7 +25,6 @@ def fetch_time_line():
     end_epoch = int(time.mktime(end_time))
     time_frame['start_time'] = start_epoch
     time_frame['end_time'] = end_epoch
-    print time_frame
     return time_frame
 
 
@@ -75,38 +74,58 @@ def watching_stories(domain_list):
                     article = {'title': '', 'url': '', 'description': '', 'keywords': '', 'feature_image': '','New_score': '',
                             'max_new_score': '', 'fb_like': '', 'tweet_count': '', 'publisher': '', "uuid": '', 'published': '',
                                'category': [], 'interest': [], 'fetch': '', 'created_keys':[]}
-                    if item['headline'] is None:
+                    if item['headline'] is None & 'headline' in item:
                         article['title'] = article_info['title']
                     else:
                         article['title'] = item['headline'].encode('utf-8')
 
-                    if item['link'] is None:
+                    if item['link'] is None & 'link' in item:
                         article['url'] = article_info['url']
                     else:
                         article['url'] = item['link'].encode('utf-8')
 
-                    if item['excerpt'] is None:
+                    if item['excerpt'] is None & 'excerpt' in item:
                         article['description'] = article_info['description']
                     else:
                         article['description'] = item['excerpt']
 
-                    if item['keywords'] is None:
+                    if item['keywords'] is None & 'keywords' in item:
                         article['keywords'] = article_info['keywords']
                     else:
                         article['keywords'] = (item['keywords']).split(',')
 
-                    if item['image_link'] is None:
+                    if item['image_link'] is None & 'image_link' in item:
                         article['feature_image'] = article_info['feature_image']
                     else:
                         article['feature_image'] = item['image_link']
-                    article['New_score'] = item['nw_score']
-                    article['max_new_score'] = item['max_nw_score']
-                    article['fb_like'] = item['fb_data']['like_count']
-                    article['tweet_count'] = item['tw_data']['tw_count']
-                    article['publisher'] = item['source']['publisher']
-                    article['uuid'] = item['uuid']
-                    article['published'] = time.strftime('%Y-%m-%d %H:%M', time.localtime(item['publication_timestamp']/1000.0))
-                    # article['fetch'] = datetime.strftime(datetime.now(), "%Y-%m-%d")
+                    if 'new_score' in item:
+                        article['New_score'] = item['nw_score']
+                    else:
+                        article['New_score'] = 0
+                    if 'max_new_score' in item:
+                        article['max_new_score'] = item['max_nw_score']
+                    else:
+                        article['max_new_score'] = 0
+                    if 'total_engagement_count' in item['fb_data']:
+                        article['fb_like'] = item['fb_data']['total_engagement_count']
+                    else:
+                        article['fb_like'] = 0
+                    if 'tw_count' in item['tw_data']:
+                        article['tweet_count'] = item['tw_data']['tw_count']
+                    else:
+                        item['tw_data']['tw_count'] = 0
+                    if 'publisher' in item['source']:
+                        article['publisher'] = item['source']['publisher']
+                    else:
+                        article['publisher'] = "None"
+                    if 'uuid' in item:
+                        article['uuid'] = item['uuid']
+                    else:
+                        article['uuid'] = 'None'
+                    if 'publication_timestamp' in item:
+                        article['published'] = time.strftime('%Y-%m-%d %H:%M', time.localtime(item['publication_timestamp']/1000.0))
+                    else:
+                        article['published'] = "None"
                     article['fetch'] = current_epoch_time(datetime.now())
 
                     dummy_category = []
@@ -230,7 +249,7 @@ class Grouping:
                     gp_count = gp_count -1
                 else:
                     article["group"] = "group" + str(gp_count)
-                    stories.save(article)
+                    self.__story_service.save_story(article)
             else:
                 pass
 
@@ -245,11 +264,13 @@ class Grouping:
                     article_cosine_smlr_score = article_cosine_smlr_score + similar_category_score
                 if article_cosine_smlr_score >= 0.5:
                     article["group"] = "group" + str(gp_count)
-                    stories.save(article)
+                    self.__story_service.save_story(article)
 
 
 if __name__ == "__main__":
     while True:
+        logging.info("Scheduler initialize....")
+        logging.info("Start time: " + str(datetime.now()))
         __story_service = StoryService()
         __category_service = CategoryService()
         __interest_service = InterestService()
@@ -262,10 +283,7 @@ if __name__ == "__main__":
 
         stories = __story_service.find_latest_stories()
         if len(stories) > 0:
-            reset_story_group()
-            client = MongoClient()
-            db = client.blackbird
-            stories = db.stories
             gp_count = 0
             Grouping().get_articles_for_grouping(gp_count)
-        time.sleep(21600)
+        logging.info("End time: " + str(datetime.now()))
+        time.sleep(3600)

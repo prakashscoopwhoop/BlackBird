@@ -234,11 +234,10 @@ var Dashboard = React.createClass({
     	var that = this;
         var optionList = [];
         var settings = {
-            infinite: true,
+            infinite: false,
             speed: 500,
             slidesToShow: 1,
-            slidesToScroll: 1,
-            initialSlide: 1
+            slidesToScroll: 1
         }
 
 		return(
@@ -326,14 +325,14 @@ var Dashboard = React.createClass({
                     <Slider {...settings}>
                           {this.state.twitterData.map(function(item, i){
                                 return(
-                                        <div>
+                                        <div key={i}>
                                                 <span>{item.location}</span>
                                                 <div className="twitter_list">
                                                 <ul>
                                                     {
                                                         item.data.map(function(itemD, j){
                                                          return(
-                                                                <li>
+                                                                <li key={j}>
                                                                     <a href={itemD.url} target="_blank">{itemD.query}</a>
                                                                 </li>
                                                                 )  
@@ -348,7 +347,7 @@ var Dashboard = React.createClass({
                     </Slider>
                 </div>
 
-                :<Slider {...settings}>
+                :<div className="tweetSlider"><Slider {...settings}>
                     {
                         this.state.topTweetData.map(function(item, i){
                         return(
@@ -363,6 +362,7 @@ var Dashboard = React.createClass({
                     }
                     
                 </Slider>
+                </div>
             )
     }
 
