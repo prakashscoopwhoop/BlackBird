@@ -28,6 +28,7 @@ var Dashboard = React.createClass({
                     toptweetBtn : false,
                     trendsData: [],
                     twitterData: [],
+                    topTweetData: [],
                     }
                 }
 				}
@@ -139,10 +140,21 @@ var Dashboard = React.createClass({
             $('.span_div').find('span').removeClass('active1')
             $('#topTweets').addClass('active1');
 
+            var  component=this
+
             this.setState({
                 toptweetBtn:true,
                 trendBtn: false,
                 twitterBtn: false
+            })
+
+            $.get("http://0.0.0.0:8889/tweets", function(data){
+                console.log(data)
+
+                component.setState({
+                    topTweetData: JSON.parse(data).data
+                })
+
             })
         },
 
@@ -215,31 +227,35 @@ var Dashboard = React.createClass({
         this.trendsFunc();
 
     },
+
+
 	render: function(){
 
-	var that = this;
-    var optionList = [];
-
-    var settings = {
-        infinite: true,
-        speed: 500,
-        slidesToShow: 1,
-        slidesToScroll: 1,
-        initialSlide: 1
-    }
+    	var that = this;
+        var optionList = [];
+        var settings = {
+            infinite: true,
+            speed: 500,
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            initialSlide: 1
+        }
 
 		return(
 			<div>
 					<div className="styled-select">
 
-                            {
-                                  this.state.intDataLoaded ? this.state.interestData.map(function(item,i){
-                                    optionList.push(<option key={i} id={item._id} value={item._id}  >{item.interest}</option>)
-                                  }) : null
-                                 }
+                
                             <select onChange={this.change} value={this.state.value}>
                             <option id="all" value="all" >all</option>
-                                {optionList}
+
+
+                            {
+                                  this.state.intDataLoaded ? this.state.interestData.map(function(item,i){
+                                    return(<option key={i} id={item._id} value={item._id} >{item.interest}</option>)
+                                  }) : null
+                            }
+                               
 							</select>
 
 
@@ -294,9 +310,9 @@ var Dashboard = React.createClass({
 
 
 
-{
+    {
         this.state.trendBtn ? this.state.trendsData.map(function(item,i){
-            // console.log(item)
+           
             return(<div className="trends_inner_div" key={i}>
 
                 <ul>
@@ -309,46 +325,46 @@ var Dashboard = React.createClass({
         }):(this.state.twitterBtn ? <div className="twitter_inner_div">
                     <Slider {...settings}>
                           {this.state.twitterData.map(function(item, i){
-                            // console.log(item.data[i].query)
-                            return(
-                                <div>
-                                <span>{item.location}</span>
-                                <div className="twitter_list">
-                                                                    <ul>
-                                {
-                                    
-                                        item.data.map(function(itemD, j){
-                                            // console.log(itemD.query)
-                                            return(
-                                                    <li>
-                                                        <a href={item.url}>{itemD.query}</a>
-                                                         
-                                                    </li>
-                                                )  
-                                    })
-                                    
-                                    
-                                }
-                                </ul>
-                                 
-                                </div>
-
-                                </div>
-                                   
-                                
-                                )
-                            
-                                })  
-                        }
+                                return(
+                                        <div>
+                                                <span>{item.location}</span>
+                                                <div className="twitter_list">
+                                                <ul>
+                                                    {
+                                                        item.data.map(function(itemD, j){
+                                                         return(
+                                                                <li>
+                                                                    <a href={itemD.url} target="_blank">{itemD.query}</a>
+                                                                </li>
+                                                                )  
+                                                        })
+                                                    }
+                                                </ul>
+                                                </div>
+                                        </div> 
+                                        )
+                             })
+                            }
                     </Slider>
-                   
-            </div>
-        : <div className="">abcd</div>
-        )
-                                
+                </div>
 
+                :<Slider {...settings}>
+                    {
+                        this.state.topTweetData.map(function(item, i){
+                        return(
+                                <div className="topTweets_list" key={i}>
+                                    <div>{item.text}</div>
+                                    <span>--{item.user_name}</span><span>({item.screen_name})</span>
 
- }
+                                </div>
+                            )
+                        
+                    })
+                    }
+                    
+                </Slider>
+            )
+    }
 
 
 

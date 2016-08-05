@@ -772,13 +772,28 @@ width:100%; height:auto; display: block; overflow: hidden;
 }
 
 .twitter_inner_div span{
-            color: #0058bc;
-    /* margin-top: 5px; */
-    margin: 64px;
-    /* padding-top: 2px; */
+       margin: 64px;
+
 }
 
 .twitter_list{
         padding: 23px;
+        cursor: pointer;
+}
+
+.topTweets_list{
+   
+    background: white;
+    padding: 28px 0px 42px 15px;
+    margin-top: 12px;
+}
+
+.topTweets_list div{
+        width: 70%;
+    margin-bottom: 22px;
+}
+
+.topTweets_list span{
+    color: #0058bc;
 }
 
