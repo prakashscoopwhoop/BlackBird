@@ -3,15 +3,21 @@ import time
 from datetime import datetime, timedelta
 import re
 import requests
-from app.service import StoryService, CategoryService, InterestService,FetchService
+from app.service import StoryService, CategoryService, InterestService, FetchService
 import domparser
 from textrank import extractKeyphrases
 from collections import Counter
+import math
+from app.config import logging
+
+
+def reset_story_group():
+    __story_service.reset_group()
 
 
 def fetch_time_line():
     time_frame = {"start_time": 0, "end_time": 0}
-    c_time = datetime.now()
+    c_time = datetime.now() + timedelta(hours=-4)
     start_time = (c_time.year, c_time.month, c_time.day, c_time.hour, 0, 1, 0, 0, 0)
     start_epoch = int(time.mktime(start_time))
     c_time = c_time + timedelta(hours=1)
@@ -60,7 +66,7 @@ def watching_stories(domain_list):
         r = requests.get("https://api.newswhip.com/v1/publisher/" + domain + "/1?key="+newswhip_key)
         # r = requests.get("https://api.newswhip.com/v1/region/india/sports/24?key="+newswhip_key)
         response = json.loads(r.text)
-        print domain, len(response['articles'])
+        print domain, len(response['articles'][95:101])
         for item in response['articles']:
             try:
                 article_info = domparser.element_picker(item['link'].encode('utf-8'))
@@ -68,38 +74,58 @@ def watching_stories(domain_list):
                     article = {'title': '', 'url': '', 'description': '', 'keywords': '', 'feature_image': '','New_score': '',
                             'max_new_score': '', 'fb_like': '', 'tweet_count': '', 'publisher': '', "uuid": '', 'published': '',
                                'category': [], 'interest': [], 'fetch': '', 'created_keys':[]}
-                    if item['headline'] is None:
+                    if item['headline'] is None & 'headline' in item:
                         article['title'] = article_info['title']
                     else:
                         article['title'] = item['headline'].encode('utf-8')
 
-                    if item['link'] is None:
+                    if item['link'] is None & 'link' in item:
                         article['url'] = article_info['url']
                     else:
                         article['url'] = item['link'].encode('utf-8')
 
-                    if item['excerpt'] is None:
+                    if item['excerpt'] is None & 'excerpt' in item:
                         article['description'] = article_info['description']
                     else:
                         article['description'] = item['excerpt']
 
-                    if item['keywords'] is None:
+                    if item['keywords'] is None & 'keywords' in item:
                         article['keywords'] = article_info['keywords']
                     else:
                         article['keywords'] = (item['keywords']).split(',')
 
-                    if item['image_link'] is None:
+                    if item['image_link'] is None & 'image_link' in item:
                         article['feature_image'] = article_info['feature_image']
                     else:
                         article['feature_image'] = item['image_link']
-                    article['New_score'] = item['nw_score']
-                    article['max_new_score'] = item['max_nw_score']
-                    article['fb_like'] = item['fb_data']['like_count']
-                    article['tweet_count'] = item['tw_data']['tw_count']
-                    article['publisher'] = item['source']['publisher']
-                    article['uuid'] = item['uuid']
-                    article['published'] = time.strftime('%Y-%m-%d %H:%M', time.localtime(item['publication_timestamp']/1000.0))
-                    # article['fetch'] = datetime.strftime(datetime.now(), "%Y-%m-%d")
+                    if 'new_score' in item:
+                        article['New_score'] = item['nw_score']
+                    else:
+                        article['New_score'] = 0
+                    if 'max_new_score' in item:
+                        article['max_new_score'] = item['max_nw_score']
+                    else:
+                        article['max_new_score'] = 0
+                    if 'total_engagement_count' in item['fb_data']:
+                        article['fb_like'] = item['fb_data']['total_engagement_count']
+                    else:
+                        article['fb_like'] = 0
+                    if 'tw_count' in item['tw_data']:
+                        article['tweet_count'] = item['tw_data']['tw_count']
+                    else:
+                        item['tw_data']['tw_count'] = 0
+                    if 'publisher' in item['source']:
+                        article['publisher'] = item['source']['publisher']
+                    else:
+                        article['publisher'] = "None"
+                    if 'uuid' in item:
+                        article['uuid'] = item['uuid']
+                    else:
+                        article['uuid'] = 'None'
+                    if 'publication_timestamp' in item:
+                        article['published'] = time.strftime('%Y-%m-%d %H:%M', time.localtime(item['publication_timestamp']/1000.0))
+                    else:
+                        article['published'] = "None"
                     article['fetch'] = current_epoch_time(datetime.now())
 
                     dummy_category = []
@@ -149,10 +175,11 @@ def watching_stories(domain_list):
                         key_phrases_list += list(description_key_phrases)
                         raw_key_phrases_list.append(str(article_info['description'].decode('ascii', 'ignore')))
                     d = Counter(key_phrases_list)
-                    keys_to_remove = ['', ' ', '%', 'an', 'a', ',', 'ii', 'is', 'in']
+                    keys_to_remove = ['', ' ', '%', 'an', 'a', ',', 'ii', 'is', 'in', 'eisamay', 'navbharat', '-navbharat']
                     refactor_key_list = []
                     for key in list(d.keys()):
-                        if key.strip() not in keys_to_remove and key.strip() not in refactor_key_list:
+                        # print key, (key.strip()).lower(), keys_to_remove
+                        if (key.strip()).lower() not in keys_to_remove and (key.strip()).lower() not in refactor_key_list:
                             refactor_key_list.append((key.strip()).lower())
                     article['created_keys'] = refactor_key_list
                     if article['created_keys'] is not None:
@@ -181,13 +208,82 @@ def watching_stories(domain_list):
             except Exception as ex:
                 print ex
 
-if __name__ == "__main__":
+
+class Grouping:
     __story_service = StoryService()
-    __category_service = CategoryService()
-    __interest_service = InterestService()
-    __fetch_service = FetchService()
-    with open('credentials.json', 'r') as credential_file:
-        data = json.load(credential_file)
-        newswhip_key = data["key"]
-        competitors = data["competitors"]
-        watching_stories(competitors)
+
+    def get_cosine_similarity(self, vector1, vector2):
+        '''
+        calculate cosine distance between two lists of string
+        '''
+        vec1 = Counter(vector1)
+        vec2 = Counter(vector2)
+        intersection = set(vec1.keys()) & set(vec2.keys())
+        numerator = sum([vec1[x] * vec2[x] for x in intersection])
+        sum1 = sum([vec1[x] ** 2 for x in vec1.keys()])
+        sum2 = sum([vec2[x] ** 2 for x in vec2.keys()])
+        denominator = math.sqrt(sum1) * math.sqrt(sum2)
+        if not denominator:
+            return 0.0
+        else:
+            return float(numerator) / denominator
+
+    def get_smlr_category_score(self, categories_first=[], categories_second=[]):
+        '''
+        Checks for similar category in both lists and
+        returns score accordingly  '''
+
+        similar_category_score = 0.0
+        if any(map(lambda v: v in categories_first, categories_second)):
+            similar_category_score = 0.01
+            return similar_category_score
+        return similar_category_score
+
+    def get_articles_for_grouping(self, gp_count):
+        articles = self.__story_service.find_latest_stories()
+        for article in articles:
+            if "group" not in article:
+                gp_count = gp_count + 1
+                self.process_grouping(article, gp_count)
+                if "group" not in article:
+                    gp_count = gp_count -1
+                else:
+                    article["group"] = "group" + str(gp_count)
+                    self.__story_service.save_story(article)
+            else:
+                pass
+
+    def process_grouping(self, p_article, gp_count):
+        articles = self.__story_service.find_latest_stories()
+        for article in articles:
+            if article["_id"] != p_article["_id"]:
+                article_cosine_smlr_score = self.get_cosine_similarity(p_article["created_keys"],
+                                                                       article["created_keys"])
+                if len(p_article) > 0 and len(article):
+                    similar_category_score = self.get_smlr_category_score(p_article["category"], article["category"])
+                    article_cosine_smlr_score = article_cosine_smlr_score + similar_category_score
+                if article_cosine_smlr_score >= 0.5:
+                    article["group"] = "group" + str(gp_count)
+                    self.__story_service.save_story(article)
+
+
+if __name__ == "__main__":
+    while True:
+        logging.info("Scheduler initialize....")
+        logging.info("Start time: " + str(datetime.now()))
+        __story_service = StoryService()
+        __category_service = CategoryService()
+        __interest_service = InterestService()
+        __fetch_service = FetchService()
+        with open('credentials.json', 'r') as credential_file:
+            data = json.load(credential_file)
+            newswhip_key = data["key"]
+            competitors = data["competitors"]
+            watching_stories(competitors)
+
+        stories = __story_service.find_latest_stories()
+        if len(stories) > 0:
+            gp_count = 0
+            Grouping().get_articles_for_grouping(gp_count)
+        logging.info("End time: " + str(datetime.now()))
+        time.sleep(3600)

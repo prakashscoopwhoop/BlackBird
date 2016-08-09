@@ -38,11 +38,19 @@ def download_images_locally(url):
     cwd = os.getcwd()
     if not os.path.exists('templates/images'):
         os.makedirs('templates/images')
-    filename = url.split('/')[-1]+".jpg"
+    filename = "image1.jpg"
+    while True:
+        if os.path.isfile('templates/images/'+filename):
+            fname = filename.split('.')
+            count = int(fname[0][5:])+1
+            filename = "image" + str(count)+ ".jpg"
+        else:
+            break
     os.chdir('templates/images')
     urllib.urlretrieve(url, filename)
     os.chdir(cwd)
     return filename
+
 
 def remove_image(image_name):
     cwd = os.getcwd()

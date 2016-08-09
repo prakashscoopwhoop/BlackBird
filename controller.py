@@ -1,5 +1,5 @@
-from bottle import route, run, static_file, template, error,request
-from app.service import UserService,InterestService, CategoryService, StoryService
+from bottle import route, run, static_file, template, error, request
+from app.service import UserService,InterestService, CategoryService, StoryService, TwitterService, TweetService
 from app.utils import RestResponse
 from app.config import logging
 import httplib
@@ -199,7 +199,8 @@ def get_interest(interest_id):
     else:
         return RestResponse(data={}, status = httplib.NOT_FOUND,
                             messages="user is not found", success = False).to_json()
-                            
+
+
 @route('/edit_interest_data/', method='PUT')                            
 def edit_interest():
     try:
@@ -214,14 +215,38 @@ def edit_interest():
         logging.error(e)
         return RestResponse(data={}, status = httplib.BAD_REQUEST,
                             messages="Enter Invalid Inputs ", success = False).to_json()
-    
 
+
+@route('/group')
+def get_trending_group():
+    all_group = __story_service.pull_group()
+    return RestResponse(all_group).to_json()
+
+
+@route('/group/<group_id>')
+def get_trending_group(group_id):
+    group_stories = __story_service.get_group_stories(group_id)
+    return RestResponse(group_stories).to_json()
+
+
+@route('/twitter')
+def location_trending():
+    trending_hashtags = __twitter_service.get_location_trending()
+    return RestResponse(trending_hashtags).to_json()
+
+
+@route('/tweets')
+def get_tweets():
+    top_tweets = __tweet_service.get_tweets()
+    return RestResponse(top_tweets).to_json()
 
 if __name__ == "__main__":
     __user_service = UserService()
     __interest_service = InterestService()
     __category_service = CategoryService()
     __story_service = StoryService()
-    
+    __twitter_service = TwitterService()
+    __tweet_service = TweetService()
+
     run(host='0.0.0.0', port=8889, server='waitress')
     logging.info("server running....")

@@ -1,4 +1,5 @@
-from app.validator import User, Interest, Story,Category, Fetch
+from operator import itemgetter
+from app.validator import User, Interest, Story,Category, Fetch, Twitter, Tweet
 from app.utils import encrypt_password, download_images_locally, remove_image
 from app import config
 from app.config import PAGE_SIZE
@@ -146,7 +147,10 @@ class InterestService:
             if category is not None:
                 if Interest.KEYWORDS not in interest:
                     interest[Interest.KEYWORDS] = []
-                interest[Interest.IMAGE]=download_images_locally(interest[Interest.IMAGE])
+                if interest[Interest.IMAGE]:
+                    interest[Interest.IMAGE]=download_images_locally(interest[Interest.IMAGE])
+                else:
+                    interest[Interest.IMAGE] = 'noimagefound.jpg'
                 interest_id = self.db().save(interest)
                 interest[Interest.ID]= str(interest_id)
                 return interest
@@ -160,12 +164,12 @@ class InterestService:
         if existing_interest is not None:
             if interest[Interest.IMAGE] == existing_interest[Interest.IMAGE]:
                 pass
-            elif (interest[Interest.IMAGE] != existing_interest[Interest.IMAGE] ) and ("http" or "https" in interest[Interest.IMAGE]):
+            elif (interest[Interest.IMAGE] != existing_interest[Interest.IMAGE]) and ("http" or "https" in interest[Interest.IMAGE]):
                 remove_image(existing_interest[Interest.IMAGE])
                 interest[Interest.IMAGE] = download_images_locally(interest[Interest.IMAGE])
             else:
                 pass
-            if interest[Interest.ID]  is not isinstance(interest[Interest.ID], ObjectId) :
+            if interest[Interest.ID] is not isinstance(interest[Interest.ID], ObjectId) :
                 interest[Interest.ID] = ObjectId(interest[Interest.ID])
             interest_id = self.db().save(interest)
             interest[Interest.ID]= str(interest_id)
@@ -268,15 +272,40 @@ class StoryService:
             articles.append(story)
         return articles
         
-    def find_latest_stories(self):  #, from_time, end_time
+    def find_latest_stories(self):
         all_stories = []
         fetched = FetchService().get_fetch()
         stories = self.db().find({"fetch": {"$gte": fetched['start_time'], "$lt": fetched['end_time']}})
         for story in stories:
-            story[Story.ID] = str(story[Story.ID])
+            story[Story.ID] = story[Story.ID]
             all_stories.append(story)
         return all_stories
 
+    def reset_group(self):
+        self.db().update({}, {"$unset": {"group": 1}}, False, True)
+
+    def pull_group(self):
+        sorted_group = []
+        group_list = self.db().aggregate([{"$group": {"_id": "$group", "count": {"$sum":1}}}])
+        group_list = sorted(group_list, key=itemgetter("count"), reverse=True)
+        for item in group_list[0:10]:
+            if item['count'] > 1 and item['_id']:
+                stories = self.get_group_stories(item['_id'])
+                passphrase = self.calculate_common_name(stories)
+                item['passphrase'] = passphrase
+                sorted_group.append(item)
+        return sorted_group
+
+    def get_group_stories(self, group_name):
+        stories = []
+        raw_stories = self.db().find({"group": group_name})
+        for story in raw_stories:
+            story["_id"] = str(story["_id"])
+            stories.append(story)
+        return stories
+
+    def calculate_common_name(self, articles):
+        return list(set(articles[0]['created_keys']).intersection(articles[1]['created_keys']))
 
 class FetchService:
 
@@ -295,3 +324,62 @@ class FetchService:
         if fetch is not None:
             fetch[Fetch.ID] = str(fetch[Fetch.ID])
             return fetch
+
+
+class TwitterService:
+
+    def db(self):
+        return config.db['twitter']
+
+    def save_twitter(self, twitter):
+        if self.db().find_one({Twitter.LOCATION: twitter[Twitter.LOCATION], Twitter.QUERY: twitter[Twitter.QUERY]}) is None:
+            twitter_id = self.db().save(twitter)
+            twitter[Twitter.ID] = str(twitter_id)
+            return twitter
+        else:
+            return
+
+    def get_distinct_location(self):
+        return self.db().distinct('location')
+
+    def get_location_trending(self):
+        location_trending = []
+        locations = self.get_distinct_location()
+        for location in locations:
+            python_dict = {'location':location,'data':[]} 
+            hashtags = self.db().find({"location":location})
+            for hashtag in hashtags:
+                hashtag['_id'] = str(hashtag['_id'])
+                python_dict['data'].append(hashtag)
+            location_trending.append(python_dict)
+        return location_trending
+
+    def remove_twitter(self):
+        if self.db().find().count() > 0:
+            self.db().remove()
+
+class TweetService:
+
+    def db(self):
+        return config.db['tweet']
+
+    def save_tweet(self, tweet):
+        if self.db().find_one(
+                {Tweet.ID_STR: tweet[Tweet.ID_STR], Tweet.QUERY: tweet[Twitter.QUERY]}) is None:
+            tweet_id = self.db().save(tweet)
+            tweet[Twitter.ID] = str(tweet_id)
+            return tweet
+        else:
+            return
+
+    def remove_tweet(self):
+        if self.db().find().count() > 0:
+            self.db().remove()
+
+    def get_tweets(self):
+        tweets = []
+        top_tweets = self.db().find()
+        for tweet in top_tweets:
+            tweet['_id'] = str(tweet['_id'])
+            tweets.append(tweet)
+        return tweets
