@@ -78,6 +78,15 @@ def set_user_interest(user_id,ur_interest):
         return RestResponse(data={}, status = httplib.NOT_FOUND,
                             messages="user is not found!!", success = False).to_json()
 
+@route('/remove_interest/<user_id>/<interest_id>',method='PUT')
+def remove_user_interest(user_id,interest_id):
+    user = __user_service.remove_user_interest(user_id, interest_id)
+    if user is not None:
+        return RestResponse(user).to_json()
+    else:
+        return RestResponse(data={}, status = httplib.NOT_FOUND,
+                            messages="user or interest is not found!!", success = False).to_json()
+
 
 @route('/all_category')
 def get_all_categories():

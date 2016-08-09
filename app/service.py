@@ -121,6 +121,18 @@ class UserService:
         else:
             return
         
+    def remove_user_interest(self,user_id,interest_id):
+        user = self.find_user(user_id)
+        if user is not None:
+            if str(interest_id) in user[User.INTEREST]:
+                user[User.INTEREST].remove(str(interest_id))
+                return user
+            else:
+                return
+        else:
+            None
+                
+        
 class InterestService:
     
     def db(self):
