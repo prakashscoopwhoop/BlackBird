@@ -20,7 +20,7 @@ def fetch_time_line():
     c_time = datetime.now() + timedelta(hours=-4)
     start_time = (c_time.year, c_time.month, c_time.day, c_time.hour, 0, 1, 0, 0, 0)
     start_epoch = int(time.mktime(start_time))
-    c_time = c_time + timedelta(hours=1)
+    c_time = c_time + timedelta(hours=4)
     end_time = (c_time.year, c_time.month, c_time.day, c_time.hour, 59, 59, 0, 0, 0)
     end_epoch = int(time.mktime(end_time))
     time_frame['start_time'] = start_epoch
@@ -66,7 +66,7 @@ def watching_stories(domain_list):
         r = requests.get("https://api.newswhip.com/v1/publisher/" + domain + "/1?key="+newswhip_key)
         # r = requests.get("https://api.newswhip.com/v1/region/india/sports/24?key="+newswhip_key)
         response = json.loads(r.text)
-        print domain, len(response['articles'][95:101])
+        print domain, len(response['articles'])
         for item in response['articles']:
             try:
                 article_info = domparser.element_picker(item['link'].encode('utf-8'))
@@ -74,27 +74,27 @@ def watching_stories(domain_list):
                     article = {'title': '', 'url': '', 'description': '', 'keywords': '', 'feature_image': '','New_score': '',
                             'max_new_score': '', 'fb_like': '', 'tweet_count': '', 'publisher': '', "uuid": '', 'published': '',
                                'category': [], 'interest': [], 'fetch': '', 'created_keys':[]}
-                    if item['headline'] is None & 'headline' in item:
+                    if item['headline'] is None:
                         article['title'] = article_info['title']
                     else:
                         article['title'] = item['headline'].encode('utf-8')
 
-                    if item['link'] is None & 'link' in item:
+                    if item['link'] is None:
                         article['url'] = article_info['url']
                     else:
                         article['url'] = item['link'].encode('utf-8')
 
-                    if item['excerpt'] is None & 'excerpt' in item:
+                    if item['excerpt'] is None:
                         article['description'] = article_info['description']
                     else:
                         article['description'] = item['excerpt']
 
-                    if item['keywords'] is None & 'keywords' in item:
+                    if item['keywords'] is None:
                         article['keywords'] = article_info['keywords']
                     else:
                         article['keywords'] = (item['keywords']).split(',')
 
-                    if item['image_link'] is None & 'image_link' in item:
+                    if item['image_link'] is None:
                         article['feature_image'] = article_info['feature_image']
                     else:
                         article['feature_image'] = item['image_link']
@@ -175,7 +175,7 @@ def watching_stories(domain_list):
                         key_phrases_list += list(description_key_phrases)
                         raw_key_phrases_list.append(str(article_info['description'].decode('ascii', 'ignore')))
                     d = Counter(key_phrases_list)
-                    keys_to_remove = ['', ' ', '%', 'an', 'a', ',', 'ii', 'is', 'in', 'eisamay', 'navbharat', '-navbharat']
+                    keys_to_remove = ['', ' ', '%', 'an', 'a', ',', 'ii', 'r', 'so', 'is', 'in', 'eisamay', 'navbharat', '-navbharat']
                     refactor_key_list = []
                     for key in list(d.keys()):
                         # print key, (key.strip()).lower(), keys_to_remove
@@ -262,9 +262,9 @@ class Grouping:
                 if len(p_article) > 0 and len(article):
                     similar_category_score = self.get_smlr_category_score(p_article["category"], article["category"])
                     article_cosine_smlr_score = article_cosine_smlr_score + similar_category_score
-                if article_cosine_smlr_score >= 0.5:
+                if article_cosine_smlr_score >= 0.4:
                     article["group"] = "group" + str(gp_count)
-                    self.__story_service.save_story(article)
+                    self.__story_service.update_story(article)
 
 
 if __name__ == "__main__":
@@ -280,10 +280,12 @@ if __name__ == "__main__":
             newswhip_key = data["key"]
             competitors = data["competitors"]
             watching_stories(competitors)
-
         stories = __story_service.find_latest_stories()
-        if len(stories) > 0:
+        if len(stories) > 20:
+            print "reset"
+            __story_service.reset_group()
             gp_count = 0
             Grouping().get_articles_for_grouping(gp_count)
+            print "end"
         logging.info("End time: " + str(datetime.now()))
         time.sleep(3600)

@@ -122,20 +122,6 @@ class UserService:
         else:
             return
         
-    def remove_user_interest(self,user_id, interest_id):
-        user = self.find_user(user_id)
-        if user is not None:
-            if str(interest_id) in user[User.INTEREST]:
-                user[User.INTEREST].remove(str(interest_id))
-                self.db().save(user)
-                user[User.ID] = str(user[User.ID])
-                return user
-            else:
-                return
-        else:
-            None
-                
-        
 class InterestService:
     
     def db(self):
@@ -265,7 +251,12 @@ class StoryService:
             return story
         else:
             return
-        
+
+    def update_story(self, story):
+            story_id = self.db().save(story)
+            story[Story.ID] = str(story_id)
+            return story
+
     def get_stories(self,interest_name):
         articles = []
         stories = self.db().find({"interest":{"$in":interest_name}})
@@ -306,6 +297,13 @@ class StoryService:
             stories.append(story)
         return stories
 
+    # def calculate_common_name(self, articles):
+    #     if (len(articles) <= 1):
+    #         return articles[0]['created_keys']
+    #     result = articles[0]['created_keys']
+    #     for i in range(1, len(articles)):
+    #         result = set(result) & set(articles[i]['created_keys'])
+    #     return list(result)
     def calculate_common_name(self, articles):
         return list(set(articles[0]['created_keys']).intersection(articles[1]['created_keys']))
 
