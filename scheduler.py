@@ -63,7 +63,7 @@ def watching_stories(domain_list):
     db_category_list = __category_service.find_all_categories()
     db_interest_list = __interest_service.find_all_interests()
     for domain in domain_list:
-        r = requests.get("https://api.newswhip.com/v1/publisher/" + domain + "/1?key="+newswhip_key)
+        r = requests.get("https://api.newswhip.com/v1/publisher/" + domain + "/4?key="+newswhip_key)
         # r = requests.get("https://api.newswhip.com/v1/region/india/sports/24?key="+newswhip_key)
         response = json.loads(r.text)
         print domain, len(response['articles'])
@@ -245,11 +245,6 @@ class Grouping:
             if "group" not in article:
                 gp_count = gp_count + 1
                 self.process_grouping(article, gp_count)
-                if "group" not in article:
-                    gp_count = gp_count -1
-                else:
-                    article["group"] = "group" + str(gp_count)
-                    self.__story_service.save_story(article)
             else:
                 pass
 
@@ -262,7 +257,7 @@ class Grouping:
                 if len(p_article) > 0 and len(article):
                     similar_category_score = self.get_smlr_category_score(p_article["category"], article["category"])
                     article_cosine_smlr_score = article_cosine_smlr_score + similar_category_score
-                if article_cosine_smlr_score >= 0.4:
+                if article_cosine_smlr_score >= 0.3:
                     article["group"] = "group" + str(gp_count)
                     self.__story_service.update_story(article)
 
