@@ -5,6 +5,7 @@ from app import config
 from app.config import PAGE_SIZE
 from bson.objectid import ObjectId
 import json
+from collections import Counter
 
 
 class UserService:
@@ -298,14 +299,36 @@ class StoryService:
         return stories
 
     # def calculate_common_name(self, articles):
+    #     # result = []
+    #     # for article in articles:
+    #     #     result += article['created_keys']
+    #     # key_dict =  Counter(result)
+    #     # for index, key in enumerate(key_dict.keys()):
+    #     #     if key_dict[key_dict.keys()[index]] <=1:
+    #     #         # remove key_dict[key]
+    #     #         pass
+    #     # print key_dict
+    #
     #     if (len(articles) <= 1):
     #         return articles[0]['created_keys']
     #     result = articles[0]['created_keys']
+    #     print len(articles)
     #     for i in range(1, len(articles)):
     #         result = set(result) & set(articles[i]['created_keys'])
+    #         print articles[i]['created_keys']
+    #         print result, len(list(result))
     #     return list(result)
+
     def calculate_common_name(self, articles):
-        return list(set(articles[0]['created_keys']).intersection(articles[1]['created_keys']))
+        result = []
+        result = list(set(articles[0]['created_keys']).intersection(articles[1]['created_keys']))
+        if len(result)>0:
+            result = []
+            for item in articles[0]['created_keys']:
+                if ' ' in item:
+                    result.append(item)
+        return result
+
 
 class FetchService:
 

@@ -15,7 +15,7 @@ import os
 
 
 # apply syntactic filters based on POS tags
-def filter_for_tags(tagged, tags=['NN', 'JJ', 'NNP']):
+def filter_for_tags(tagged, tags=['NNP', 'NN', 'JJ']):
     return [item for item in tagged if item[1] in tags]
 
 

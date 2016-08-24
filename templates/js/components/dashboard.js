@@ -279,9 +279,9 @@ var Dashboard = React.createClass({
 						<img src={item.feature_image}></img>
                         </div>
                         <div className="feature-right">
-						<h2 className="article_title"><a href={item.url}>{item.title}</a></h2>
+						<h2 className="article_title"><a href={item.url} target="_blank">{item.title}</a></h2>
 
-						<span className="article_source"><a href={item.url}>{item.publisher}</a></span>
+						<span className="article_source"><a href={item.url} target="_blank">{item.publisher}</a></span>
 
 						<div className="article_description">
 							{item.description}
@@ -290,7 +290,6 @@ var Dashboard = React.createClass({
 						<div className="shareIcons">
 							<img src="facebook_share.png"/>
 							<img src="twitter_share.png"/>
-							<img src="gplus_share.png"/>
 						</div>
 						</div>
 				</div>
@@ -378,9 +377,9 @@ var Dashboard = React.createClass({
 						<div key={i} className="article_div">
 								<img src={item.feature_image}></img>
 
-								<h2 className="article_title"><a href={item.url}>{item.title}</a></h2>
+								<h2 className="article_title"><a href={item.url} target="_blank">{item.title}</a></h2>
 
-								<span className="article_source"><a href={item.url}>{item.publisher}</a></span>
+								<span className="article_source"><a href={item.url} target="_blank">{item.publisher}</a></span>
 
 								<div className="article_description">
 								{item.description}
@@ -389,7 +388,6 @@ var Dashboard = React.createClass({
 								<div className="shareIcons">
 									<img src="facebook_share.png"/>
 									<img src="twitter_share.png"/>
-									<img src="gplus_share.png"/>
 								</div>
 						</div>
 

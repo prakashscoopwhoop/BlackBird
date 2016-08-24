@@ -17,10 +17,10 @@ def reset_story_group():
 
 def fetch_time_line():
     time_frame = {"start_time": 0, "end_time": 0}
-    c_time = datetime.now() + timedelta(hours=-4)
+    c_time = datetime.now() + timedelta(hours=-5)
     start_time = (c_time.year, c_time.month, c_time.day, c_time.hour, 0, 1, 0, 0, 0)
     start_epoch = int(time.mktime(start_time))
-    c_time = c_time + timedelta(hours=4)
+    c_time = c_time + timedelta(hours=5)
     end_time = (c_time.year, c_time.month, c_time.day, c_time.hour, 59, 59, 0, 0, 0)
     end_epoch = int(time.mktime(end_time))
     time_frame['start_time'] = start_epoch
@@ -63,10 +63,9 @@ def watching_stories(domain_list):
     db_category_list = __category_service.find_all_categories()
     db_interest_list = __interest_service.find_all_interests()
     for domain in domain_list:
-        r = requests.get("https://api.newswhip.com/v1/publisher/" + domain + "/4?key="+newswhip_key)
-        # r = requests.get("https://api.newswhip.com/v1/region/india/sports/24?key="+newswhip_key)
+        r = requests.get("https://api.newswhip.com/v1/publisher/" + domain + "/1?key="+newswhip_key)
         response = json.loads(r.text)
-        print domain, len(response['articles'])
+        logging.info("Domain: " + domain + " & No of Articles: " + str(len(response['articles'])))
         for item in response['articles']:
             try:
                 article_info = domparser.element_picker(item['link'].encode('utf-8'))
@@ -175,10 +174,9 @@ def watching_stories(domain_list):
                         key_phrases_list += list(description_key_phrases)
                         raw_key_phrases_list.append(str(article_info['description'].decode('ascii', 'ignore')))
                     d = Counter(key_phrases_list)
-                    keys_to_remove = ['', ' ', '%', 'an', 'a', ',', 'ii', 'r', 'so', 'is', 'in', 'eisamay', 'navbharat', '-navbharat']
+                    keys_to_remove = ['', ' ', '%', 'an', 'a', ',', 'ii', 'r', 'so', 'is', 'in', 'the', 'nbt', 'us', 'them', 's', '|', 'eisamay', 'navbharat', '-navbharat', 'navbharat times', 'samay', 'india']
                     refactor_key_list = []
                     for key in list(d.keys()):
-                        # print key, (key.strip()).lower(), keys_to_remove
                         if (key.strip()).lower() not in keys_to_remove and (key.strip()).lower() not in refactor_key_list:
                             refactor_key_list.append((key.strip()).lower())
                     article['created_keys'] = refactor_key_list
@@ -206,8 +204,7 @@ def watching_stories(domain_list):
                     __fetch_service.save_fetch(fetch)
 
             except Exception as ex:
-                print ex
-
+                logging.info("Runtime Error: " + ex)
 
 class Grouping:
     __story_service = StoryService()
@@ -245,6 +242,8 @@ class Grouping:
             if "group" not in article:
                 gp_count = gp_count + 1
                 self.process_grouping(article, gp_count)
+                if self.__story_service.db().find({"group":"group"+str(gp_count)}).count() == 0:
+                    gp_count = gp_count - 1
             else:
                 pass
 
@@ -254,10 +253,10 @@ class Grouping:
             if article["_id"] != p_article["_id"]:
                 article_cosine_smlr_score = self.get_cosine_similarity(p_article["created_keys"],
                                                                        article["created_keys"])
-                if len(p_article) > 0 and len(article):
-                    similar_category_score = self.get_smlr_category_score(p_article["category"], article["category"])
-                    article_cosine_smlr_score = article_cosine_smlr_score + similar_category_score
-                if article_cosine_smlr_score >= 0.3:
+                similar_category_score = self.get_smlr_category_score(p_article["category"], article["category"])
+                article_cosine_smlr_score = article_cosine_smlr_score + similar_category_score
+
+                if article_cosine_smlr_score >= 0.5:
                     article["group"] = "group" + str(gp_count)
                     self.__story_service.update_story(article)
 
@@ -276,11 +275,11 @@ if __name__ == "__main__":
             competitors = data["competitors"]
             watching_stories(competitors)
         stories = __story_service.find_latest_stories()
-        if len(stories) > 20:
-            print "reset"
+        if len(stories) > 100:
+            logging.info("Grouping initialize....")
             __story_service.reset_group()
             gp_count = 0
             Grouping().get_articles_for_grouping(gp_count)
-            print "end"
+            logging.info("Grouping completed.")
         logging.info("End time: " + str(datetime.now()))
         time.sleep(3600)

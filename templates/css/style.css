@@ -611,7 +611,7 @@ font-weight: bold;
 }
 
 .trends_inner_div li, .twitter_inner_div li, .tweet_inner_div li{
-    padding: 5px; list-style: none;
+    padding: 5px; list-style: none; text-transform: capitalize;
 }
 
 #trends_div .span_div span {
